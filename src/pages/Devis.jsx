@@ -26,7 +26,7 @@ const Devis = () => {
   };
 
   const envoyerDevis = async () => {
-    const response = await fetch('http://localhost:8000/belage/devis', {
+    const response = await fetch('https://backend-patisserie-production.up.railway.app/belage/devis', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
