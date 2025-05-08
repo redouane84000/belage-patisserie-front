@@ -1,0 +1,135 @@
+.footer {
+  background-color: var(--bg-secondary);
+  padding: 4rem 0 2rem;
+  color: var(--text-color);
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4rem;
+  margin-bottom: 3rem;
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.footer-title {
+  font-family: var(--font-primary);
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.footer-text {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.social-link {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.social-link:hover {
+  color: var(--accent-color);
+  transform: translateY(-3px);
+}
+
+.social-link.snapchat {
+  background-color: #FFFC00;
+  color: #000000;
+}
+
+.social-link.snapchat:hover {
+  background-color: #FFFC00;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255, 252, 0, 0.5);
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-link {
+  color: var(--text-color);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+  color: var(--accent-color);
+  padding-left: 0.5rem;
+}
+
+.footer-contact {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-contact li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.footer-mobile-delivery {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer-section {
+    text-align: center;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+
+  .footer-links {
+    align-items: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-mobile-delivery {
+    display: block;
+    color: #d4a373;
+    font-weight: 400;
+    text-align: center;
+    font-size: 0.82rem;
+    padding: 0.4rem 0.1rem 0.1rem 0.1rem;
+    letter-spacing: 0.04em;
+    background: none;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    opacity: 0.85;
+  }
+}
+  

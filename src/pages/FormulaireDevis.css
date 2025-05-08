@@ -1,0 +1,36 @@
+.form-devis {
+    max-width: 500px;
+    margin: auto;
+    padding: 2rem;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.4);
+    color: #eee;
+  }
+  
+  .form-devis input,
+  .form-devis select,
+  .form-devis textarea {
+    margin-bottom: 1rem;
+    background-color: #2a2a2a;
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 0.75rem;
+    color: #eee;
+  }
+  
+  .form-devis button {
+    background-color: violet;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: transform 0.3s;
+  }
+  
+  .form-devis button:hover {
+    transform: scale(1.05);
+  }
+  

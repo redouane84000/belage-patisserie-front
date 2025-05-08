@@ -1,0 +1,875 @@
+/* --- Mobile First --- */
+.products {
+  min-height: 100vh;
+  padding: 1.2rem 0.5rem;
+}
+.products-hero {
+  height: 45vh;
+  min-height: 180px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-image: url('/products-hero.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.6));
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: var(--color-marble);
+  max-width: 90vw;
+  margin: 0 auto;
+}
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-bottom: 1.2rem;
+}
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--color-gold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.hero-main-title {
+  font-size: 2.2rem;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+}
+.hero-text {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+.categories-section {
+  background-color: var(--color-black);
+  padding: 2rem 0 1rem 0;
+}
+.categories {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 1rem 0;
+  padding: 0.5rem;
+}
+#placeholder_champs {
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  width: 90vw;
+  margin: 0.15rem auto;
+}
+.products-section {
+  background-color: var(--color-black);
+  padding: 2rem 0.5rem;
+}
+.grid.grid-cols-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+}
+.product-card {
+  background-color: var(--color-marble-light);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 0;
+  max-width: 100vw;
+  height: auto;
+}
+.product-image {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+  width: 100%;
+  height: 32vw;
+  min-height: 100px;
+  max-height: 220px;
+  overflow: hidden;
+  border-radius: 1rem 1rem 0 0;
+}
+.product-image img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 1rem 1rem 0 0;
+}
+.product-content {
+  padding: 1.2rem 0.7rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.product-title {
+  font-size: 1.1rem;
+  color: var(--color-black);
+  margin-bottom: 0.5rem;
+}
+.product-description {
+  color: var(--color-marble-dark);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.product-price {
+  color: var(--color-gold);
+  font-size: 1rem;
+  font-weight: 600;
+}
+.product-info {
+  color: var(--color-marble-dark);
+  font-size: 0.9rem;
+}
+.carousel-arrow {
+  width: 2.2rem;
+  height: 2.2rem;
+  font-size: 1.2rem;
+  right: 0.2rem;
+}
+.wedding-prices {
+  background: #fff8f0;
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(212, 163, 115, 0.08);
+  padding: 1.2rem 0.7rem;
+  margin: 1.2rem auto 0 auto;
+  max-width: 98vw;
+  text-align: left;
+}
+.wedding-prices h4 {
+  color: #d4a373;
+  font-size: 1.1rem;
+  margin-bottom: 0.7rem;
+  text-align: center;
+}
+.wedding-prices li {
+  font-size: 0.95rem;
+  color: #5D4037;
+  margin-bottom: 0.3rem;
+  padding-left: 1.2em;
+  position: relative;
+}
+.wedding-note {
+  color: #a0522d;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 0.7rem;
+}
+
+/* --- Tablette --- */
+@media (min-width: 600px) {
+  .products-hero {
+    height: 60vh;
+  }
+  .hero-main-title {
+    font-size: 2.8rem;
+  }
+  .categories {
+    flex-direction: row;
+    gap: 1.2rem;
+    justify-content: center;
+  }
+  .grid.grid-cols-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .product-image {
+    height: 22vw;
+    min-height: 140px;
+    max-height: 260px;
+  }
+  #placeholder_champs {
+    width: 40vw;
+    font-size: 1.1rem;
+  }
+}
+
+/* --- Desktop --- */
+@media (min-width: 1024px) {
+  .products {
+    padding: 2.5rem 0;
+  }
+  .products-hero {
+    height: 60vh;
+  }
+  .hero-main-title {
+    font-size: 3.5rem;
+  }
+  .hero-subtitle {
+    font-size: 1.25rem;
+  }
+  .hero-text {
+    font-size: 1.25rem;
+  }
+  .categories-section {
+    padding: 4rem 0;
+  }
+  .categories {
+    gap: 2rem;
+    margin: 2rem 0;
+    padding: 1rem;
+  }
+  #placeholder_champs {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    width: 20vw;
+  }
+  .products-section {
+    padding: 4rem 0;
+  }
+  .grid.grid-cols-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+  .product-card {
+    border-radius: 16px;
+  }
+  .product-image {
+    height: 220px;
+    min-height: 180px;
+    max-height: 320px;
+  }
+  .product-title {
+    font-size: 1.5rem;
+  }
+  .product-description {
+    font-size: 1.1rem;
+  }
+  .product-price {
+    font-size: 1.25rem;
+  }
+  .product-info {
+    font-size: 1rem;
+  }
+  .carousel-arrow {
+    width: 3rem;
+    height: 3rem;
+    font-size: 2rem;
+  }
+  .wedding-prices {
+    padding: 2rem 2.5rem;
+    max-width: 500px;
+  }
+  .wedding-prices h4 {
+    font-size: 1.3rem;
+  }
+  .wedding-prices li {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .wedding-note {
+    font-size: 0.95rem;
+    margin-top: 1rem;
+  }
+}
+
+/* Hero Section */
+.products-hero {
+  height: 60vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-image: url('/products-hero.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.8),
+    rgba(0, 0, 0, 0.6)
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: var(--color-marble);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--color-gold);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.hero-main-title {
+  font-size: 3.5rem;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+}
+
+.hero-text {
+  font-size: 1.25rem;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+}
+
+/* Categories Section */
+.categories-section {
+  background-color: var(--color-black);
+  padding: 4rem 0;
+}
+
+.categories {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 2rem 0;
+  padding: 1rem;
+}
+
+#placeholder_champs {
+  padding: 1rem 2rem;
+  background: linear-gradient(145deg, #1a1a1a, #000000);
+  color: #d4a373;
+  border: 1px solid rgba(212, 163, 115, 0.3);
+  border-radius: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3),
+              -5px -5px 15px rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+#placeholder_champs:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(145deg, #000000, #1a1a1a);
+  color: #c08a5c;
+  box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.4),
+              -8px -8px 20px rgba(255, 255, 255, 0.1);
+  border-color: rgba(212, 163, 115, 0.5);
+}
+
+#placeholder_champs:active {
+  transform: translateY(1px);
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3),
+              -3px -3px 10px rgba(255, 255, 255, 0.05);
+}
+
+#placeholder_champs::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 163, 115, 0.1),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+#placeholder_champs:hover::before {
+  left: 100%;
+}
+
+#placeholder_champs.active {
+  background: linear-gradient(145deg, #d4a373, #c08a5c);
+  color: #000000;
+  border-color: rgba(212, 163, 115, 0.8);
+  box-shadow: 0 0 20px rgba(212, 163, 115, 0.3);
+}
+
+/* Products Grid */
+.products-section {
+  background-color: var(--color-black);
+  padding: 4rem 0;
+}
+
+.product-card {
+  background-color: var(--color-marble-light);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-image {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover .product-overlay {
+  opacity: 1;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.1);
+}
+
+.product-content {
+  padding: 2rem;
+  text-align: center;
+}
+
+.product-title {
+  font-size: 1.5rem;
+  color: var(--color-black);
+  margin-bottom: 1rem;
+}
+
+.product-description {
+  color: var(--color-marble-dark);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.product-price {
+  color: var(--color-gold);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.product-info {
+  color: var(--color-marble-dark);
+  font-size: 0.875rem;
+}
+
+/* CTA Section */
+.cta-section {
+  background-image: url('/products-cta.jpg');
+  text-align: center;
+  color: var(--color-marble);
+  padding: 8rem 0;
+}
+
+.cta-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.5)
+  );
+}
+
+.cta-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cta-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.cta-content p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  color: var(--color-gold);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .hero-main-title {
+    font-size: 3rem;
+  }
+
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-main-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-text {
+    font-size: 1rem;
+  }
+
+  .category-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+  }
+
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+
+  .cta-content p {
+    font-size: 1rem;
+  }
+
+  .categories {
+    gap: 0.5rem;
+    margin: 1rem 0;
+    padding: 0.5rem;
+  }
+
+  #placeholder_champs {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    width: 45%;
+    margin: 0.25rem;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .product-card {
+    padding: 0.5rem;
+  }
+
+  .product-title {
+    font-size: 0.875rem;
+  }
+
+  .product-description {
+    font-size: 0.75rem;
+  }
+
+  .product-price {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-main-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-content h2 {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .products-hero {
+    height: 35vh;
+    min-height: 180px;
+  }
+  .hero-main-title {
+    font-size: 1.2rem;
+  }
+  .hero-subtitle {
+    font-size: 0.8rem;
+  }
+  .hero-text {
+    font-size: 0.85rem;
+    margin-bottom: 1.2rem;
+  }
+  .categories {
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.2rem;
+  }
+  #placeholder_champs {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.7rem;
+    width: 90%;
+    margin: 0.15rem auto;
+  }
+  .products-section {
+    padding: 1.2rem 0.2rem;
+  }
+  .products-carousel-wrapper {
+    width: 100vw;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  .carousel-track {
+    gap: 0.7rem;
+  }
+  .product-card {
+    min-width: 180px;
+    max-width: 98vw;
+    padding: 0.3rem;
+    border-radius: 10px;
+  }
+  .product-image {
+    height: 120px;
+    min-height: 80px;
+    border-radius: 10px;
+  }
+  .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  .product-content {
+    padding: 0.7rem;
+  }
+  .product-title {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+  .product-description {
+    font-size: 0.7rem;
+    margin-bottom: 0.7rem;
+  }
+  .product-details {
+    gap: 0.2rem;
+  }
+  .product-price {
+    font-size: 0.8rem;
+  }
+  .product-info {
+    font-size: 0.7rem;
+  }
+  .carousel-arrow {
+    width: 28px;
+    height: 28px;
+    font-size: 1.1rem;
+    right: 0.2rem;
+  }
+  .grid.grid-cols-3 {
+    grid-template-columns: 1fr !important;
+    gap: 0.7rem;
+  }
+  .grid.grid-cols-3.center-wedding {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.7rem !important;
+  }
+  .wedding-prices {
+    padding: 1rem 0.5rem;
+    max-width: 98vw;
+  }
+  .wedding-prices h4 {
+    font-size: 1rem;
+  }
+  .wedding-prices li {
+    font-size: 0.8rem;
+    margin-bottom: 0.2rem;
+  }
+  .wedding-note {
+    font-size: 0.7rem;
+    margin-top: 0.3rem;
+  }
+  .product-card.bento .product-image,
+  .product-card.layer .product-image,
+  .product-card.wedding .product-image,
+  .product-card.number .product-image,
+  .product-card.plateaux .product-image {
+    height: 284px;
+    min-height: 120px;
+    border-radius: 10px;
+  }
+  .product-card.bento .product-image img,
+  .product-card.layer .product-image img,
+  .product-card.wedding .product-image img,
+  .product-card.number .product-image img,
+  .product-card.plateaux .product-image img {
+    height: 284px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  .wedding-carousel-wrapper,
+  .wedding-carousel,
+  .wedding-carousel-track,
+  .wedding-arrow {
+    display: none !important;
+  }
+}
+@media (min-width: 601px) {
+  .wedding-carousel-wrapper,
+  .wedding-carousel,
+  .wedding-carousel-track,
+  .wedding-arrow {
+    display: none !important;
+  }
+}
+
+.centered-img img {
+  object-fit: contain !important;
+  object-position: center center !important;
+  display: block;
+  margin: 0 auto;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.products-carousel {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  padding-bottom: 2rem;
+}
+
+.carousel-track {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  min-width: 100%;
+}
+
+.product-card {
+  min-width: 320px;
+  max-width: 340px;
+  flex: 0 0 auto;
+}
+
+.products-carousel-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  background: #d4a373;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.carousel-arrow:hover {
+  background: #c08a5c;
+  box-shadow: 0 4px 16px rgba(212, 163, 115, 0.25);
+}
+
+@media (max-width: 600px) {
+  .carousel-arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
+  }
+}
+
+.wedding-prices {
+  background: #fff8f0;
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(212, 163, 115, 0.08);
+  padding: 2rem 2.5rem;
+  margin: 2rem auto 0 auto;
+  max-width: 500px;
+  text-align: left;
+}
+.wedding-prices h4 {
+  color: #d4a373;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.wedding-prices ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+.wedding-prices li {
+  font-size: 1.1rem;
+  color: #5D4037;
+  margin-bottom: 0.5rem;
+  padding-left: 1.2em;
+  position: relative;
+}
+.wedding-prices li::before {
+  content: '🎂';
+  position: absolute;
+  left: 0;
+}
+.wedding-note {
+  color: #a0522d;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.center-wedding {
+  justify-content: center;
+  display: flex !important;
+  gap: 2rem;
+}
+
+.center-wedding .product-card {
+  flex: 0 0 340px;
+  max-width: 340px;
+} 

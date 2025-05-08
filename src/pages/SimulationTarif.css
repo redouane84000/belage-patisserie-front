@@ -1,0 +1,296 @@
+.simulation-tarif-page {
+  min-height: 100vh;
+  background: var(--color-black, #181818);
+  color: #d4a373;
+  padding: 2.5rem 0.5rem 2rem 0.5rem;
+  font-family: 'Playfair Display', serif;
+}
+.simulation-title {
+  text-align: center;
+  font-size: 2.2rem;
+  color: #d4a373;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.08em;
+}
+.simulation-desc {
+  text-align: center;
+  color: #fff8e1;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+.simulation-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.simulation-products, .simulation-summary {
+  background: #232323;
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 16px #d4a37322;
+  padding: 1.5rem 1rem;
+}
+.simulation-products {
+  flex: 2;
+}
+.simulation-summary {
+  flex: 1;
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #1a1a1a 60%, #d4a37322 100%);
+}
+@media (min-width: 900px) {
+  .simulation-content {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .simulation-summary {
+    margin-top: 0;
+    margin-left: 2rem;
+  }
+}
+@media (max-width: 600px) {
+  .simulation-tarif-page {
+    padding: 1.2rem 0.2rem 1rem 0.2rem;
+  }
+  .simulation-title {
+    font-size: 1.3rem;
+  }
+  .simulation-desc {
+    font-size: 0.95rem;
+  }
+  .simulation-products, .simulation-summary {
+    padding: 0.7rem 0.3rem;
+    border-radius: 0.7rem;
+  }
+}
+
+.simu-section-title {
+  font-size: 1.3rem;
+  color: #fff8e1;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.07em;
+  text-align: left;
+}
+.simu-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.5rem;
+}
+.simu-product-card {
+  background: linear-gradient(135deg, #232323 80%, #d4a37322 100%);
+  border-radius: 1.1rem;
+  box-shadow: 0 2px 16px #d4a37322, 0 0 0 1.5px #d4a37333;
+  padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.25s cubic-bezier(.4,0,.2,1), box-shadow 0.25s;
+  position: relative;
+  overflow: hidden;
+  min-height: 320px;
+}
+.simu-product-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 32px #d4a37355, 0 0 0 2px #d4a37399;
+}
+.simu-product-img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin-bottom: 0.7rem;
+  filter: drop-shadow(0 2px 8px #d4a37333);
+  background: #181818;
+  border-radius: 0.7rem;
+  padding: 0.5rem;
+}
+.simu-product-info {
+  text-align: center;
+  width: 100%;
+}
+.simu-details {
+  color: #fff8e1cc;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+.simu-product-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-bottom: 0.5rem;
+}
+.simu-btn {
+  background: linear-gradient(135deg, #d4a373 60%, #c08a5c 100%);
+  color: #181818;
+  border: none;
+  border-radius: 50%;
+  width: 2.2rem;
+  height: 2.2rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #d4a37333;
+  transition: background 0.2s, transform 0.2s;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.simu-btn:disabled {
+  background: #444;
+  color: #bbb;
+  cursor: not-allowed;
+}
+.simu-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #c08a5c 60%, #d4a373 100%);
+  transform: scale(1.12);
+}
+.simu-qty {
+  font-size: 1.1rem;
+  color: #d4a373;
+  min-width: 1.5rem;
+  display: inline-block;
+}
+.simu-product-price {
+  color: #d4a373;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 0.2rem;
+}
+.simu-cart-list {
+  margin-bottom: 1.2rem;
+}
+.simu-cart-item {
+  display: flex;
+  justify-content: space-between;
+  color: #fff8e1;
+  font-size: 1.05rem;
+  margin-bottom: 0.4rem;
+  border-bottom: 1px solid #d4a37322;
+  padding-bottom: 0.2rem;
+}
+.simu-cart-empty {
+  color: #fff8e1aa;
+  font-style: italic;
+  text-align: center;
+  margin-bottom: 1.2rem;
+}
+.simu-livraison-block {
+  margin: 1.2rem 0 1.2rem 0;
+  background: #232323;
+  border-radius: 0.7rem;
+  padding: 1rem 0.7rem;
+  box-shadow: 0 2px 8px #d4a37322;
+}
+.simu-livraison-options {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  margin-bottom: 0.7rem;
+  flex-wrap: wrap;
+}
+.simu-livraison-options label {
+  color: #d4a373;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.simu-km-input {
+  background: #181818;
+  color: #d4a373;
+  border: 1px solid #d4a37355;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.7rem;
+  width: 120px;
+  margin-left: 0.7rem;
+  font-size: 1rem;
+}
+.simu-livraison-prix {
+  color: #fff8e1;
+  font-size: 1.05rem;
+  margin-top: 0.2rem;
+}
+.simu-total-block {
+  margin: 1.5rem 0 1.2rem 0;
+  text-align: center;
+}
+.simu-total-label {
+  color: #d4a373;
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+.simu-total-value {
+  font-size: 2.2rem;
+  color: #fff8e1;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  margin-top: 0.2rem;
+  text-shadow: 0 0 16px #d4a37388, 0 0 2px #fff8e1;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.glow-anim {
+  animation: glow 1.5s infinite alternate;
+}
+@keyframes glow {
+  0% { text-shadow: 0 0 16px #d4a37388, 0 0 2px #fff8e1; color: #fff8e1; }
+  100% { text-shadow: 0 0 32px #d4a373cc, 0 0 8px #fff8e1; color: #d4a373; }
+}
+.simu-reset-btn {
+  background: linear-gradient(135deg, #d4a373 60%, #c08a5c 100%);
+  color: #181818;
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1.2rem;
+  box-shadow: 0 2px 8px #d4a37333;
+  transition: background 0.2s, transform 0.2s;
+}
+.simu-reset-btn:hover {
+  background: linear-gradient(135deg, #c08a5c 60%, #d4a373 100%);
+  transform: scale(1.05);
+}
+@media (max-width: 900px) {
+  .simu-products-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}
+@media (max-width: 600px) {
+  .simu-section-title {
+    font-size: 1.05rem;
+  }
+  .simu-products-grid {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+  .simu-product-card {
+    min-height: 220px;
+    padding: 0.7rem 0.3rem;
+  }
+  .simu-product-img {
+    width: 60px;
+    height: 60px;
+    padding: 0.2rem;
+  }
+  .simu-product-price {
+    font-size: 0.95rem;
+  }
+  .simu-btn {
+    width: 1.7rem;
+    height: 1.7rem;
+    font-size: 1rem;
+  }
+  .simu-total-value {
+    font-size: 1.3rem;
+  }
+  .simu-reset-btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+} 

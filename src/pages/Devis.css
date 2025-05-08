@@ -1,0 +1,103 @@
+.devis-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+  padding: 4rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.devis-wrapper {
+  width: 100%;
+  max-width: 600px;
+  padding: 0 2rem;
+}
+
+.devis-card {
+  background-color: rgba(26, 26, 26, 0.8);
+  border-radius: 1rem;
+  padding: 2.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(212, 163, 115, 0.2);
+}
+
+.devis-heading {
+  font-size: 2.25rem;
+  font-family: 'Playfair Display', serif;
+  color: #d4a373;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-weight: 700;
+}
+
+.devis-formulaire {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.devis-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.devis-label {
+  color: #d4a373;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.devis-champ, .devis-champ select, .devis-champ option {
+  background-color: #18120b !important;
+  color: #d4a373 !important;
+  border: 1px solid #d4a373 !important;
+}
+
+.devis-champ:focus, .devis-champ select:focus {
+  background-color: #22190e !important;
+  color: #ffd700 !important;
+  border-color: #ffd700 !important;
+}
+
+.devis-champ option {
+  background-color: #18120b !important;
+  color: #d4a373 !important;
+}
+
+.devis-texte {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.devis-bouton {
+  background-color: #d4a373;
+  color: #000000;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-size: 1.125rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.devis-bouton:hover {
+  background-color: #c08a5c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 163, 115, 0.2);
+}
+
+/* Style pour le select */
+.devis-champ[type="select"] {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23d4a373' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.5rem;
+  padding-right: 2.5rem;
+} 
