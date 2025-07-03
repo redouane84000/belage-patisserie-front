@@ -431,3 +431,19 @@
   60% { opacity: 0.8; transform: scale(0.9) translateY(2px); }
   100% { opacity: 0.7; transform: scale(1) translateY(0); }
 }
+
+header#header {
+  @apply marble-bg glass shadow-3d rounded-b-luxe;
+}
+.nav-link {
+  @apply text-noir font-serif px-4 py-2 transition-colors duration-200 link-underline;
+}
+.nav-link:hover {
+  @apply text-gold;
+}
+.menu-button {
+  @apply bg-white/40 shadow-gold rounded-full p-2 transition-all duration-200 hover:bg-gold hover:text-white;
+}
+.logo {
+  @apply text-gold font-serif text-2xl tracking-widest drop-shadow-lg;
+}

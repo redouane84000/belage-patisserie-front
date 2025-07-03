@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+@import './ritz-luxe.css';
 
 /* Variables CSS */
 :root {
@@ -7,15 +8,15 @@
   --font-secondary: 'Montserrat', sans-serif;
 
   /* Couleurs de fond */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f8f8;
+  --bg-primary: #f8f8f8;
+  --bg-secondary: #ffffff;
   --bg-overlay: rgba(255, 255, 255, 0.95);
 
   /* Palette principale */
-  --primary-color: #8B4513;    /* Brun chocolat principal */
-  --secondary-color: #A0522D;  /* Brun chocolat plus clair */
-  --accent-color: #D2691E;     /* Brun doré pour les accents */
-  --text-color: #5D4037;       /* Brun chocolat pour le texte */
+  --primary-color: #d4af37;
+  --secondary-color: #8b4513;
+  --accent-color: #ffd700;
+  --text-color: #181818;
   --border-color: #8B4513;     /* Brun chocolat pour les bordures */
 
   /* Couleurs d'accent */
@@ -32,9 +33,9 @@
   --shadow-primary: 0 2px 20px rgba(139, 69, 19, 0.1);
   --shadow-secondary: 0 4px 30px rgba(139, 69, 19, 0.15);
 
-  --color-marble: #ffffff;
-  --color-marble-dark: #f5f5f5;
-  --color-black: #d4b78d;
+  --color-marble: #f8f8f8;
+  --color-marble-dark: #666666;
+  --color-black: #181818;
   --color-gold: #d4b78d;
   --color-gold-light: #e5d0b3;
   --color-gold-dark: #c4a77d;
@@ -77,9 +78,9 @@ html {
 }
 
 body {
-  font-family: var(--font-secondary);
-  background-color: var(--bg-primary);
-  color: var(--text-color);
+  font-family: var(--font-sans);
+  background: linear-gradient(135deg, var(--color-marble) 0%, var(--color-white) 50%, var(--color-marble) 100%);
+  color: var(--color-noir);
   line-height: 1.6;
   overflow-x: hidden;
 }
@@ -206,7 +207,7 @@ button {
 }
 
 .grid-cols-3 {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .grid-cols-4 {
@@ -215,15 +216,14 @@ button {
 
 /* Conteneur moderne */
 .container {
-  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 20px;
 }
 
-/* Section moderne */
+/* Section globale */
 .section {
-  padding: 6rem 0;
+  padding: 60px 0;
   position: relative;
 }
 
@@ -262,57 +262,14 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .grid-cols-4 {
-    grid-template-columns: repeat(3, 1fr);
+/* Responsive global */
+@media (max-width: 375px) {
+  .container {
+    padding: 0 15px;
   }
-}
-
-@media (max-width: 768px) {
-  .grid-cols-3,
-  .grid-cols-4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
+  
   .section {
-    padding: 4rem 0;
-  }
-
-  .title {
-    font-size: 2.5rem;
-  }
-
-  .subtitle {
-    font-size: 1.2rem;
-  }
-
-  .text {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .grid-cols-2,
-  .grid-cols-3,
-  .grid-cols-4 {
-    grid-template-columns: 1fr;
-  }
-
-  .section {
-    padding: 3rem 0;
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .subtitle {
-    font-size: 1.5rem;
-  }
-
-  .text {
-    font-size: 0.9rem;
+    padding: 40px 0;
   }
 }
 
@@ -321,7 +278,7 @@ button {
   font-family: var(--font-primary);
   font-size: 2.5rem;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -338,6 +295,21 @@ button {
   color: var(--color-marble);
   font-size: 2.5rem;
   letter-spacing: 0.1em;
+}
+
+.section-title p {
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.section-title h2 {
+  font-family: var(--font-primary);
+  font-size: 2.5rem;
+  color: var(--color-black);
+  margin: 0;
 }
 
 /* Cartes de produits */
@@ -559,5 +531,12 @@ button {
 @keyframes logoFadeIn {
   from { opacity: 0; transform: scale(0.9);}
   to   { opacity: 1; transform: scale(1);}
+}
+
+/* Masquer la livraison sur mobile */
+@media (max-width: 768px) {
+  .hide-mobile-delivery {
+    display: none !important;
+  }
 }
 

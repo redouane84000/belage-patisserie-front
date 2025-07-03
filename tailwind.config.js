@@ -31,6 +31,9 @@ export default {
           800: '#262626',
           900: '#000000',
         },
+        gold: '#d4af37',
+        marble: '#f8f8f8',
+        noir: '#181818',
       },
       fontFamily: {
         'serif': ['Cormorant Garamond', 'serif'],
@@ -38,10 +41,18 @@ export default {
       },
       backgroundImage: {
         'marble-pattern': "url('/marble-pattern.jpg')",
+        'marble': "url('/src/assets/logo/marble-bg.svg')",
         'gold-gradient': 'linear-gradient(to right, #D4AF37, #FCC201, #D4AF37)',
       },
       boxShadow: {
-        'gold': '0 0 15px rgba(212, 175, 55, 0.3)',
+        '3d': '0 8px 32px 0 rgba(31, 38, 135, 0.17)',
+        'gold': '0 4px 24px 0 rgba(212, 175, 55, 0.15)',
+      },
+      borderRadius: {
+        'luxe': '1.5rem',
+      },
+      screens: {
+        'mobile': {'max': '375px'},
       },
     },
   },

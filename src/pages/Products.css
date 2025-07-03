@@ -67,22 +67,13 @@
   margin: 0.15rem auto;
 }
 .products-section {
-  background-color: var(--color-black);
-  padding: 2rem 0.5rem;
+  @apply marble-bg py-8;
 }
-.grid.grid-cols-3 {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.2rem;
+.products-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8;
 }
 .product-card {
-  background-color: var(--color-marble-light);
-  border-radius: 1rem;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  min-width: 0;
-  max-width: 100vw;
-  height: auto;
+  @apply glass card-hover shadow-3d rounded-luxe p-6 flex flex-col items-center transition-transform duration-300;
 }
 .product-image {
   padding-left: 1rem;
@@ -96,13 +87,7 @@
   border-radius: 1rem 1rem 0 0;
 }
 .product-image img {
-  display: block;
-  margin: 0 auto;
-  max-width: 100%;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  border-radius: 1rem 1rem 0 0;
+  @apply rounded-luxe shadow-gold w-full h-48 object-cover mb-4 transition-all duration-500 hover:scale-105 hover:brightness-110;
 }
 .product-content {
   padding: 1.2rem 0.7rem;
@@ -112,15 +97,10 @@
   justify-content: center;
 }
 .product-title {
-  font-size: 1.1rem;
-  color: var(--color-black);
-  margin-bottom: 0.5rem;
+  @apply text-2xl font-serif text-noir mb-2;
 }
 .product-description {
-  color: var(--color-marble-dark);
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-  line-height: 1.4;
+  @apply text-base text-noir/80 mb-4;
 }
 .product-details {
   display: flex;
@@ -872,4 +852,21 @@
 .center-wedding .product-card {
   flex: 0 0 340px;
   max-width: 340px;
+}
+
+.product-btn {
+  @apply btn-luxe;
+}
+
+/* Responsive mobile */
+@media (max-width: 375px) {
+  .products-grid {
+    @apply grid-cols-1 gap-4;
+  }
+  .product-card {
+    @apply p-2 rounded-lg;
+  }
+  .product-image img {
+    @apply h-28;
+  }
 } 

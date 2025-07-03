@@ -1,7 +1,5 @@
-.footer {
-  background-color: var(--bg-secondary);
-  padding: 4rem 0 2rem;
-  color: var(--text-color);
+footer {
+  @apply marble-bg glass shadow-3d rounded-t-luxe py-8 px-4 text-center;
 }
 
 .footer-content {
@@ -18,10 +16,7 @@
 }
 
 .footer-title {
-  font-family: var(--font-primary);
-  font-size: 1.5rem;
-  color: var(--primary-color);
-  margin-bottom: 1rem;
+  @apply text-gold font-serif text-xl mb-2;
 }
 
 .footer-text {
@@ -65,14 +60,11 @@
 }
 
 .footer-link {
-  color: var(--text-color);
-  text-decoration: none;
-  transition: all 0.3s ease;
+  @apply text-noir font-serif px-2 transition-colors duration-200 link-underline;
 }
 
 .footer-link:hover {
-  color: var(--accent-color);
-  padding-left: 0.5rem;
+  @apply text-gold;
 }
 
 .footer-contact {

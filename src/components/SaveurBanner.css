@@ -1,14 +1,27 @@
+/* Bannière Saveur */
 .saveur-banner {
-  /* background: linear-gradient(90deg, #d4af37 0%, #bfc1c6 100%); */
-  background: transparent;
-  border-radius: 1.5rem;
-  box-shadow: 0 4px 24px rgba(139, 69, 19, 0.08);
-  margin: 2rem auto 2.5rem auto;
-  max-width: 600px;
-  padding: 0.5rem 1.5rem 1.5rem 1.5rem;
-  position: relative;
-  transition: box-shadow 0.3s;
+  @apply marble-bg glass shadow-3d rounded-luxe p-8 my-8;
 }
+.saveur-title {
+  @apply text-3xl font-serif text-noir mb-4;
+}
+.saveur-description {
+  @apply text-lg text-noir/80 mb-6;
+}
+.saveur-btn {
+  @apply btn-luxe;
+}
+
+/* Responsive mobile */
+@media (max-width: 375px) {
+  .saveur-banner {
+    @apply p-2 rounded-lg;
+  }
+  .saveur-title {
+    @apply text-xl;
+  }
+}
+
 .saveur-toggle {
   padding: 1rem 2rem;
   background: linear-gradient(145deg, #1a1a1a, #000000);
@@ -67,11 +80,6 @@
 }
 .saveur-icon {
   font-size: 1.1rem;
-}
-.saveur-title {
-  font-size: 1rem;
-  font-family: 'Playfair Display', serif;
-  letter-spacing: 0.1em;
 }
 .saveur-arrow {
   font-size: 0.85rem;

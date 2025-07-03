@@ -1,103 +1,305 @@
+/* ===== DEVIS PAGE - STYLE RITZ MODERNE ===== */
+
 .devis-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
-  padding: 4rem 0;
+  background: linear-gradient(135deg, #f8f6f0 0%, #f5f2ea 50%, #f0ede5 100%);
+  padding: 60px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+.devis-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(212, 175, 55, 0.02) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .devis-wrapper {
   width: 100%;
-  max-width: 600px;
-  padding: 0 2rem;
+  max-width: 700px;
+  position: relative;
+  z-index: 2;
 }
 
 .devis-card {
-  background-color: rgba(26, 26, 26, 0.8);
-  border-radius: 1rem;
-  padding: 2.5rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(212, 163, 115, 0.2);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 50px;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.1),
+    0 8px 25px rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.devis-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #d4af37 0%, #f4d03f 100%);
 }
 
 .devis-heading {
-  font-size: 2.25rem;
   font-family: 'Playfair Display', serif;
-  color: #d4a373;
-  text-align: center;
-  margin-bottom: 2.5rem;
+  font-size: 3rem;
   font-weight: 700;
+  color: #2c2c2c;
+  text-align: center;
+  margin-bottom: 40px;
+  background: linear-gradient(135deg, #2c2c2c 0%, #4a4a4a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.devis-heading::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #d4af37 0%, #f4d03f 100%);
+  border-radius: 2px;
 }
 
 .devis-formulaire {
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
+  gap: 25px;
 }
 
 .devis-field {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .devis-label {
-  color: #d4a373;
-  font-size: 1rem;
-  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  color: #2c2c2c;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
 }
 
-.devis-champ, .devis-champ select, .devis-champ option {
-  background-color: #18120b !important;
-  color: #d4a373 !important;
-  border: 1px solid #d4a373 !important;
+.devis-champ {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(212, 175, 55, 0.2);
+  border-radius: 15px;
+  padding: 15px 20px;
+  font-size: 16px;
+  color: #2c2c2c;
+  font-family: 'Montserrat', sans-serif;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
 }
 
-.devis-champ:focus, .devis-champ select:focus {
-  background-color: #22190e !important;
-  color: #ffd700 !important;
-  border-color: #ffd700 !important;
+.devis-champ:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
 }
 
-.devis-champ option {
-  background-color: #18120b !important;
-  color: #d4a373 !important;
+.devis-champ::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.devis-champ select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  background-size: 20px;
+  padding-right: 50px;
 }
 
 .devis-texte {
   min-height: 120px;
   resize: vertical;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.6;
 }
 
 .devis-bouton {
-  background-color: #d4a373;
-  color: #000000;
-  padding: 1rem 2rem;
-  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+  color: #2c2c2c;
+  padding: 18px 40px;
+  border-radius: 50px;
   border: none;
-  font-size: 1.125rem;
+  font-size: 18px;
   font-weight: 600;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  text-align: center;
-  margin-top: 1rem;
+  font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+  position: relative;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.devis-bouton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
 }
 
 .devis-bouton:hover {
-  background-color: #c08a5c;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(212, 163, 115, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
 }
 
-/* Style pour le select */
-.devis-champ[type="select"] {
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23d4a373' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 1.5rem;
-  padding-right: 2.5rem;
+.devis-bouton:hover::before {
+  left: 100%;
+}
+
+.devis-bouton:active {
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .devis-page {
+    padding: 40px 15px;
+  }
+  
+  .devis-card {
+    padding: 40px 30px;
+    border-radius: 20px;
+  }
+  
+  .devis-heading {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+  
+  .devis-formulaire {
+    gap: 20px;
+  }
+  
+  .devis-champ {
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+  
+  .devis-bouton {
+    padding: 16px 30px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .devis-page {
+    padding: 20px 10px;
+  }
+  
+  .devis-card {
+    padding: 30px 20px;
+    border-radius: 15px;
+  }
+  
+  .devis-heading {
+    font-size: 2rem;
+    margin-bottom: 25px;
+  }
+  
+  .devis-formulaire {
+    gap: 18px;
+  }
+  
+  .devis-champ {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  
+  .devis-bouton {
+    padding: 14px 25px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 375px) {
+  .devis-page {
+    padding: 15px 0;
+  }
+  
+  .devis-wrapper {
+    padding: 0;
+  }
+  
+  .devis-card {
+    padding: 25px 15px;
+    border-radius: 0;
+    margin: 0;
+    width: 100vw;
+  }
+  
+  .devis-heading {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  
+  .devis-formulaire {
+    gap: 15px;
+  }
+  
+  .devis-champ {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .devis-bouton {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Section devis */
+.devis-section {
+  @apply marble-bg glass shadow-3d rounded-luxe p-8 my-8;
+}
+.devis-title {
+  @apply text-3xl font-serif text-noir mb-4;
+}
+.devis-description {
+  @apply text-lg text-noir/80 mb-6;
+}
+.devis-btn {
+  @apply btn-luxe;
+}
+
+/* Responsive mobile */
+@media (max-width: 375px) {
+  .devis-section {
+    @apply p-2 rounded-lg;
+  }
+  .devis-title {
+    @apply text-xl;
+  }
 } 

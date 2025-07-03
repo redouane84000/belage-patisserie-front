@@ -293,4 +293,28 @@
     font-size: 0.9rem;
     padding: 0.5rem 1rem;
   }
+}
+
+/* Section simulation tarif */
+.simulation-section {
+  @apply marble-bg glass shadow-3d rounded-luxe p-8 my-8;
+}
+.simulation-title {
+  @apply text-3xl font-serif text-noir mb-4;
+}
+.simulation-description {
+  @apply text-lg text-noir/80 mb-6;
+}
+.simulation-btn {
+  @apply btn-luxe;
+}
+
+/* Responsive mobile */
+@media (max-width: 375px) {
+  .simulation-section {
+    @apply p-2 rounded-lg;
+  }
+  .simulation-title {
+    @apply text-xl;
+  }
 } 

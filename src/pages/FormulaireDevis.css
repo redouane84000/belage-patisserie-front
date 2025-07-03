@@ -1,36 +1,27 @@
+/* Formulaire devis */
 .form-devis {
-    max-width: 500px;
-    margin: auto;
-    padding: 2rem;
-    background-color: #1f1f1f;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(138, 43, 226, 0.4);
-    color: #eee;
+  @apply marble-bg glass shadow-3d rounded-luxe p-8 my-8;
+}
+.form-title {
+  @apply text-3xl font-serif text-noir mb-4;
+}
+.form-label {
+  @apply text-noir font-serif mb-2;
+}
+.form-input, .form-textarea {
+  @apply bg-white/60 border border-gold rounded-luxe px-4 py-2 mb-4 focus:ring-2 focus:ring-gold transition-all duration-200;
+}
+.form-btn {
+  @apply btn-luxe;
+}
+
+/* Responsive mobile */
+@media (max-width: 375px) {
+  .form-devis {
+    @apply p-2 rounded-lg;
   }
-  
-  .form-devis input,
-  .form-devis select,
-  .form-devis textarea {
-    margin-bottom: 1rem;
-    background-color: #2a2a2a;
-    border: 1px solid #555;
-    border-radius: 5px;
-    padding: 0.75rem;
-    color: #eee;
+  .form-title {
+    @apply text-xl;
   }
-  
-  .form-devis button {
-    background-color: violet;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: transform 0.3s;
-  }
-  
-  .form-devis button:hover {
-    transform: scale(1.05);
-  }
+}
   

@@ -51,3 +51,27 @@
     }
   }
   
+/* Section principale accueil */
+.accueil-main {
+  @apply marble-bg glass shadow-3d rounded-luxe p-8 my-8;
+}
+.accueil-title {
+  @apply text-4xl font-serif text-noir mb-4;
+}
+.accueil-description {
+  @apply text-lg text-noir/80 mb-6;
+}
+.accueil-btn {
+  @apply btn-luxe;
+}
+
+/* Responsive mobile */
+@media (max-width: 375px) {
+  .accueil-main {
+    @apply p-2 rounded-lg;
+  }
+  .accueil-title {
+    @apply text-2xl;
+  }
+}
+  

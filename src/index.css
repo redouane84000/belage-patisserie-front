@@ -1,8 +1,64 @@
-body {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variables CSS modernes */
+:root {
+  --color-gold: #d4af37;
+  --color-marble: #f8f8f8;
+  --color-noir: #181818;
+  --color-white: #ffffff;
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Montserrat', sans-serif;
+}
+
+/* Base styles */
+* {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-  color: #eee;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-marble);
+  color: var(--color-noir);
+  line-height: 1.6;
+}
+
+/* Typographie élégante */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--color-noir);
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-marble);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b8941f;
+}
+
+/* Utilitaires */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 .site-container {
