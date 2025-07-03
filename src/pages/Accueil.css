@@ -75,3 +75,290 @@
   }
 }
   
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* ===== DESKTOP LARGE (1200px+) ===== */
+@media (min-width: 1200px) {
+  .hero {
+    min-height: 900px;
+    padding: 80px 20px;
+  }
+  
+  .hero-image {
+    width: 600px;
+    height: 400px;
+  }
+  
+  .hero-content {
+    padding: 50px;
+  }
+  
+  .hero-main-title {
+    font-size: 4rem;
+  }
+  
+  .hero-text {
+    font-size: 20px;
+  }
+}
+
+/* ===== DESKTOP STANDARD (992px - 1199px) ===== */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .hero {
+    min-height: 850px;
+    padding: 70px 20px;
+  }
+  
+  .hero-image {
+    width: 570px;
+    height: 380px;
+  }
+  
+  .hero-content {
+    padding: 45px;
+  }
+  
+  .hero-main-title {
+    font-size: 3.5rem;
+  }
+}
+
+/* ===== TABLET LARGE (768px - 991px) ===== */
+@media (min-width: 768px) and (max-width: 991px) {
+  .hero {
+    display: none;
+  }
+  
+  .section {
+    padding: 80px 0;
+  }
+  
+  .section-title {
+    margin-bottom: 60px;
+  }
+  
+  .section-title h2 {
+    font-size: 2.5rem;
+  }
+  
+  .grid.grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+  }
+  
+  .product-card {
+    min-height: 450px;
+    padding: 30px;
+  }
+  
+  .product-image {
+    height: 200px;
+  }
+  
+  .product-title {
+    font-size: 1.6rem;
+  }
+}
+
+/* ===== TABLET STANDARD (576px - 767px) ===== */
+@media (min-width: 576px) and (max-width: 767px) {
+  .hero {
+    display: none;
+  }
+  
+  .section {
+    padding: 70px 0;
+  }
+  
+  .section-title {
+    margin-bottom: 50px;
+  }
+  
+  .section-title h2 {
+    font-size: 2.2rem;
+  }
+  
+  .grid.grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+  
+  .product-card {
+    min-height: 420px;
+    padding: 25px;
+  }
+  
+  .product-image {
+    height: 180px;
+  }
+  
+  .product-title {
+    font-size: 1.4rem;
+  }
+}
+
+/* ===== MOBILE LARGE (375px - 575px) ===== */
+@media (min-width: 375px) and (max-width: 575px) {
+  .hero {
+    display: none;
+  }
+  
+  .section {
+    padding: 60px 0;
+  }
+  
+  .section-title {
+    margin-bottom: 40px;
+  }
+  
+  .section-title h2 {
+    font-size: 2rem;
+  }
+  
+  .grid.grid-cols-3 {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .product-card {
+    min-height: 400px;
+    padding: 25px;
+  }
+  
+  .product-image {
+    height: 180px;
+  }
+  
+  .product-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* ===== MOBILE STANDARD (320px - 374px) ===== */
+@media (min-width: 320px) and (max-width: 374px) {
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    overflow-x: hidden;
+  }
+  
+  .hero {
+    display: none;
+  }
+  
+  .section {
+    padding: 40px 0;
+    margin: 0;
+    width: 100vw;
+  }
+  
+  .section-title {
+    margin-bottom: 30px;
+    padding: 0;
+  }
+  
+  .section-title p {
+    font-size: 10px;
+  }
+  
+  .section-title h2 {
+    font-size: 1.6rem;
+  }
+  
+  .grid.grid-cols-3 {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 20px;
+    padding: 0;
+    width: 100vw;
+  }
+  
+  .product-card {
+    min-height: 320px;
+    padding: 15px 0;
+    margin: 0;
+    border-radius: 0;
+    width: 100vw;
+  }
+  
+  .product-image {
+    height: 120px;
+    margin-bottom: 12px;
+  }
+  
+  .product-title {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+  
+  .product-description {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+}
+
+/* ===== MOBILE EXTRA SMALL (max-width: 319px) ===== */
+@media (max-width: 319px) {
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    overflow-x: hidden;
+  }
+  
+  .hero {
+    display: none;
+  }
+  
+  .section {
+    padding: 30px 0;
+    margin: 0;
+    width: 100vw;
+  }
+  
+  .section-title {
+    margin-bottom: 25px;
+    padding: 0;
+  }
+  
+  .section-title p {
+    font-size: 9px;
+  }
+  
+  .section-title h2 {
+    font-size: 1.4rem;
+  }
+  
+  .grid.grid-cols-3 {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 15px;
+    padding: 0;
+    width: 100vw;
+  }
+  
+  .product-card {
+    min-height: 280px;
+    padding: 12px 0;
+    margin: 0;
+    border-radius: 0;
+    width: 100vw;
+  }
+  
+  .product-image {
+    height: 100px;
+    margin-bottom: 10px;
+  }
+  
+  .product-title {
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+  
+  .product-description {
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+}
+  
