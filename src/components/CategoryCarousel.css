@@ -1,0 +1,37 @@
+.category-carousel-wrapper {
+  @apply flex items-center justify-center w-full relative my-6;
+}
+.category-carousel {
+  @apply flex overflow-x-auto scroll-smooth gap-4 py-2 w-full scrollbar-hide;
+}
+.category-carousel-item {
+  @apply glass card-hover shadow-3d rounded-luxe font-serif text-gold tracking-widest uppercase text-base cursor-pointer min-w-32 max-w-48 p-4 flex flex-col items-center justify-center gap-2 transition-all duration-300 flex-shrink-0;
+}
+.category-carousel-item.active, .category-carousel-item:focus {
+  @apply bg-gradient-to-br from-gold to-yellow-400 text-noir shadow-gold;
+}
+.category-carousel-item img {
+  @apply max-w-16 max-h-16 mb-2 rounded-luxe bg-white object-contain shadow-gold;
+}
+.carousel-arrow {
+  @apply bg-gold text-white border-none rounded-full w-11 h-11 text-xl shadow-3d cursor-pointer flex items-center justify-center mx-2 transition-all duration-200 z-10 hover:bg-yellow-400 hover:scale-110;
+}
+.carousel-arrow.left {
+  @apply left-0;
+}
+.carousel-arrow.right {
+  @apply right-0;
+}
+
+/* Responsive mobile */
+@media (max-width: 375px) {
+  .category-carousel-item {
+    @apply text-sm min-w-24 max-w-32 p-2;
+  }
+  .category-carousel-item img {
+    @apply max-w-12 max-h-12;
+  }
+  .carousel-arrow {
+    @apply w-8 h-8 text-lg;
+  }
+} 

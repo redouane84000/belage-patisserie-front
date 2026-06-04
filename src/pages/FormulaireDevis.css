@@ -1,0 +1,27 @@
+/* Formulaire devis */
+.form-devis {
+  @apply marble-bg glass shadow-3d rounded-luxe p-8 my-8;
+}
+.form-title {
+  @apply text-3xl font-serif text-noir mb-4;
+}
+.form-label {
+  @apply text-noir font-serif mb-2;
+}
+.form-input, .form-textarea {
+  @apply bg-white/60 border border-gold rounded-luxe px-4 py-2 mb-4 focus:ring-2 focus:ring-gold transition-all duration-200;
+}
+.form-btn {
+  @apply btn-luxe;
+}
+
+/* Responsive mobile */
+@media (max-width: 375px) {
+  .form-devis {
+    @apply p-2 rounded-lg;
+  }
+  .form-title {
+    @apply text-xl;
+  }
+}
+  
