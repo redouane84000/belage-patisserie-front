@@ -19,6 +19,7 @@ import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import {
   Search,
   MapPin,
+  Map,
   SlidersHorizontal,
   X,
   Check,
@@ -26,6 +27,8 @@ import {
   Users,
   Sparkles,
   RotateCcw,
+  Plus,
+  Minus,
 } from 'lucide-react'
 import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
@@ -78,17 +81,19 @@ const BUDGET_MIN = 3
 const BUDGET_MAX = 10
 const BUDGET_STEP = 0.5
 
-/** Recalcule la taille tuiles après changement layout (drawer filtres, etc.) */
-function MapInvalidateSize({ active }) {
+/** Recalcule la taille tuiles après changement layout (drawer filtres, plein écran, etc.) */
+function MapInvalidateSize({ active, immersive }) {
   const map = useMap()
   useEffect(() => {
     const t1 = requestAnimationFrame(() => map.invalidateSize())
     const t2 = window.setTimeout(() => map.invalidateSize(), 350)
+    const t3 = window.setTimeout(() => map.invalidateSize(), 700)
     return () => {
       cancelAnimationFrame(t1)
       window.clearTimeout(t2)
+      window.clearTimeout(t3)
     }
-  }, [active, map])
+  }, [active, immersive, map])
   return null
 }
 
@@ -112,19 +117,70 @@ function MapFlyToFrance({ resetToken }) {
   return null
 }
 
-/** Desktop : molette libre · Mobile : gesture-handling uniquement */
-function MapZoomMode({ touchLayout }) {
+/**
+ * Desktop : interactions libres.
+ * Mobile/tablette aperçu : carte verrouillée (scroll page sans accrocher la carte).
+ * Mobile/tablette plein écran : pan 1 doigt + pinch + boutons +/-.
+ */
+function MapInteractionMode({ touchLayout, immersive }) {
   const map = useMap()
   useEffect(() => {
-    if (touchLayout) {
-      map.scrollWheelZoom.disable()
-      map.gestureHandling?.enable()
-    } else {
+    if (!touchLayout) {
       map.gestureHandling?.disable()
       map.scrollWheelZoom.enable()
+      map.dragging.enable()
+      map.touchZoom.enable()
+      map.doubleClickZoom.enable()
+      map.boxZoom.enable()
+      return undefined
     }
-  }, [touchLayout, map])
+
+    map.gestureHandling?.disable()
+    map.scrollWheelZoom.disable()
+    map.boxZoom.disable()
+
+    if (immersive) {
+      map.dragging.enable()
+      map.touchZoom.enable()
+      map.doubleClickZoom.enable()
+      map.tap?.enable()
+    } else {
+      map.dragging.disable()
+      map.touchZoom.disable()
+      map.doubleClickZoom.disable()
+      map.tap?.disable()
+    }
+
+    return undefined
+  }, [touchLayout, immersive, map])
   return null
+}
+
+/** Boutons zoom grossis — mode carte plein écran mobile (portal body = au-dessus de Leaflet) */
+function MapImmersiveZoomControls({ visible }) {
+  const map = useMap()
+  if (!visible) return null
+  return createPortal(
+    <div className="map-immersive-zoom" aria-label="Zoom carte">
+      <button
+        type="button"
+        className="map-immersive-zoom__btn"
+        onClick={() => map.zoomIn()}
+        aria-label="Zoomer"
+      >
+        <Plus size={22} strokeWidth={2.2} />
+      </button>
+      <button
+        type="button"
+        className="map-immersive-zoom__btn"
+        onClick={() => map.zoomOut()}
+        aria-label="Dézoomer"
+      >
+        <Minus size={22} strokeWidth={2.2} />
+      </button>
+    </div>,
+    document.body
+  )
 }
 
 function CitySearchClear({ pinnedCity, onClear }) {
@@ -257,13 +313,14 @@ function CityPatissieresPanel({
   filteredCount,
   onClose,
   touchLayout,
+  immersive,
   fromSearch,
 }) {
   if (!city) return null
 
   return (
     <aside
-      className={`city-panel ${touchLayout ? 'city-panel--mobile' : ''}`}
+      className={`city-panel ${touchLayout ? 'city-panel--mobile' : ''} ${immersive ? 'city-panel--immersive' : ''}`}
       aria-label={`Pâtissières à ${city.name}`}
     >
       <header className="city-panel__head">
@@ -439,6 +496,25 @@ export default function Carte() {
   const [panelCity, setPanelCity] = useState(null)
   const [panelFromSearch, setPanelFromSearch] = useState(false)
   const [resetMapToken, setResetMapToken] = useState(0)
+  const [mapImmersive, setMapImmersive] = useState(false)
+
+  useEffect(() => {
+    if (!touchLayout || !mapImmersive) return undefined
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [touchLayout, mapImmersive])
+
+  function openMapImmersive() {
+    setMapImmersive(true)
+  }
+
+  function closeMapImmersive() {
+    setMapImmersive(false)
+    setCityPanelOpen(false)
+  }
 
   function openCityPanel(city, fromSearch = false) {
     setPanelCity(city)
@@ -525,6 +601,11 @@ export default function Carte() {
 
   const closeFilters = () => setFiltersOpen(false)
 
+  const openFilters = () => {
+    setMapImmersive(false)
+    setFiltersOpen(true)
+  }
+
   const filterSidebarProps = {
     filtersOpen: touchLayout ? filtersOpen : true,
     onClose: closeFilters,
@@ -562,9 +643,24 @@ export default function Carte() {
       document.body
     )
 
+  const mapImmersivePortal =
+    touchLayout &&
+    mapImmersive &&
+    createPortal(
+      <button
+        type="button"
+        className="map-immersive-close"
+        onClick={closeMapImmersive}
+        aria-label="Fermer la carte et revenir"
+      >
+        <X size={24} strokeWidth={2.4} />
+      </button>,
+      document.body
+    )
+
   return (
     <div
-      className={`carte-page ${touchLayout ? 'carte-page--touch' : ''}`}
+      className={`carte-page ${touchLayout ? 'carte-page--touch' : ''} ${mapImmersive ? 'carte-page--map-immersive' : ''}`}
     >
       <Navbar />
 
@@ -572,6 +668,8 @@ export default function Carte() {
         {!touchLayout && <FiltersSidebar {...filterSidebarProps} />}
 
         {filtersPortal}
+
+        {mapImmersivePortal}
 
         <div className="carte-main">
           {touchLayout && (
@@ -586,7 +684,7 @@ export default function Carte() {
                 <button
                   type="button"
                   className="carte-mobile-head__filtres"
-                  onClick={() => setFiltersOpen(true)}
+                  onClick={openFilters}
                 >
                   <SlidersHorizontal size={16} strokeWidth={2} />
                   Filtres
@@ -634,13 +732,31 @@ export default function Carte() {
               </div>
 
               <p className="carte-mobile-tip">
-                2 doigts pour zoomer · Touchez un marqueur pour voir les fiches
-                · Effacez la ville pour revenir à toute la France
+                Ouvrez la carte pour naviguer · Touchez un marqueur pour les
+                fiches · Effacez la ville pour revenir à toute la France
               </p>
             </header>
           )}
 
-          <div className="map-wrap">
+          <div
+            className={`map-wrap ${mapImmersive ? 'map-wrap--immersive' : ''}`}
+          >
+            {touchLayout && !mapImmersive && (
+              <div className="map-enter-gate" aria-hidden={false}>
+                <button
+                  type="button"
+                  className="map-enter-gate__btn"
+                  onClick={openMapImmersive}
+                >
+                  <Map size={20} strokeWidth={2} />
+                  Ouvrir la carte
+                </button>
+                <p className="map-enter-gate__hint">
+                  Navigation volontaire · glissez et zoomez une fois ouverte
+                </p>
+              </div>
+            )}
+
             <MapContainer
               center={[46.603354, 1.888334]}
               zoom={6}
@@ -648,18 +764,23 @@ export default function Carte() {
               maxZoom={17}
               zoomControl={false}
               scrollWheelZoom={!touchLayout}
-              dragging
-              touchZoom
-              doubleClickZoom
-              boxZoom
-              {...(touchLayout ? { gestureHandling: true } : {})}
+              dragging={!touchLayout}
+              touchZoom={!touchLayout}
+              doubleClickZoom={!touchLayout}
+              boxZoom={!touchLayout}
               style={{ height: '100%', width: '100%' }}
             >
-              <MapInvalidateSize active={filtersOpen} />
-              <MapZoomMode touchLayout={touchLayout} />
+              <MapInvalidateSize active={filtersOpen} immersive={mapImmersive} />
+              <MapInteractionMode
+                touchLayout={touchLayout}
+                immersive={mapImmersive}
+              />
+              <MapImmersiveZoomControls
+                visible={touchLayout && mapImmersive}
+              />
               <MapFlyToCity city={pinnedCity} flyToken={flyToken} />
               <MapFlyToFrance resetToken={resetMapToken} />
-              <ZoomControl position="bottomright" />
+              {!touchLayout && <ZoomControl position="bottomright" />}
               <TileLayer
                 url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org">OpenStreetMap</a> &copy; <a href="https://carto.com">CARTO</a>'
@@ -694,6 +815,7 @@ export default function Carte() {
                 filteredCount={panelFilteredCount}
                 onClose={() => setCityPanelOpen(false)}
                 touchLayout={touchLayout}
+                immersive={mapImmersive}
                 fromSearch={panelFromSearch}
               />
             )}

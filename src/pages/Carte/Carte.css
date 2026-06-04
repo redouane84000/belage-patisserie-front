@@ -386,6 +386,138 @@
   z-index: 1;
 }
 
+/* ----- Aperçu verrouillé : entrée volontaire ----- */
+.map-enter-gate {
+  position: absolute;
+  inset: 0;
+  z-index: 450;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  background: linear-gradient(
+    180deg,
+    rgba(245, 240, 232, 0.72) 0%,
+    rgba(245, 240, 232, 0.88) 100%
+  );
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  touch-action: none;
+}
+
+.map-enter-gate__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 14px 22px;
+  border: none;
+  border-radius: 50px;
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.map-enter-gate__btn:active {
+  transform: scale(0.97);
+}
+
+.map-enter-gate__hint {
+  max-width: 26ch;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--color-gray-mid);
+}
+
+/* ----- Mode carte plein écran (mobile / tablette) ----- */
+.carte-page--map-immersive {
+  overflow: hidden;
+}
+
+.map-wrap--immersive {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  width: 100% !important;
+  height: 100dvh !important;
+  min-height: 100dvh !important;
+  max-height: none !important;
+  flex: none !important;
+  background: var(--color-cream);
+}
+
+.map-immersive-close {
+  position: fixed;
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  z-index: 10050;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border: 2.5px solid var(--color-white);
+  border-radius: 50%;
+  background: var(--color-black);
+  color: var(--color-white);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.map-immersive-close:active {
+  transform: scale(0.94);
+}
+
+.map-immersive-zoom {
+  position: fixed;
+  left: calc(16px + env(safe-area-inset-left, 0px));
+  bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+  z-index: 10050;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.map-immersive-zoom__btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 14px;
+  background: var(--color-white);
+  color: var(--color-black);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.16);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.map-immersive-zoom__btn:active {
+  transform: scale(0.94);
+}
+
+.city-panel--immersive {
+  z-index: 1350;
+  max-height: min(46dvh, 360px);
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+}
+
 /* En-tête mobile */
 .carte-mobile-head {
   flex-shrink: 0;
