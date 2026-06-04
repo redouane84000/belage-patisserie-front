@@ -1,0 +1,77 @@
+.mentions-page {
+  min-height: 100vh;
+  background-color: var(--color-cream);
+  display: flex;
+  flex-direction: column;
+}
+
+.mentions-content {
+  flex: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 80px 40px;
+  width: 100%;
+}
+
+.mentions-content__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(36px, 5vw, 52px);
+  color: var(--color-black);
+  line-height: 1.1;
+}
+
+.mentions-content__date {
+  font-family: var(--font-body);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-gold);
+  margin-top: 10px;
+}
+
+.mentions-content__line {
+  width: 60px;
+  height: 2px;
+  background-color: var(--color-gold);
+  margin: 16px 0 8px;
+}
+
+.mentions-section {
+  margin-top: 48px;
+  scroll-margin-top: 88px;
+}
+
+.mentions-section h2 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--color-black);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+}
+
+.mentions-section p,
+.mentions-section li {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-body);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+.mentions-section a {
+  color: var(--color-gold);
+  text-decoration: underline;
+}
+
+.mentions-section em {
+  font-size: 13px;
+  color: var(--color-gray-mid);
+}
+
+@media (max-width: 767px) {
+  .mentions-content {
+    padding: 56px 20px 40px;
+  }
+}

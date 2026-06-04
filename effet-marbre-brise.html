@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Effet marbre brisé / miroir — démo</title>
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --ink: #1a1a1a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    background: var(--cream);
+    font-family: "DM Sans", system-ui, sans-serif;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    overflow: hidden;
+  }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  .hint { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #9e9e9e; }
+
+  .stage {
+    position: relative;
+    width: min(78vmin, 620px);
+    aspect-ratio: 1 / 1;
+    /* socle crème : les fissures (gaps entre éclats) laissent voir ce fond sombre */
+    background: #2c2c2c;
+    border-radius: 10px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+    overflow: hidden;
+    cursor: crosshair;
+  }
+  .stage svg { display: block; width: 100%; height: 100%; }
+
+  /* éclats : transition douce pour la parallaxe au survol */
+  .shard {
+    transition: transform 220ms cubic-bezier(.2,.8,.2,1), filter 220ms ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  /* reflet mobile façon miroir */
+  .gloss {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    background: radial-gradient(
+      220px 220px at var(--mx, 50%) var(--my, 40%),
+      rgba(255,255,255,0.55) 0%,
+      rgba(255,255,255,0.12) 35%,
+      rgba(255,255,255,0) 70%
+    );
+    transition: background 80ms linear;
+  }
+  /* fine vignette pour donner du relief à la plaque */
+  .vignette {
+    position: absolute; inset: 0; pointer-events: none;
+    box-shadow: inset 0 0 120px rgba(0,0,0,0.45);
+    border-radius: 10px;
+  }
+
+  .controls { display: flex; gap: 10px; }
+  button {
+    font: inherit; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+    padding: 10px 18px; border: 1.5px solid var(--ink); background: transparent;
+    color: var(--ink); border-radius: 4px; cursor: pointer; transition: all .2s ease;
+  }
+  button:hover { background: var(--ink); color: var(--cream); }
+</style>
+</head>
+<body>
+  <h1>Marbre brisé — effet miroir</h1>
+  <div class="stage" id="stage">
+    <svg id="svg" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <!-- veine de marbre en niveaux de gris -->
+        <filter id="marble" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.03" numOctaves="5" seed="7" result="noise"/>
+          <feColorMatrix in="noise" type="saturate" values="0"/>
+          <feComponentTransfer>
+            <feFuncR type="gamma" amplitude="1.1" exponent="2.2" offset="0.05"/>
+            <feFuncG type="gamma" amplitude="1.1" exponent="2.2" offset="0.05"/>
+            <feFuncB type="gamma" amplitude="1.1" exponent="2.2" offset="0.05"/>
+          </feComponentTransfer>
+        </filter>
+        <radialGradient id="base" cx="42%" cy="35%" r="80%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="55%" stop-color="#ece9e3"/>
+          <stop offset="100%" stop-color="#cfcbc4"/>
+        </radialGradient>
+        <clipPath id="frame"><rect x="0" y="0" width="600" height="600" rx="0"/></clipPath>
+      </defs>
+
+      <g clip-path="url(#frame)">
+        <!-- couche marbre de fond -->
+        <rect x="0" y="0" width="600" height="600" fill="url(#base)"/>
+        <rect x="0" y="0" width="600" height="600" fill="#ffffff" filter="url(#marble)" opacity="0.35"/>
+        <!-- les éclats sont injectés ici -->
+        <g id="shards"></g>
+      </g>
+    </svg>
+    <div class="gloss" id="gloss"></div>
+    <div class="vignette"></div>
+  </div>
+
+  <div class="controls">
+    <button id="regen">Nouvel impact</button>
+    <span class="hint" style="align-self:center;">Bouge la souris sur la plaque</span>
+  </div>
+
+<script>
+const SIZE = 600;
+const svgNS = "http://www.w3.org/2000/svg";
+const shardsG = document.getElementById("shards");
+const stage = document.getElementById("stage");
+const gloss = document.getElementById("gloss");
+
+function rand(a, b) { return a + Math.random() * (b - a); }
+
+// Génère une fracture radiale (rayons + anneaux) façon verre/miroir brisé
+function buildShatter() {
+  shardsG.innerHTML = "";
+  const cx = SIZE * rand(0.38, 0.62);
+  const cy = SIZE * rand(0.34, 0.58);
+  const maxR = SIZE * 1.15;
+
+  // rayons (spokes) avec angles irréguliers
+  const spokeCount = Math.floor(rand(12, 17));
+  let angles = [];
+  let a = rand(0, Math.PI * 2);
+  for (let i = 0; i < spokeCount; i++) {
+    angles.push(a);
+    a += (Math.PI * 2 / spokeCount) * rand(0.55, 1.5);
+  }
+  angles = angles.map(x => x % (Math.PI * 2)).sort((p, q) => p - q);
+
+  // anneaux concentriques (rings)
+  const ringFracs = [0.05, 0.12, 0.22, 0.36, 0.54, 0.78, 1.05, 1.3];
+  const rings = ringFracs.map(f => f * maxR * rand(0.9, 1.12));
+
+  const pt = (r, ang) => [cx + Math.cos(ang) * r, cy + Math.sin(ang) * r];
+  const jit = r => r * rand(0.93, 1.07);
+
+  const shards = [];
+
+  // calotte centrale (point d'impact)
+  for (let j = 0; j < angles.length; j++) {
+    const a1 = angles[j], a2 = angles[(j + 1) % angles.length];
+    const r1 = rings[0];
+    shards.push([[cx, cy], pt(jit(r1), a1), pt(jit(r1), a2)]);
+  }
+
+  // anneaux : quadrilatères entre rayons et anneaux successifs
+  for (let i = 0; i < rings.length - 1; i++) {
+    for (let j = 0; j < angles.length; j++) {
+      const a1 = angles[j], a2 = angles[(j + 1) % angles.length];
+      const rIn = rings[i], rOut = rings[i + 1];
+      shards.push([
+        pt(jit(rIn), a1), pt(jit(rOut), a1),
+        pt(jit(rOut), a2), pt(jit(rIn), a2),
+      ]);
+    }
+  }
+
+  shards.forEach((poly) => {
+    const el = document.createElementNS(svgNS, "polygon");
+    el.setAttribute("points", poly.map(p => p.map(n => n.toFixed(1)).join(",")).join(" "));
+    el.setAttribute("fill", "url(#base)");
+    // chaque éclat : luminosité légèrement différente => facettes miroir
+    const light = rand(0.82, 1.12);
+    el.setAttribute("filter", "url(#marble)");
+    el.style.filter = `brightness(${light.toFixed(2)})`;
+    // fines fissures sombres + reflet clair sur l'arête
+    el.setAttribute("stroke", "rgba(20,20,20,0.55)");
+    el.setAttribute("stroke-width", rand(0.6, 1.6).toFixed(2));
+    el.setAttribute("stroke-linejoin", "round");
+    el.classList.add("shard");
+
+    // mémorise le centre du shard pour la parallaxe
+    const cxs = poly.reduce((s, p) => s + p[0], 0) / poly.length;
+    const cys = poly.reduce((s, p) => s + p[1], 0) / poly.length;
+    el.dataset.cx = cxs;
+    el.dataset.cy = cys;
+    el.dataset.depth = rand(0.4, 1).toFixed(3);
+    shardsG.appendChild(el);
+  });
+}
+
+// Parallaxe + reflet : la souris déplace la lumière et fait « bouger » les éclats
+function onMove(clientX, clientY) {
+  const rect = stage.getBoundingClientRect();
+  const mx = (clientX - rect.left) / rect.width;
+  const my = (clientY - rect.top) / rect.height;
+  gloss.style.setProperty("--mx", (mx * 100).toFixed(1) + "%");
+  gloss.style.setProperty("--my", (my * 100).toFixed(1) + "%");
+
+  const px = mx * SIZE, py = my * SIZE;
+  const shards = shardsG.children;
+  for (const s of shards) {
+    const dx = (px - s.dataset.cx);
+    const dy = (py - s.dataset.cy);
+    const depth = parseFloat(s.dataset.depth);
+    const tx = (-dx / SIZE) * 14 * depth;
+    const ty = (-dy / SIZE) * 14 * depth;
+    s.style.transform = `translate(${tx.toFixed(2)}px, ${ty.toFixed(2)}px)`;
+  }
+}
+
+stage.addEventListener("pointermove", (e) => onMove(e.clientX, e.clientY));
+stage.addEventListener("pointerleave", () => {
+  for (const s of shardsG.children) s.style.transform = "translate(0,0)";
+});
+document.getElementById("regen").addEventListener("click", buildShatter);
+
+buildShatter();
+</script>
+</body>
+</html>

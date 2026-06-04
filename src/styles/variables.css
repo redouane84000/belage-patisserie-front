@@ -1,0 +1,32 @@
+:root {
+  /* Couleurs */
+  --color-cream: #F5F0E8;
+  --color-cream-dark: #EDE8DC;
+  --color-black: #1A1A1A;
+  --color-black-soft: #2C2C2C;
+  --color-gold: #C9A84C;
+  --color-gold-light: #E2C97E;
+  --color-white: #FFFFFF;
+  --color-gray-light: #F8F6F2;
+  --color-gray-mid: #9E9E9E;
+  --color-text-body: #4A4A4A;
+
+  /* Typographie */
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  /* Espacements */
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 40px;
+  --spacing-xl: 80px;
+
+  /* Shadows */
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 8px 40px rgba(0, 0, 0, 0.14);
+
+  /* Radius */
+  --radius-card: 16px;
+  --radius-btn: 4px;
+}

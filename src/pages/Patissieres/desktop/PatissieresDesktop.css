@@ -1,0 +1,868 @@
+﻿/* BEL AGE - Desktop only */
+/* ====================== Page ====================== */
+.patissieres-desktop {
+  min-height: 100vh;
+  background-color: var(--color-cream);
+}
+
+/* ====================== En-tÃªte ====================== */
+.ph-header {
+  padding: 48px 64px 32px;
+  background-color: var(--color-cream);
+}
+
+.ph-header__top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.ph-filters-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-gray-mid);
+  margin-bottom: 8px;
+}
+
+.ph-subtitle__filtered {
+  color: var(--color-text-body);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 13px;
+}
+
+.ph-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 52px;
+  line-height: 1.05;
+  color: var(--color-black);
+}
+
+.ph-subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-gold);
+  margin-top: 10px;
+}
+
+.ph-line {
+  width: 60px;
+  height: 2px;
+  background-color: var(--color-gold);
+  margin: 16px 0;
+}
+
+.ph-desc {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text-body);
+  max-width: 600px;
+}
+
+/* ====================== Pills filtres ====================== */
+.ph-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.pill {
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 8px 20px;
+  border-radius: 50px;
+  border: 1.5px solid #d0cbc0;
+  background-color: transparent;
+  color: var(--color-text-body);
+  cursor: pointer;
+  transition: border-color 200ms ease, background-color 200ms ease,
+    color 200ms ease;
+}
+
+.pill:hover {
+  border-color: var(--color-black);
+}
+
+.pill.is-active {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+.pill--influence.is-active {
+  background: linear-gradient(135deg, #2d2618, #1a1a1a);
+  border-color: var(--color-gold);
+  color: #e8d49a;
+}
+
+.pcard__influence {
+  margin-bottom: 0;
+}
+
+.pcard__influence-title {
+  font-family: var(--font-body);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--color-gold);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.pcard__influence .pcard__tarif-line {
+  margin-bottom: 4px;
+}
+
+.pcard__influence .pcard__tarif-line:last-child {
+  margin-bottom: 0;
+}
+
+.pcard__tarif-line--part strong {
+  color: var(--color-gold);
+  font-size: 12px;
+}
+
+/* ====================== Grille ====================== */
+.ph-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  padding: 0 64px 64px;
+  align-items: stretch;
+}
+
+/* ====================== Carte pÃ¢tissiÃ¨re â€” compacte ====================== */
+.pcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+  animation: cardIn 0.45s ease backwards;
+  isolation: isolate;
+}
+
+/* Reflet miroir au survol */
+.pcard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 38%,
+    rgba(255, 255, 255, 0.08) 44%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0.08) 56%,
+    transparent 62%,
+    transparent 100%
+  );
+  transform: translateX(-120%) skewX(-16deg);
+  transition: transform 0s ease;
+}
+
+.pcard:hover::after {
+  transform: translateX(120%) skewX(-16deg);
+  transition: transform 720ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pcard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(201, 168, 76, 0.22);
+  box-shadow:
+    0 10px 32px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(201, 168, 76, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+/* â€”â€”â€” Fiche SÃ©lection : mÃªme gabarit rectangulaire, effet premium Ã  lâ€™intÃ©rieur â€”â€”â€” */
+.pcard--sel-badge {
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid rgba(201, 168, 76, 0.42);
+  background-color: var(--color-white);
+  background-image: linear-gradient(168deg, #fffdf6 0%, #ffffff 48%, #faf4e8 100%);
+  box-shadow:
+    0 2px 16px rgba(0, 0, 0, 0.05),
+    0 8px 32px rgba(201, 168, 76, 0.22),
+    0 0 0 1px rgba(201, 168, 76, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 0 64px rgba(201, 168, 76, 0.07);
+}
+
+.pcard--sel-badge:hover {
+  transform: translateY(-4px);
+  border-color: rgba(201, 168, 76, 0.55);
+  box-shadow:
+    0 10px 32px rgba(0, 0, 0, 0.08),
+    0 12px 40px rgba(201, 168, 76, 0.28),
+    0 0 0 1px rgba(201, 168, 76, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 0 72px rgba(201, 168, 76, 0.1);
+}
+
+/* Filet dorÃ© en haut â€” sans changer la hauteur de la fiche */
+.pcard--sel-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #c9a84c 20%,
+    #e8d49a 50%,
+    #c9a84c 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 12px rgba(201, 168, 76, 0.5);
+}
+
+/* Lueur interne (contenue dans le rectangle) */
+.pcard--sel-badge .pcard__head::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 90% 80% at 0% 0%,
+      rgba(201, 168, 76, 0.18) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 50% 50% at 100% 0%,
+      rgba(201, 168, 76, 0.12) 0%,
+      transparent 50%
+    );
+}
+
+.pcard--sel-badge .pcard__head {
+  background: linear-gradient(
+    180deg,
+    rgba(201, 168, 76, 0.1) 0%,
+    #faf8f4 40%,
+    var(--color-white) 100%
+  );
+  padding: 16px 52px 14px 16px;
+  border-bottom-color: rgba(201, 168, 76, 0.12);
+}
+
+.pcard--sel-badge.pcard--brand .pcard__head {
+  background: linear-gradient(
+    180deg,
+    rgba(201, 168, 76, 0.12) 0%,
+    #f7f3ec 40%,
+    var(--color-white) 100%
+  );
+}
+
+.pcard--sel-badge .pcard__avatar {
+  width: 56px;
+  height: 56px;
+  border: 2px solid rgba(201, 168, 76, 0.65);
+  box-shadow:
+    0 0 0 2px rgba(201, 168, 76, 0.15),
+    0 0 16px rgba(201, 168, 76, 0.35);
+}
+
+.pcard--sel-badge .pcard__name {
+  font-size: 16px;
+  background: linear-gradient(105deg, #1a1a1a 0%, #4a3d22 50%, #1a1a1a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pcard--sel-badge .pcard__name::after {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 2px;
+  margin-top: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #c9a84c, #e8d49a, transparent);
+}
+
+.pcard--sel-badge .pcard__head-spec {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2618 100%);
+  color: #e8d49a;
+  border: 1px solid rgba(201, 168, 76, 0.35);
+}
+
+.pcard--sel-badge .pcard__body {
+  background: linear-gradient(180deg, #fffefb 0%, var(--color-white) 100%);
+}
+
+.pcard--sel-badge .pcard__sep {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 168, 76, 0.3),
+    transparent
+  );
+}
+
+.pcard.is-highlight {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* En-tÃªte horizontal : avatar + identitÃ© */
+.pcard__head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 16px 14px;
+  background: linear-gradient(180deg, #faf8f4 0%, var(--color-white) 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  z-index: 1;
+}
+
+.pcard--brand .pcard__head {
+  background: linear-gradient(180deg, #f7f3ec 0%, var(--color-white) 100%);
+}
+
+.pcard__avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.pcard__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ede8dc 0%, #f5f0e8 100%);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.pcard__avatar--logo {
+  background: var(--color-white);
+  padding: 0;
+}
+
+.pcard__avatar-initials,
+.pcard__avatar-fallback {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--color-gold);
+  line-height: 1;
+}
+
+.pcard__avatar-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pcard__avatar-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transition: opacity 280ms ease;
+}
+
+.pcard__avatar--logo .pcard__avatar-img {
+  border-radius: 50%;
+}
+
+.pcard__avatar-img.is-visible {
+  opacity: 1;
+}
+
+/* Sceau SÃ©lection â€” coin haut droit de la fiche (mÃªme gabarit) */
+.pcard__badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 7;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 2px 10px rgba(201, 168, 76, 0.55));
+  transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pcard__badge-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #f5e6c0,
+    #c9a84c,
+    #7a6328,
+    #e8d49a,
+    #c9a84c,
+    #f5e6c0
+  );
+  animation: badgeRingSpin 8s linear infinite;
+}
+
+.pcard__badge-inner {
+  position: relative;
+  z-index: 1;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  background: radial-gradient(circle at 35% 30%, #3d3528 0%, #1a1a1a 55%, #0f0f0f 100%);
+  border: 1.5px solid rgba(232, 212, 154, 0.5);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.12),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.35);
+}
+
+.pcard__badge-star {
+  color: #e8d49a;
+  margin-bottom: -2px;
+  filter: drop-shadow(0 0 4px rgba(201, 168, 76, 0.8));
+}
+
+.pcard__badge-letter {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
+  color: #f0e0b0;
+  margin-top: -3px;
+  text-shadow:
+    0 0 10px rgba(201, 168, 76, 0.7),
+    0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.pcard--sel-badge:hover .pcard__badge {
+  transform: scale(1.08) rotate(-4deg);
+  filter: drop-shadow(0 6px 22px rgba(201, 168, 76, 0.85));
+}
+
+@keyframes badgeRingSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pcard__head-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.pcard__head-spec {
+  display: inline-block;
+  margin-top: 6px;
+  font-family: var(--font-body);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-text-body);
+  background-color: var(--color-cream);
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+/* Corps */
+.pcard__body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 14px 16px 16px;
+}
+
+.pcard__main {
+  flex: 1;
+  min-height: 0;
+}
+
+.pcard__foot {
+  flex-shrink: 0;
+  margin-top: auto;
+  padding-top: 2px;
+}
+
+.pcard__name {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-black);
+  line-height: 1.2;
+  padding-right: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pcard__loc {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-gray-mid);
+  margin-top: 3px;
+}
+
+.pcard__loc svg {
+  color: var(--color-gold);
+  flex-shrink: 0;
+}
+
+.pcard__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 2px;
+}
+
+.pcard__tag {
+  background-color: var(--color-cream);
+  font-family: var(--font-body);
+  font-size: 9px;
+  color: var(--color-text-body);
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.pcard__sep {
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.06);
+  margin: 10px 0;
+}
+
+.pcard__tarifs-title,
+.pcard__contact-title {
+  font-family: var(--font-body);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-gray-mid);
+  margin-bottom: 8px;
+}
+
+.pcard__tarif-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.pcard__tarif-line span {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-text-body);
+}
+
+.pcard__tarif-line strong {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+.pcard__contact-title {
+  margin-bottom: 8px;
+}
+
+.pcard__contact-title--mt {
+  margin-top: 10px;
+}
+
+/* RÃ©seaux : Instagram + TikTok avec abonnÃ©s */
+.socials {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 10px;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.social svg {
+  flex-shrink: 0;
+}
+
+.social:hover {
+  transform: translateY(-1px);
+}
+
+.social__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  text-align: left;
+  min-width: 0;
+}
+
+.social__name {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.social__count {
+  font-family: var(--font-body);
+  font-size: 8px;
+  opacity: 0.78;
+}
+
+.social--insta {
+  background: linear-gradient(135deg, #feda75 0%, #d62976 45%, #962fbf 80%);
+  color: var(--color-white);
+}
+
+.social--insta:hover {
+  box-shadow: 0 6px 18px rgba(214, 41, 118, 0.35);
+}
+
+.social--tiktok {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.social--tiktok:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+/* WhatsApp â€” pleine largeur */
+.contact-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+}
+
+.contact-btn--wa {
+  background-color: #25d366;
+  border: none;
+  color: var(--color-white);
+  box-shadow: 0 2px 10px rgba(37, 211, 102, 0.25);
+  margin-bottom: 8px;
+}
+
+.contact-btn--wa:hover {
+  background-color: #1dab56;
+}
+
+.contact-btn__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.contact-btn__line1 {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.contact-btn__line2 {
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.reveal-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: var(--radius-btn);
+  border: 1px solid #d0cbc0;
+  background: transparent;
+  color: var(--color-text-body);
+  font-family: var(--font-body);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  transition: border-color 200ms ease, color 200ms ease;
+}
+
+.reveal-btn:hover,
+.reveal-btn.is-open {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+.phone-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: var(--color-cream);
+  color: var(--color-black);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  animation: phoneIn 260ms ease both;
+}
+
+.phone-box svg {
+  color: var(--color-gold);
+  flex-shrink: 0;
+}
+
+.phone-box a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@keyframes phoneIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pcard__devis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding: 11px;
+  border: none;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-body);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  margin-top: 2px;
+  transition: background-color 200ms ease;
+}
+
+.pcard__devis:hover {
+  background-color: var(--color-black-soft);
+}
+
+.pcard__devis--sel {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2618 50%, #1a1a1a 100%);
+  border: 1px solid rgba(201, 168, 76, 0.45);
+  box-shadow:
+    0 4px 16px rgba(201, 168, 76, 0.25),
+    inset 0 1px 0 rgba(226, 201, 126, 0.15);
+  letter-spacing: 0.18em;
+}
+
+.pcard__devis--sel:hover {
+  background: linear-gradient(135deg, #2d2618 0%, #3d3528 50%, #2d2618 100%);
+  border-color: rgba(201, 168, 76, 0.65);
+  box-shadow:
+    0 6px 20px rgba(201, 168, 76, 0.35),
+    inset 0 1px 0 rgba(226, 201, 126, 0.25);
+}
+
+/* ====================== Responsive : tablette ====================== */
+@media (max-width: 1279px) {
+  .ph-header {
+    padding: 40px 32px 28px;
+  }
+
+  .ph-title {
+    font-size: 42px;
+  }
+
+  .ph-pills {
+    gap: 8px;
+  }
+
+  .ph-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    padding: 0 32px 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pcard::after {
+    display: none;
+  }
+
+  .pcard__badge-ring {
+    animation: none;
+  }
+}
+

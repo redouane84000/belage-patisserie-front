@@ -1,0 +1,590 @@
+/* BEL ÂGE — Inspirations MOBILE uniquement (<768px) */
+
+.insp-m {
+  min-height: 100dvh;
+  background: var(--color-cream);
+  animation: inspMPageIn 0.35s ease both;
+}
+
+@keyframes inspMPageIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.insp-m-shell {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ====================== Hero plein écran ====================== */
+.insp-m-hero {
+  position: relative;
+  width: 100%;
+  height: min(44dvh, 360px);
+  min-height: 260px;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.insp-m-hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+}
+
+.insp-m-hero__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(26, 26, 26, 0.92) 0%,
+    rgba(26, 26, 26, 0.35) 55%,
+    rgba(26, 26, 26, 0.15) 100%
+  );
+}
+
+.insp-m-hero__content {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 36px;
+  z-index: 1;
+  color: var(--color-white);
+}
+
+.insp-m-hero__tag {
+  font-family: var(--font-body);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: #e8d49a;
+  margin-bottom: 8px;
+}
+
+.insp-m-hero__title {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.5px;
+}
+
+.insp-m-hero__sub {
+  font-family: var(--font-body);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 8px;
+}
+
+.insp-m-hero__scroll {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.5);
+  animation: inspMBounce 2s ease-in-out infinite;
+}
+
+@keyframes inspMBounce {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(4px);
+  }
+}
+
+/* ====================== Barre sticky filtres ====================== */
+.insp-m-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  margin: 0 -16px;
+  padding: 14px 16px 12px;
+  background: rgba(245, 240, 232, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.insp-m-sticky__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.insp-m-sticky__label {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+.insp-m-sticky__count {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-gold);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.insp-m-seg {
+  display: flex;
+  gap: 3px;
+  background: var(--color-cream-dark);
+  border-radius: 12px;
+  padding: 3px;
+}
+
+.insp-m-seg__btn {
+  flex: 1;
+  border: none;
+  cursor: pointer;
+  padding: 9px 0;
+  min-height: 38px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  color: var(--color-gray-mid);
+  background: transparent;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.insp-m-seg__btn.is-active {
+  color: var(--color-black);
+  background: var(--color-white);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.insp-m-seg__btn[data-cat='Italian Cake'].is-active {
+  background: linear-gradient(135deg, #2d2618, #1a1a1a);
+  color: #e8d49a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.insp-m-seg__btn:active {
+  transform: scale(0.97);
+}
+
+/* ====================== Grille bento 2 col ====================== */
+.insp-m-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 16px 0 8px;
+}
+
+.insp-m-card {
+  position: relative;
+  border: none;
+  padding: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #ebe6dc;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+  cursor: pointer;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.insp-m-card:active {
+  transform: scale(0.98);
+}
+
+.insp-m-card--normal {
+  aspect-ratio: 4 / 5;
+}
+
+.insp-m-card--tall {
+  aspect-ratio: 3 / 5;
+  grid-row: span 1;
+}
+
+.insp-m-card--wide {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 9;
+}
+
+.insp-m-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.insp-m-img--contain {
+  object-fit: contain !important;
+  object-position: center;
+  background: linear-gradient(180deg, #f7f3ec 0%, #ebe6dc 100%);
+}
+
+.insp-m-card__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(26, 26, 26, 0.82) 0%,
+    rgba(26, 26, 26, 0.08) 55%,
+    transparent 100%
+  );
+}
+
+.insp-m-card__info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 12px;
+  z-index: 1;
+}
+
+.insp-m-card__info span {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-gold);
+  margin-bottom: 3px;
+}
+
+.insp-m-card__info strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-white);
+  line-height: 1.2;
+}
+
+/* ====================== Conseils — carrousel horizontal ====================== */
+.insp-m-tips {
+  padding: 20px 0 8px;
+}
+
+.insp-m-tips__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: var(--color-gold);
+}
+
+.insp-m-tips__head h2 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+.insp-m-tips__row {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  margin: 0 -16px;
+  padding: 4px 16px 8px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.insp-m-tips__row::-webkit-scrollbar {
+  display: none;
+}
+
+.insp-m-tip {
+  flex: 0 0 min(240px, 78vw);
+  scroll-snap-align: start;
+  background: var(--color-white);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.insp-m-tip__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-cream-dark);
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.insp-m-tip h3 {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-black);
+  margin-bottom: 6px;
+}
+
+.insp-m-tip p {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-text-body);
+}
+
+/* ====================== Bandeau CTA inline ====================== */
+.insp-m-banner {
+  margin: 16px 0 8px;
+  padding: 18px 16px;
+  border-radius: 16px;
+  background: var(--color-black);
+  color: var(--color-white);
+  text-align: center;
+}
+
+.insp-m-banner p {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 12px;
+}
+
+.insp-m-banner__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 12px 20px;
+  border-radius: 50px;
+  background: var(--color-gold);
+  color: var(--color-black);
+}
+
+/* ====================== Dock fixe bas ====================== */
+.insp-m-dock-spacer {
+  height: calc(76px + env(safe-area-inset-bottom, 0px));
+}
+
+.insp-m-dock {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  z-index: 50;
+  width: min(430px, 100%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: rgba(245, 240, 232, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.insp-m-dock__primary {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 50px;
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.insp-m-dock__map {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-gold);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ====================== Bottom sheet détail ====================== */
+.insp-m-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.insp-m-sheet.is-open {
+  pointer-events: auto;
+}
+
+.insp-m-sheet__overlay {
+  position: absolute;
+  inset: 0;
+  border: none;
+  background: rgba(0, 0, 0, 0);
+  cursor: pointer;
+  transition: background 0.28s ease;
+}
+
+.insp-m-sheet.is-open .insp-m-sheet__overlay {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.insp-m-sheet__panel {
+  position: relative;
+  width: min(430px, 100%);
+  max-height: min(88dvh, 720px);
+  background: var(--color-white);
+  border-radius: 24px 24px 0 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.18);
+}
+
+.insp-m-sheet.is-open .insp-m-sheet__panel {
+  transform: translateY(0);
+}
+
+.insp-m-sheet__handle {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: #d0cbc0;
+  margin: 10px auto 0;
+  flex-shrink: 0;
+}
+
+.insp-m-sheet__close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--color-gray-mid);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.insp-m-sheet__media {
+  position: relative;
+  width: 100%;
+  height: min(42dvh, 320px);
+  flex-shrink: 0;
+  background: #ebe6dc;
+}
+
+.insp-m-sheet__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.insp-m-sheet__body {
+  padding: 20px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+}
+
+.insp-m-sheet__cat {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-gold);
+  margin-bottom: 6px;
+}
+
+.insp-m-sheet__title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-black);
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+
+.insp-m-sheet__text {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-text-body);
+  margin-bottom: 18px;
+}
+
+.insp-m-sheet__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 50px;
+  border-radius: var(--radius-btn);
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+
+.insp-m-sheet__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-gray-mid);
+}
