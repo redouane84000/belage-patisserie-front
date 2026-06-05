@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react'
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'
 import Home from './pages/Home/Home'
 import Carte from './pages/Carte/Carte'
@@ -24,6 +25,7 @@ function App() {
       <Route path="/mentions-legales" element={<Mentions />} />
       <Route path="/contact" element={<Contact />} />
       </Routes>
+      <Analytics />
     </>
   )
 }
