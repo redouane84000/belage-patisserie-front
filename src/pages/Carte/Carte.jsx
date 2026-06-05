@@ -406,7 +406,10 @@ function FiltersSidebar({
           <X size={20} strokeWidth={1.8} />
         </button>
       </div>
-      <p className="sidebar__sub">125 créatrices dans toute la France</p>
+      <p className="sidebar__sub">
+        {patissieres.length} créatrice{patissieres.length > 1 ? 's' : ''} sur
+        l&apos;annuaire
+      </p>
 
       <SearchFieldWithGo
         value={search}

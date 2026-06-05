@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { MapPin, Clock, Cake, Heart, Hash, Baby, ArrowRight } from 'lucide-react'
 import { PARTNERS } from '../PartnerMarquee/PartnerMarquee'
+import patissieres from '../../data/patissieres'
 import './Hero.css'
 
 // Photo du gâteau BEL ÂGE servie depuis /public.
@@ -90,9 +91,11 @@ export default function Hero() {
             <div className="float-card float-card--region">
               <div className="float-card__row">
                 <MapPin size={16} className="float-card__pin" strokeWidth={2} />
-                <span className="float-card__title">Paris &amp; Île-de-France</span>
+                <span className="float-card__title">Avignon &amp; Provence</span>
               </div>
-              <p className="float-card__muted">125 pâtissières</p>
+              <p className="float-card__muted">
+                {patissieres.length} pâtissière{patissieres.length > 1 ? 's' : ''}
+              </p>
             </div>
 
             {/* CARD 3 — Types de packs */}

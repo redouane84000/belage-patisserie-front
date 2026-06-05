@@ -14,7 +14,7 @@ export const EBOOK_PREMIUM = {
   sourceFile: 'Ebook_Bel_Age_Patisserie_PREMIUM (1).pdf',
 }
 
-/** WhatsApp Bel Âge Pâtisserie (fiche profil id 11) */
+/** WhatsApp Bel Âge Pâtisserie (fiche profil id 1) */
 export const BEL_AGE_WHATSAPP = '33663962540'
 export const BEL_AGE_WHATSAPP_DISPLAY = '06 63 96 25 40'
 export const BEL_AGE_WHATSAPP_URL = `https://wa.me/${BEL_AGE_WHATSAPP}`
