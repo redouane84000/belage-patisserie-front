@@ -8,7 +8,7 @@ import {
   ZoomControl,
   useMap,
 } from 'react-leaflet'
-import { useCarteTouchLayout } from '../../hooks/useMediaQuery'
+import { useCarteTouchLayout, useMobileLayout } from '../../hooks/useMediaQuery'
 import L from 'leaflet'
 import { GestureHandling } from 'leaflet-gesture-handling'
 import 'leaflet/dist/leaflet.css'
@@ -313,14 +313,16 @@ function CityPatissieresPanel({
   filteredCount,
   onClose,
   touchLayout,
-  immersive,
+  pageLayout,
+  showClose = true,
+  closeLabel = 'Fermer la liste',
   fromSearch,
 }) {
   if (!city) return null
 
   return (
     <aside
-      className={`city-panel ${touchLayout ? 'city-panel--mobile' : ''} ${immersive ? 'city-panel--immersive' : ''}`}
+      className={`city-panel ${touchLayout && !pageLayout ? 'city-panel--mobile' : ''} ${pageLayout ? 'city-panel--page' : ''}`}
       aria-label={`Pâtissières à ${city.name}`}
     >
       <header className="city-panel__head">
@@ -335,14 +337,16 @@ function CityPatissieresPanel({
             <p className="city-panel__sub">{city.country}</p>
           </div>
         </div>
-        <button
-          type="button"
-          className="city-panel__close"
-          onClick={onClose}
-          aria-label="Fermer la liste"
-        >
-          <X size={18} strokeWidth={2} />
-        </button>
+        {showClose && (
+          <button
+            type="button"
+            className="city-panel__close"
+            onClick={onClose}
+            aria-label={closeLabel}
+          >
+            <X size={18} strokeWidth={2} />
+          </button>
+        )}
       </header>
 
       {list.length === 0 ? (
@@ -483,6 +487,7 @@ function FiltersSidebar({
 
 export default function Carte() {
   const touchLayout = useCarteTouchLayout()
+  const mobileLayout = useMobileLayout()
   const [search, setSearch] = useState('')
   const [specs, setSpecs] = useState([])
   const [budget, setBudget] = useState(BUDGET_MAX)
@@ -513,31 +518,47 @@ export default function Carte() {
 
   function closeMapImmersive() {
     setMapImmersive(false)
+  }
+
+  function returnToInteractiveMapFromResults() {
     setCityPanelOpen(false)
+    setMapImmersive(true)
+  }
+
+  function clearMarkerResults() {
+    setPanelCity(null)
+    setCityPanelOpen(false)
+    setPanelFromSearch(false)
   }
 
   function openCityPanel(city, fromSearch = false) {
     setPanelCity(city)
     setPanelFromSearch(fromSearch)
     setCityPanelOpen(true)
+
+    if (mobileLayout && mapImmersive) {
+      setMapImmersive(false)
+      window.requestAnimationFrame(() => {
+        document
+          .querySelector('.carte-mobile-results')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      })
+    }
   }
 
   function handleCityGo() {
     const city = findEuropeanCity(search)
     setPinnedCity(city)
     setCityNotFound(!city && search.trim().length >= 2)
-    setCityPanelOpen(false)
-    setPanelCity(null)
     if (city) setFlyToken((t) => t + 1)
   }
 
   function handleClearCitySearch() {
     setPinnedCity(null)
-    setPanelCity(null)
-    setCityPanelOpen(false)
     setCityNotFound(false)
     setSearch('')
     setResetMapToken((t) => t + 1)
+    clearMarkerResults()
   }
 
   function handleGoldMarkerClick(p) {
@@ -732,8 +753,8 @@ export default function Carte() {
               </div>
 
               <p className="carte-mobile-tip">
-                Ouvrez la carte pour naviguer · Touchez un marqueur pour les
-                fiches · Effacez la ville pour revenir à toute la France
+                Ouvrez la carte · touchez un marqueur pour afficher les fiches
+                ici · un autre marqueur ou « Effacer les résultats » les remplace
               </p>
             </header>
           )}
@@ -808,18 +829,44 @@ export default function Carte() {
               ))}
             </MapContainer>
 
-            {cityPanelOpen && panelCity && (
+            {!mobileLayout && cityPanelOpen && panelCity && (
               <CityPatissieresPanel
                 city={panelCity}
                 list={panelPatissieres}
                 filteredCount={panelFilteredCount}
                 onClose={() => setCityPanelOpen(false)}
                 touchLayout={touchLayout}
-                immersive={mapImmersive}
                 fromSearch={panelFromSearch}
               />
             )}
           </div>
+
+          {mobileLayout && cityPanelOpen && panelCity && !mapImmersive && (
+            <section
+              className="carte-mobile-results"
+              aria-label="Résultats du marqueur"
+            >
+              <CityPatissieresPanel
+                city={panelCity}
+                list={panelPatissieres}
+                filteredCount={panelFilteredCount}
+                onClose={returnToInteractiveMapFromResults}
+                touchLayout={touchLayout}
+                pageLayout
+                showClose
+                closeLabel="Retour à la carte interactive"
+                fromSearch={panelFromSearch}
+              />
+              <button
+                type="button"
+                className="carte-mobile-results__reset"
+                onClick={clearMarkerResults}
+              >
+                <RotateCcw size={16} strokeWidth={2} />
+                Effacer les résultats
+              </button>
+            </section>
+          )}
 
           {touchLayout && (
             <section className="carte-mobile-below" aria-label="Informations">

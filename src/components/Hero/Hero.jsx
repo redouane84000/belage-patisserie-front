@@ -35,10 +35,10 @@ export default function Hero() {
           <h2 className="hero__subtitle anim" style={{ animationDelay: '0.2s' }}>
             <span className="hero__line">
               <span className="hero__line-in">Trouvez la pâtissière</span>
-            </span>
+            </span>{' '}
             <span className="hero__line">
               <span className="hero__line-in">idéale pour votre</span>
-            </span>
+            </span>{' '}
             <span className="hero__line">
               <span className="hero__line-in">gâteau sur-mesure.</span>
             </span>
