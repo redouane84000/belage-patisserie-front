@@ -60,7 +60,7 @@ export function resolveCityFromPatissiere(patissiere) {
   return (
     findEuropeanCity(patissiere.ville) ?? {
       name: patissiere.ville,
-      country: 'France',
+      country: patissiere.region?.includes('Belgique') ? 'Belgique' : 'France',
       lat: patissiere.lat,
       lng: patissiere.lng,
     }

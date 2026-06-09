@@ -76,8 +76,10 @@ function IconPhone() {
 }
 
 function formatTel(whatsapp) {
+  if (!whatsapp || typeof whatsapp !== 'string') return null
   const cc = whatsapp.slice(0, 2)
   const reste = whatsapp.slice(2)
+  if (!reste.length) return `+${cc}`
   const groupes = reste.slice(1).match(/.{1,2}/g) || []
   return `+${cc} ${reste[0]} ${groupes.join(' ')}`
 }
@@ -232,34 +234,44 @@ function Carte({ p, highlight, cardRef, index }) {
           <p className="pcard__contact-title pcard__contact-title--mt">
             Contact direct
           </p>
-          <button
-            className="contact-btn contact-btn--wa"
-            type="button"
-            onClick={() => window.open(`https://wa.me/${p.whatsapp}`, '_blank')}
-          >
-            <IconWhatsApp />
-            <span className="contact-btn__text">
-              <span className="contact-btn__line1">WhatsApp</span>
-              <span className="contact-btn__line2">
-                Rentrer en contact directement
-              </span>
-            </span>
-          </button>
+          {p.whatsapp ? (
+            <>
+              <button
+                className="contact-btn contact-btn--wa"
+                type="button"
+                onClick={() => window.open(`https://wa.me/${p.whatsapp}`, '_blank')}
+              >
+                <IconWhatsApp />
+                <span className="contact-btn__text">
+                  <span className="contact-btn__line1">WhatsApp</span>
+                  <span className="contact-btn__line2">
+                    Rentrer en contact directement
+                  </span>
+                </span>
+              </button>
 
-          <button
-            className={`reveal-btn ${showPhone ? 'is-open' : ''}`}
-            type="button"
-            onClick={() => setShowPhone((v) => !v)}
-          >
-            <IconPhone />
-            {showPhone ? 'Masquer le numéro' : 'Voir le numéro'}
-          </button>
+              <button
+                className={`reveal-btn ${showPhone ? 'is-open' : ''}`}
+                type="button"
+                onClick={() => setShowPhone((v) => !v)}
+              >
+                <IconPhone />
+                {showPhone ? 'Masquer le numéro' : 'Voir le numéro'}
+              </button>
 
-          {showPhone && (
-            <div className="phone-box">
-              <IconPhone />
-              <a href={`tel:+${p.whatsapp}`}>{formatTel(p.whatsapp)}</a>
-            </div>
+              {showPhone && formatTel(p.whatsapp) && (
+                <div className="phone-box">
+                  <IconPhone />
+                  <a href={`tel:+${p.whatsapp}`}>{formatTel(p.whatsapp)}</a>
+                </div>
+              )}
+            </>
+          ) : (
+            <p className="pcard__no-phone">
+              {p.instagram
+                ? 'Pas de numéro — contactez via Instagram ci-dessus.'
+                : 'Numéro non communiqué.'}
+            </p>
           )}
 
           <button

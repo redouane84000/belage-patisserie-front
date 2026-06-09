@@ -91,7 +91,7 @@ export default function Hero() {
             <div className="float-card float-card--region">
               <div className="float-card__row">
                 <MapPin size={16} className="float-card__pin" strokeWidth={2} />
-                <span className="float-card__title">Avignon &amp; Provence</span>
+                <span className="float-card__title">Réseau France</span>
               </div>
               <p className="float-card__muted">
                 {patissieres.length} pâtissière{patissieres.length > 1 ? 's' : ''}

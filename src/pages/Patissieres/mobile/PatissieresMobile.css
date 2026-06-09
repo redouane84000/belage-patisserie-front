@@ -625,6 +625,17 @@
   text-decoration: none;
 }
 
+.mob-sheet__no-phone {
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--color-gray-mid);
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.03);
+}
+
 .mob-sheet__email {
   text-align: center;
   font-family: var(--font-body);

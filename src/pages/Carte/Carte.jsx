@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { useNavigate, Link } from 'react-router-dom'
 import {
@@ -19,7 +19,7 @@ import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import {
   Search,
   MapPin,
-  Map,
+  Map as MapIcon,
   SlidersHorizontal,
   X,
   Check,
@@ -54,12 +54,49 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 })
 
+function initiales(nom) {
+  return nom
+    .split(' ')
+    .map((mot) => mot[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
+}
+
 const goldIcon = L.divIcon({
   className: 'gold-marker-wrap',
   html: '<div class="gold-marker" role="button" aria-label="Voir les pâtissières de cette ville"></div>',
   iconSize: [16, 16],
   iconAnchor: [8, 8],
 })
+
+/** Un marqueur doré par ville — les logos s'affichent dans le panneau au clic */
+function groupFilteredByCity(list) {
+  const groups = new Map()
+
+  for (const p of list) {
+    const city = resolveCityFromPatissiere(p)
+    const key = `${city.name}|${city.country}`
+    if (!groups.has(key)) {
+      groups.set(key, { city, members: [] })
+    }
+    groups.get(key).members.push(p)
+  }
+
+  return [...groups.values()].map(({ city, members }) => ({
+    city,
+    position: [
+      members.reduce((sum, m) => sum + m.lat, 0) / members.length,
+      members.reduce((sum, m) => sum + m.lng, 0) / members.length,
+    ],
+    count: members.length,
+  }))
+}
+
+function cityKey(city) {
+  if (!city) return ''
+  return `${city.name}|${city.country || 'France'}`
+}
 
 const redCityIcon = L.divIcon({
   className: 'search-city-marker-wrap',
@@ -250,15 +287,6 @@ function CitySearchStatus({ pinnedCity, count, totalInCity, cityNotFound }) {
   )
 }
 
-function initiales(nom) {
-  return nom
-    .split(' ')
-    .map((mot) => mot[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase()
-}
-
 function Toggle({ label, on, onChange }) {
   return (
     <button
@@ -277,6 +305,8 @@ function Toggle({ label, on, onChange }) {
 
 function PatissiereMiniCard({ p }) {
   const navigate = useNavigate()
+  const [photoOk, setPhotoOk] = useState(false)
+
   return (
     <li>
       <button
@@ -284,7 +314,29 @@ function PatissiereMiniCard({ p }) {
         className="city-mini-card"
         onClick={() => navigate(`/patissieres?id=${p.id}`)}
       >
-        <div className="city-mini-card__avatar">{initiales(p.nom)}</div>
+        <div
+          className={`city-mini-card__avatar ${p.image ? 'city-mini-card__avatar--photo' : ''} ${p.badge ? 'city-mini-card__avatar--sel' : ''}`}
+        >
+          {p.image ? (
+            <>
+              {!photoOk && (
+                <span className="city-mini-card__avatar-fallback">
+                  {initiales(p.nom)}
+                </span>
+              )}
+              <img
+                className={`city-mini-card__avatar-img ${photoOk ? 'is-visible' : ''}`}
+                src={p.image}
+                alt=""
+                loading="lazy"
+                onLoad={() => setPhotoOk(true)}
+                onError={() => setPhotoOk(false)}
+              />
+            </>
+          ) : (
+            initiales(p.nom)
+          )}
+        </div>
         <div className="city-mini-card__body">
           <p className="city-mini-card__name">{p.nom}</p>
           <p className="city-mini-card__meta">
@@ -564,10 +616,6 @@ export default function Carte() {
     clearMarkerResults()
   }
 
-  function handleGoldMarkerClick(p) {
-    openCityPanel(resolveCityFromPatissiere(p), false)
-  }
-
   function handleSearchChange(value) {
     setSearch(value)
     setCityNotFound(false)
@@ -617,6 +665,12 @@ export default function Carte() {
   ).length
 
   const totalInPinnedCity = cityPatissieresAll.length
+
+  const cityMarkers = useMemo(() => {
+    const groups = groupFilteredByCity(filtered)
+    const pinnedKey = cityKey(pinnedCity)
+    return groups.filter((g) => cityKey(g.city) !== pinnedKey)
+  }, [filtered, pinnedCity])
 
   const budgetPct = ((budget - BUDGET_MIN) / (BUDGET_MAX - BUDGET_MIN)) * 100
   const count = filtered.length
@@ -772,7 +826,7 @@ export default function Carte() {
                   className="map-enter-gate__btn"
                   onClick={openMapImmersive}
                 >
-                  <Map size={20} strokeWidth={2} />
+                  <MapIcon size={20} strokeWidth={2} />
                   Ouvrir la carte
                 </button>
                 <p className="map-enter-gate__hint">
@@ -820,13 +874,13 @@ export default function Carte() {
                   }}
                 />
               )}
-              {filtered.map((p) => (
+              {cityMarkers.map((group) => (
                 <Marker
-                  key={p.id}
-                  position={[p.lat, p.lng]}
+                  key={cityKey(group.city)}
+                  position={group.position}
                   icon={goldIcon}
                   eventHandlers={{
-                    click: () => handleGoldMarkerClick(p),
+                    click: () => openCityPanel(group.city, false),
                   }}
                 />
               ))}

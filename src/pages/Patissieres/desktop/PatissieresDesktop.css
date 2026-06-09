@@ -783,6 +783,17 @@
   text-decoration: none;
 }
 
+.pcard__no-phone {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--color-gray-mid);
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.03);
+  text-align: center;
+}
+
 @keyframes phoneIn {
   from {
     opacity: 0;

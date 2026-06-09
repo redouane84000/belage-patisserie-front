@@ -18,13 +18,16 @@ export default function PatissieresMobileSheet({ profile: p, onClose }) {
   useEffect(() => {
     setShowPhone(false)
     setPhotoOk(false)
+  }, [p?.id])
+
+  useEffect(() => {
     document.body.style.overflow = 'hidden'
     const raf = requestAnimationFrame(() => setVisible(true))
     return () => {
       cancelAnimationFrame(raf)
       document.body.style.overflow = ''
     }
-  }, [p.id])
+  }, [p?.id])
 
   function handleClose() {
     setVisible(false)
@@ -163,28 +166,38 @@ export default function PatissieresMobileSheet({ profile: p, onClose }) {
           </div>
 
           <div className="mob-sheet__actions">
-            <button
-              type="button"
-              className="mob-sheet__wa"
-              onClick={() => window.open(`https://wa.me/${p.whatsapp}`, '_blank')}
-            >
-              <IconWhatsApp size={18} />
-              Contacter sur WhatsApp
-            </button>
+            {p.whatsapp ? (
+              <>
+                <button
+                  type="button"
+                  className="mob-sheet__wa"
+                  onClick={() => window.open(`https://wa.me/${p.whatsapp}`, '_blank')}
+                >
+                  <IconWhatsApp size={18} />
+                  Contacter sur WhatsApp
+                </button>
 
-            <button
-              type="button"
-              className={`mob-sheet__phone ${showPhone ? 'is-open' : ''}`}
-              onClick={() => setShowPhone((v) => !v)}
-            >
-              <IconPhone />
-              {showPhone ? 'Masquer le numéro' : 'Voir le numéro'}
-            </button>
+                <button
+                  type="button"
+                  className={`mob-sheet__phone ${showPhone ? 'is-open' : ''}`}
+                  onClick={() => setShowPhone((v) => !v)}
+                >
+                  <IconPhone />
+                  {showPhone ? 'Masquer le numéro' : 'Voir le numéro'}
+                </button>
 
-            {showPhone && (
-              <a className="mob-sheet__tel" href={`tel:+${p.whatsapp}`}>
-                {formatTel(p.whatsapp)}
-              </a>
+                {showPhone && formatTel(p.whatsapp) && (
+                  <a className="mob-sheet__tel" href={`tel:+${p.whatsapp}`}>
+                    {formatTel(p.whatsapp)}
+                  </a>
+                )}
+              </>
+            ) : (
+              <p className="mob-sheet__no-phone">
+                {p.instagram
+                  ? 'Pas de numéro — contactez via Instagram.'
+                  : 'Numéro non communiqué.'}
+              </p>
             )}
 
             {p.email && (

@@ -830,7 +830,7 @@
   filter: sepia(0.08) saturate(0.92) brightness(1.02);
 }
 
-/* ====================== Marqueur doré ====================== */
+/* ====================== Marqueur doré (par ville) ====================== */
 .gold-marker-wrap {
   background: none !important;
   border: none !important;
@@ -1135,6 +1135,7 @@
 }
 
 .city-mini-card__avatar {
+  position: relative;
   width: 40px;
   height: 40px;
   flex-shrink: 0;
@@ -1147,6 +1148,38 @@
   font-size: 14px;
   font-weight: 700;
   color: var(--color-gold);
+  overflow: hidden;
+}
+
+.city-mini-card__avatar--photo {
+  background: var(--color-white);
+  border: 1.5px solid rgba(201, 168, 76, 0.35);
+}
+
+.city-mini-card__avatar--sel {
+  box-shadow: 0 0 0 2px var(--color-gold);
+}
+
+.city-mini-card__avatar-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.city-mini-card__avatar-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.city-mini-card__avatar-img.is-visible {
+  opacity: 1;
 }
 
 .city-mini-card__body {

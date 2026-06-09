@@ -53,8 +53,10 @@ export function initiales(nom) {
 }
 
 export function formatTel(whatsapp) {
+  if (!whatsapp || typeof whatsapp !== 'string') return null
   const cc = whatsapp.slice(0, 2)
   const reste = whatsapp.slice(2)
+  if (!reste.length) return `+${cc}`
   const groupes = reste.slice(1).match(/.{1,2}/g) || []
   return `+${cc} ${reste[0]} ${groupes.join(' ')}`
 }
