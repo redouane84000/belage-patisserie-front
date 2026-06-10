@@ -167,7 +167,7 @@ export default function Rejoindre() {
         <ul className="rej-contact-list rej-reveal reveal">
           <li>
             <MapPin size={16} strokeWidth={2} />
-            Trouver une pâtissière près de chez soi
+            Trouver un prestataire près de chez soi
           </li>
           <li>
             <Mail size={16} strokeWidth={2} />

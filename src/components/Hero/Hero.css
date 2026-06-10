@@ -281,13 +281,56 @@
   gap: 9px;
 }
 
-/* Card 1 — Région */
+/* Card 1 — Réseau */
 .float-card--region {
   left: -40px;
-  top: 35%;
-  width: 220px;
-  padding: 16px 20px;
+  top: 32%;
+  width: 236px;
+  padding: 14px 18px 12px;
   animation: float 4s ease-in-out infinite;
+}
+
+.network-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.network-stats__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.network-stats__label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: var(--color-text-body);
+}
+
+.network-stats__count {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-gold);
+  min-width: 1.2em;
+  text-align: right;
+}
+
+.network-stats__total {
+  margin: 8px 0 0;
+  padding-top: 7px;
+  border-top: 1px solid rgba(201, 168, 76, 0.2);
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-gray-mid);
 }
 
 /* Card 3 — Packs */
@@ -762,9 +805,9 @@
   .float-card--region {
     display: block;
     left: 0;
-    top: 9%;
-    width: 104px;
-    padding: 7px 8px;
+    top: 7%;
+    width: 118px;
+    padding: 7px 8px 6px;
     animation: floatMobile 4s ease-in-out infinite;
   }
 
@@ -773,19 +816,34 @@
   }
 
   .float-card--region .float-card__pin {
-    width: 14px;
-    height: 14px;
+    width: 13px;
+    height: 13px;
   }
 
   .float-card--region .float-card__title {
-    font-size: 11px;
+    font-size: 10px;
     line-height: 1.2;
   }
 
-  .float-card--region .float-card__muted {
-    font-size: 10px;
-    margin-top: 3px;
-    line-height: 1.2;
+  .network-stats {
+    gap: 3px;
+    margin-top: 5px;
+  }
+
+  .network-stats__label {
+    font-size: 8px;
+    line-height: 1.15;
+  }
+
+  .network-stats__count {
+    font-size: 9px;
+  }
+
+  .network-stats__total {
+    margin-top: 5px;
+    padding-top: 4px;
+    font-size: 7px;
+    letter-spacing: 0.03em;
   }
 
   .float-card--packs {

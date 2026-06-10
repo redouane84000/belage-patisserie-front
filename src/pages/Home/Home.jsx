@@ -26,7 +26,7 @@ export default function Home() {
         <div className="home-m-cta__inner" data-home-reveal>
           <h2 className="home-m-cta__title">Prêt à imaginer votre gâteau&nbsp;?</h2>
           <p className="home-m-cta__text">
-            Trouvez la créatrice idéale en quelques clics.
+            Trouvez le prestataire idéal en quelques clics.
           </p>
           <Link to="/patissieres" className="home-m-cta__btn">
             Commencer <ArrowRight size={15} strokeWidth={2} />

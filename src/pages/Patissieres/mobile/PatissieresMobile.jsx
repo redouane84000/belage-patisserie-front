@@ -2,11 +2,10 @@ import { useState, useEffect, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Navbar from '../../../components/Navbar/Navbar'
 import Footer from '../../../components/Footer/Footer'
-import patissieres from '../../../data/patissieres'
 import PatissieresMobilePage from './PatissieresMobilePage'
 import './PatissieresMobile.css'
 
-export default function PatissieresMobile() {
+export default function PatissieresMobile({ section, sectionId, onSectionChange }) {
   const [selectedProfile, setSelectedProfile] = useState(null)
   const [searchParams] = useSearchParams()
   const idParam = Number(searchParams.get('id'))
@@ -14,15 +13,23 @@ export default function PatissieresMobile() {
 
   useEffect(() => {
     if (!idParam) return
-    const p = patissieres.find((x) => x.id === idParam)
+    const p = section.providers.find((x) => x.id === idParam)
     if (p) setSelectedProfile(p)
-  }, [idParam])
+    else setSelectedProfile(null)
+  }, [idParam, section])
+
+  useEffect(() => {
+    setSelectedProfile(null)
+  }, [sectionId])
 
   return (
     <div className="patissieres-mobile">
       <Navbar />
       <PatissieresMobilePage
-        profiles={patissieres}
+        section={section}
+        sectionId={sectionId}
+        onSectionChange={onSectionChange}
+        profiles={section.providers}
         selectedProfile={selectedProfile}
         onOpenProfile={setSelectedProfile}
         onCloseProfile={() => setSelectedProfile(null)}

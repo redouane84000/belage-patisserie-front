@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import {
   MapContainer,
   TileLayer,
@@ -32,11 +32,17 @@ import {
 } from 'lucide-react'
 import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
-import patissieres from '../../data/patissieres'
+import ProviderSectionPicker from '../../components/ProviderSectionPicker/ProviderSectionPicker'
+import {
+  DEFAULT_SECTION_ID,
+  getProviderSection,
+  resolveSectionId,
+} from '../../data/providerSections'
 import {
   formatPricePerSlice,
   getPricePerSlice,
 } from '../../utils/patissiere'
+import { filterProvidersForMap } from '../../utils/providerFilter'
 import {
   findEuropeanCity,
   patissiereMatchesCity,
@@ -104,15 +110,6 @@ const redCityIcon = L.divIcon({
   iconSize: [22, 22],
   iconAnchor: [11, 11],
 })
-
-const SPECIALITES = [
-  'Wedding Cake',
-  'Number Cake',
-  'Baby Shower',
-  'Anniversaire',
-  'Sweet Table',
-  'Cake Design',
-]
 
 const BUDGET_MIN = 3
 const BUDGET_MAX = 10
@@ -251,7 +248,14 @@ function SearchFieldWithGo({ value, onChange, onGo, className = '', placeholder 
   )
 }
 
-function CitySearchStatus({ pinnedCity, count, totalInCity, cityNotFound }) {
+function CitySearchStatus({
+  pinnedCity,
+  count,
+  totalInCity,
+  cityNotFound,
+  providerSingular,
+  providerPlural,
+}) {
   if (cityNotFound) {
     return (
       <p className="city-search-status city-search-status--warn" role="status">
@@ -261,10 +265,12 @@ function CitySearchStatus({ pinnedCity, count, totalInCity, cityNotFound }) {
   }
   if (!pinnedCity) return null
 
+  const plural = count > 1 ? providerPlural : providerSingular
+
   if (totalInCity === 0) {
     return (
       <p className="city-search-status city-search-status--empty" role="status">
-        Aucune pâtissière répertoriée à {pinnedCity.name}
+        Aucun {providerSingular} répertorié à {pinnedCity.name}
       </p>
     )
   }
@@ -272,16 +278,16 @@ function CitySearchStatus({ pinnedCity, count, totalInCity, cityNotFound }) {
   if (count === 0) {
     return (
       <p className="city-search-status city-search-status--warn" role="status">
-        {totalInCity} pâtissière{totalInCity > 1 ? 's' : ''} à {pinnedCity.name}, mais
-        aucune ne correspond à vos filtres — cliquez un marqueur pour la liste
+        {totalInCity} {totalInCity > 1 ? providerPlural : providerSingular} à{' '}
+        {pinnedCity.name}, mais aucun ne correspond à vos filtres — cliquez un
+        marqueur pour la liste
       </p>
     )
   }
 
   return (
     <p className="city-search-status city-search-status--ok" role="status">
-      {count} pâtissière{count > 1 ? 's' : ''} affichée{count > 1 ? 's' : ''} à{' '}
-      {pinnedCity.name}
+      {count} {plural} affiché{count > 1 ? 's' : ''} à {pinnedCity.name}
       {' · cliquez un marqueur pour la liste'}
     </p>
   )
@@ -303,16 +309,20 @@ function Toggle({ label, on, onChange }) {
   )
 }
 
-function PatissiereMiniCard({ p }) {
+function PatissiereMiniCard({ p, sectionId }) {
   const navigate = useNavigate()
   const [photoOk, setPhotoOk] = useState(false)
+  const profileUrl =
+    sectionId === DEFAULT_SECTION_ID
+      ? `/patissieres?id=${p.id}`
+      : `/patissieres?section=${sectionId}&id=${p.id}`
 
   return (
     <li>
       <button
         type="button"
         className="city-mini-card"
-        onClick={() => navigate(`/patissieres?id=${p.id}`)}
+        onClick={() => navigate(profileUrl)}
       >
         <div
           className={`city-mini-card__avatar ${p.image ? 'city-mini-card__avatar--photo' : ''} ${p.badge ? 'city-mini-card__avatar--sel' : ''}`}
@@ -369,13 +379,16 @@ function CityPatissieresPanel({
   showClose = true,
   closeLabel = 'Fermer la liste',
   fromSearch,
+  sectionId,
+  providerSingular,
+  providerPlural,
 }) {
   if (!city) return null
 
   return (
     <aside
       className={`city-panel ${touchLayout && !pageLayout ? 'city-panel--mobile' : ''} ${pageLayout ? 'city-panel--page' : ''}`}
-      aria-label={`Pâtissières à ${city.name}`}
+      aria-label={`${providerPlural} à ${city.name}`}
     >
       <header className="city-panel__head">
         <div className="city-panel__title-wrap">
@@ -403,18 +416,21 @@ function CityPatissieresPanel({
 
       {list.length === 0 ? (
         <div className="city-panel__empty">
-          <p>Aucune pâtissière répertoriée à {city.name} pour le moment.</p>
+          <p>
+            Aucun {providerSingular} répertorié à {city.name} pour le moment.
+          </p>
         </div>
       ) : (
         <>
           <p className="city-panel__count">
-            {list.length} pâtissière{list.length > 1 ? 's' : ''}
+            {list.length}{' '}
+            {list.length > 1 ? providerPlural : providerSingular}
             {filteredCount < list.length &&
-              ` · ${filteredCount} affichée${filteredCount > 1 ? 's' : ''} sur la carte`}
+              ` · ${filteredCount} affiché${filteredCount > 1 ? 's' : ''} sur la carte`}
           </p>
           <ul className="city-panel__list">
             {list.map((p) => (
-              <PatissiereMiniCard key={p.id} p={p} />
+              <PatissiereMiniCard key={p.id} p={p} sectionId={sectionId} />
             ))}
           </ul>
         </>
@@ -426,6 +442,9 @@ function CityPatissieresPanel({
 function FiltersSidebar({
   filtersOpen,
   onClose,
+  section,
+  sectionId,
+  onSectionChange,
   search,
   setSearch,
   onCityGo,
@@ -443,12 +462,16 @@ function FiltersSidebar({
   setLivraison,
   count,
 }) {
+  const { mapConfig, providers, providerSingular, providerPlural } = section
+  const hasInfluence = mapConfig.toggles.some((t) => t.id === 'influence')
+  const livraisonToggle = mapConfig.toggles.find((t) => t.id === 'livraison')
+
   return (
     <aside className={`sidebar ${filtersOpen ? 'is-open' : ''}`}>
       <div className="sidebar__handle" />
 
       <div className="sidebar__head">
-        <h1 className="sidebar__title">Trouver une pâtissière</h1>
+        <h1 className="sidebar__title">{section.pageTitle}</h1>
         <button
           className="sidebar__close"
           type="button"
@@ -458,8 +481,16 @@ function FiltersSidebar({
           <X size={20} strokeWidth={1.8} />
         </button>
       </div>
+
+      <ProviderSectionPicker
+        activeId={sectionId}
+        onChange={onSectionChange}
+        className="sidebar__sections provider-sections--scroll"
+      />
+
       <p className="sidebar__sub">
-        {patissieres.length} créatrice{patissieres.length > 1 ? 's' : ''} sur
+        {providers.length}{' '}
+        {providers.length > 1 ? providerPlural : providerSingular} sur
         l&apos;annuaire
       </p>
 
@@ -472,12 +503,17 @@ function FiltersSidebar({
 
       <CitySearchClear pinnedCity={pinnedCity} onClear={onClearCity} />
 
-      <CitySearchStatus {...cityStatus} pinnedCity={pinnedCity} />
+      <CitySearchStatus
+        {...cityStatus}
+        pinnedCity={pinnedCity}
+        providerSingular={providerSingular}
+        providerPlural={providerPlural}
+      />
 
       <div className="filter">
         <p className="filter__label">Spécialité</p>
         <div className="checks">
-          {SPECIALITES.map((s) => (
+          {mapConfig.specialties.map((s) => (
             <label key={s} className="check">
               <input
                 type="checkbox"
@@ -493,47 +529,56 @@ function FiltersSidebar({
         </div>
       </div>
 
-      <div className="filter">
-        <p className="filter__label">Prix max / part</p>
-        <input
-          type="range"
-          className="slider"
-          min={BUDGET_MIN}
-          max={BUDGET_MAX}
-          step={BUDGET_STEP}
-          value={budget}
-          onChange={(e) => setBudget(Number(e.target.value))}
-          style={{
-            background: `linear-gradient(to right, var(--color-gold) ${budgetPct}%, #D0CBC0 ${budgetPct}%)`,
-          }}
-        />
-        <p className="slider__value">
-          Jusqu&apos;à {budget.toString().replace('.', ',')} €/part
-        </p>
-      </div>
-
-      <div className="filter">
-        <p className="filter__label">Options</p>
-        <div className="toggles">
-          <Toggle
-            label="Influence"
-            on={onlyInfluence}
-            onChange={setOnlyInfluence}
+      {mapConfig.budget && (
+        <div className="filter">
+          <p className="filter__label">Prix max / part</p>
+          <input
+            type="range"
+            className="slider"
+            min={mapConfig.budget.min}
+            max={mapConfig.budget.max}
+            step={mapConfig.budget.step}
+            value={budget}
+            onChange={(e) => setBudget(Number(e.target.value))}
+            style={{
+              background: `linear-gradient(to right, var(--color-gold) ${budgetPct}%, #D0CBC0 ${budgetPct}%)`,
+            }}
           />
-          <Toggle
-            label="Livraison disponible"
-            on={livraison}
-            onChange={setLivraison}
-          />
+          <p className="slider__value">
+            Jusqu&apos;à {budget.toString().replace('.', ',')}{' '}
+            {mapConfig.budget.suffix}
+          </p>
         </div>
-      </div>
+      )}
+
+      {(hasInfluence || livraisonToggle) && (
+        <div className="filter">
+          <p className="filter__label">Options</p>
+          <div className="toggles">
+            {hasInfluence && (
+              <Toggle
+                label="Influence"
+                on={onlyInfluence}
+                onChange={setOnlyInfluence}
+              />
+            )}
+            {livraisonToggle && (
+              <Toggle
+                label={livraisonToggle.label}
+                on={livraison}
+                onChange={setLivraison}
+              />
+            )}
+          </div>
+        </div>
+      )}
 
       <button className="search-btn" type="button" onClick={onClose}>
         Rechercher
       </button>
 
       <p className="count">
-        {count} pâtissière{count > 1 ? 's' : ''} trouvée
+        {count} {count > 1 ? providerPlural : providerSingular} trouvé
         {count > 1 ? 's' : ''}
       </p>
     </aside>
@@ -543,6 +588,13 @@ function FiltersSidebar({
 export default function Carte() {
   const touchLayout = useCarteTouchLayout()
   const mobileLayout = useMobileLayout()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const sectionId = resolveSectionId(
+    searchParams.get('section') || DEFAULT_SECTION_ID
+  )
+  const section = getProviderSection(sectionId)
+  const providers = section.providers
+
   const [search, setSearch] = useState('')
   const [specs, setSpecs] = useState([])
   const [budget, setBudget] = useState(BUDGET_MAX)
@@ -557,6 +609,28 @@ export default function Carte() {
   const [panelFromSearch, setPanelFromSearch] = useState(false)
   const [resetMapToken, setResetMapToken] = useState(0)
   const [mapImmersive, setMapImmersive] = useState(false)
+
+  function handleSectionChange(nextId) {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev)
+      if (nextId === DEFAULT_SECTION_ID) next.delete('section')
+      else next.set('section', nextId)
+      return next
+    })
+  }
+
+  useEffect(() => {
+    setSpecs([])
+    setBudget(section.mapConfig.budget?.max ?? BUDGET_MAX)
+    setOnlyInfluence(false)
+    setLivraison(false)
+    setPanelCity(null)
+    setCityPanelOpen(false)
+    setPanelFromSearch(false)
+    setPinnedCity(null)
+    setCityNotFound(false)
+    setSearch('')
+  }, [sectionId, section.mapConfig.budget?.max])
 
   useEffect(() => {
     if (!touchLayout || !mapImmersive) return undefined
@@ -626,38 +700,22 @@ export default function Carte() {
       prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]
     )
 
-  const filtered = patissieres.filter((p) => {
-    let matchLocation = true
-    if (pinnedCity) {
-      matchLocation = patissiereMatchesCity(p, pinnedCity)
-    } else {
-      const q = search.trim().toLowerCase()
-      matchLocation =
-        !q ||
-        p.ville.toLowerCase().includes(q) ||
-        p.nom.toLowerCase().includes(q)
-    }
-    const matchSpec =
-      specs.length === 0 || specs.some((s) => p.specialites.includes(s))
-    const slice = getPricePerSlice(p)
-    const matchBudget = slice == null || slice <= budget
-    const matchInfluence = !onlyInfluence || p.offersInfluence === true
-    const matchLivraison = !livraison || p.livraison
-    return (
-      matchLocation &&
-      matchSpec &&
-      matchBudget &&
-      matchInfluence &&
-      matchLivraison
-    )
+  const filtered = filterProvidersForMap(providers, {
+    search,
+    pinnedCity,
+    specs,
+    budget,
+    onlyInfluence,
+    livraison,
+    mapConfig: section.mapConfig,
   })
 
   const cityPatissieresAll = pinnedCity
-    ? getPatissieresInCity(pinnedCity, patissieres)
+    ? getPatissieresInCity(pinnedCity, providers)
     : []
 
   const panelPatissieres = panelCity
-    ? getPatissieresInCity(panelCity, patissieres)
+    ? getPatissieresInCity(panelCity, providers)
     : []
 
   const panelFilteredCount = panelPatissieres.filter((p) =>
@@ -672,10 +730,19 @@ export default function Carte() {
     return groups.filter((g) => cityKey(g.city) !== pinnedKey)
   }, [filtered, pinnedCity])
 
-  const budgetPct = ((budget - BUDGET_MIN) / (BUDGET_MAX - BUDGET_MIN)) * 100
+  const budgetMin = section.mapConfig.budget?.min ?? BUDGET_MIN
+  const budgetMax = section.mapConfig.budget?.max ?? BUDGET_MAX
+  const budgetPct = section.mapConfig.budget
+    ? ((budget - budgetMin) / (budgetMax - budgetMin)) * 100
+    : 0
   const count = filtered.length
-  const influenceTotal = patissieres.filter((p) => p.offersInfluence).length
-  const regionsTotal = new Set(patissieres.map((p) => p.region)).size
+  const influenceTotal = providers.filter((p) => p.offersInfluence).length
+  const regionsTotal = new Set(providers.map((p) => p.region)).size
+  const showInfluenceStat = section.mapConfig.toggles.some((t) => t.id === 'influence')
+  const patissieresLink =
+    sectionId === DEFAULT_SECTION_ID
+      ? '/patissieres'
+      : `/patissieres?section=${sectionId}`
 
   const closeFilters = () => setFiltersOpen(false)
 
@@ -687,6 +754,9 @@ export default function Carte() {
   const filterSidebarProps = {
     filtersOpen: touchLayout ? filtersOpen : true,
     onClose: closeFilters,
+    section,
+    sectionId,
+    onSectionChange: handleSectionChange,
     search,
     setSearch: handleSearchChange,
     onCityGo: handleCityGo,
@@ -703,6 +773,12 @@ export default function Carte() {
     livraison,
     setLivraison,
     count,
+  }
+
+  const cityPanelProps = {
+    sectionId,
+    providerSingular: section.providerSingular,
+    providerPlural: section.providerPlural,
   }
 
   const filtersPortal =
@@ -750,13 +826,29 @@ export default function Carte() {
         {mapImmersivePortal}
 
         <div className="carte-main">
+          <div className="carte-section-bar">
+            <div className="carte-section-bar__inner">
+              <ProviderSectionPicker
+                activeId={sectionId}
+                onChange={handleSectionChange}
+                className="carte-section-bar__picker provider-sections--scroll provider-sections--compact"
+              />
+              <p className="carte-section-bar__count">
+                {count}{' '}
+                {count > 1 ? section.providerPlural : section.providerSingular}
+              </p>
+            </div>
+          </div>
+
           {touchLayout && (
             <header className="carte-mobile-head">
               <div className="carte-mobile-head__top">
                 <div>
                   <h1 className="carte-mobile-head__title">Carte France</h1>
                   <p className="carte-mobile-head__sub">
-                    {count} pâtissière{count > 1 ? 's' : ''} · France entière
+                    {count}{' '}
+                    {count > 1 ? section.providerPlural : section.providerSingular}{' '}
+                    · France entière
                   </p>
                 </div>
                 <button
@@ -787,10 +879,12 @@ export default function Carte() {
                 count={count}
                 totalInCity={totalInPinnedCity}
                 cityNotFound={cityNotFound}
+                providerSingular={section.providerSingular}
+                providerPlural={section.providerPlural}
               />
 
               <div className="carte-mobile-pills">
-                {SPECIALITES.map((s) => (
+                {section.mapConfig.specialties.map((s) => (
                   <button
                     key={s}
                     type="button"
@@ -800,13 +894,15 @@ export default function Carte() {
                     {s}
                   </button>
                 ))}
-                <button
-                  type="button"
-                  className={`carte-pill carte-pill--influence ${onlyInfluence ? 'is-on' : ''}`}
-                  onClick={() => setOnlyInfluence((v) => !v)}
-                >
-                  Influence
-                </button>
+                {showInfluenceStat && (
+                  <button
+                    type="button"
+                    className={`carte-pill carte-pill--influence ${onlyInfluence ? 'is-on' : ''}`}
+                    onClick={() => setOnlyInfluence((v) => !v)}
+                  >
+                    Influence
+                  </button>
+                )}
               </div>
 
               <p className="carte-mobile-tip">
@@ -894,6 +990,7 @@ export default function Carte() {
                 onClose={() => setCityPanelOpen(false)}
                 touchLayout={touchLayout}
                 fromSearch={panelFromSearch}
+                {...cityPanelProps}
               />
             )}
           </div>
@@ -913,6 +1010,7 @@ export default function Carte() {
                 showClose
                 closeLabel="Retour à la carte interactive"
                 fromSearch={panelFromSearch}
+                {...cityPanelProps}
               />
               <button
                 type="button"
@@ -945,11 +1043,13 @@ export default function Carte() {
                   <strong>{regionsTotal}</strong>
                   <span>régions</span>
                 </div>
-                <div className="carte-stat">
-                  <Sparkles size={18} strokeWidth={1.8} />
-                  <strong>{influenceTotal}</strong>
-                  <span>influence</span>
-                </div>
+                {showInfluenceStat && (
+                  <div className="carte-stat">
+                    <Sparkles size={18} strokeWidth={1.8} />
+                    <strong>{influenceTotal}</strong>
+                    <span>influence</span>
+                  </div>
+                )}
               </div>
 
               <div className="carte-steps">
@@ -958,7 +1058,9 @@ export default function Carte() {
                   <li>
                     <span className="carte-steps__num">1</span>
                     <span>
-                      <strong>Filtrez</strong> par ville, spécialité ou prix à la part
+                      <strong>Choisissez une section</strong>, puis filtrez par
+                      ville et spécialité
+                      {section.mapConfig.budget ? ' (prix à la part pour les pâtissières)' : ''}
                     </span>
                   </li>
                   <li>
@@ -971,7 +1073,7 @@ export default function Carte() {
                   <li>
                     <span className="carte-steps__num">3</span>
                     <span>
-                      <strong>Demandez un devis</strong> à la pâtissière choisie
+                      <strong>Contactez-la</strong> via WhatsApp, Instagram ou e-mail
                     </span>
                   </li>
                 </ol>
@@ -981,10 +1083,10 @@ export default function Carte() {
                 <Sparkles size={20} className="carte-cta-band__icon" strokeWidth={1.6} />
                 <p className="carte-cta-band__text">
                   {count > 0
-                    ? `${count} créatrice${count > 1 ? 's' : ''} correspondent à votre recherche.`
-                    : 'Aucun résultat — élargissez vos filtres.'}
+                    ? `${count} ${count > 1 ? section.providerPlural : section.providerSingular} correspondent à votre recherche.`
+                    : section.emptyMessage}
                 </p>
-                <Link to="/patissieres" className="carte-cta-band__btn">
+                <Link to={patissieresLink} className="carte-cta-band__btn">
                   Voir toutes les fiches <ArrowRight size={14} strokeWidth={2} />
                 </Link>
               </div>

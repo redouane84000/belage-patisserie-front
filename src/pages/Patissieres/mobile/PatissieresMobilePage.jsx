@@ -1,22 +1,8 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import ProviderSectionPicker from '../../../components/ProviderSectionPicker/ProviderSectionPicker'
+import { filterProvidersForMobile } from '../../../utils/providerFilter'
 import PatissieresMobileCard from './PatissieresMobileCard'
 import PatissieresMobileSheet from './PatissieresMobileSheet'
-
-const SPECIALTY_CHIPS = [
-  'Toutes',
-  'Wedding Cake',
-  'Number Cake',
-  'Baby Shower',
-  'Anniversaire',
-  'Sweet Table',
-  'Cake Design',
-]
-
-const SEGMENTS = [
-  { key: 'all', label: 'Toutes' },
-  { key: 'influence', label: 'Influence' },
-  { key: 'selection', label: 'Sélection' },
-]
 
 function IconSearch() {
   return (
@@ -39,6 +25,9 @@ function uniqueCities(profiles) {
 }
 
 export default function PatissieresMobilePage({
+  section,
+  sectionId,
+  onSectionChange,
   profiles,
   selectedProfile,
   onOpenProfile,
@@ -51,39 +40,58 @@ export default function PatissieresMobilePage({
   const [specialty, setSpecialty] = useState('Toutes')
   const [city, setCity] = useState('Toutes')
 
+  const specialtyChips = useMemo(
+    () => ['Toutes', ...section.quickFilters.filter((f) => f !== 'Tous')],
+    [section]
+  )
+
+  const segments = useMemo(() => {
+    const base = [{ key: 'all', label: 'Toutes' }]
+    if (section.showInfluenceSegment) {
+      base.push({ key: 'influence', label: 'Influence' })
+    }
+    if (section.id === 'patisserie') {
+      base.push({ key: 'selection', label: 'Sélection' })
+    }
+    return base
+  }, [section])
+
+  useEffect(() => {
+    setQuery('')
+    setSegment('all')
+    setSpecialty('Toutes')
+    setCity('Toutes')
+  }, [sectionId])
+
   const cities = useMemo(() => ['Toutes', ...uniqueCities(profiles)], [profiles])
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    return profiles.filter((p) => {
-      const okQuery =
-        !q ||
-        p.nom.toLowerCase().includes(q) ||
-        p.ville.toLowerCase().includes(q) ||
-        p.specialites.some((s) => s.toLowerCase().includes(q))
-
-      const okSegment =
-        segment === 'all' ||
-        (segment === 'influence' && p.offersInfluence) ||
-        (segment === 'selection' && p.badge)
-
-      const okSpecialty =
-        specialty === 'Toutes' || p.specialites.includes(specialty)
-
-      const okCity = city === 'Toutes' || p.ville === city
-
-      return okQuery && okSegment && okSpecialty && okCity
-    })
-  }, [profiles, query, segment, specialty, city])
+  const filtered = useMemo(
+    () =>
+      filterProvidersForMobile(profiles, {
+        query,
+        segment,
+        specialty,
+        city,
+        showInfluenceSegment: section.showInfluenceSegment,
+      }),
+    [profiles, query, segment, specialty, city, section.showInfluenceSegment]
+  )
 
   return (
     <div className="mob-ios">
       <div className="mob-ios__sticky">
+        <ProviderSectionPicker
+          activeId={sectionId}
+          onChange={onSectionChange}
+          className="mob-ios__sections provider-sections--scroll"
+        />
+
         <header className="mob-ios__head">
           <div>
-            <h1 className="mob-ios__title">Nos Pâtissières</h1>
+            <h1 className="mob-ios__title">{section.pageTitle}</h1>
             <p className="mob-ios__count">
-              {filtered.length} créatrice{filtered.length > 1 ? 's' : ''}
+              {filtered.length} {section.creatorLabel}
+              {filtered.length > 1 ? 's' : ''}
             </p>
           </div>
         </header>
@@ -96,12 +104,12 @@ export default function PatissieresMobilePage({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Rechercher un nom, une ville…"
-            aria-label="Rechercher une pâtissière"
+            aria-label={`Rechercher un ${section.providerSingular}`}
           />
         </div>
 
         <div className="mob-ios__seg" role="tablist" aria-label="Type de profil">
-          {SEGMENTS.map((s) => (
+          {segments.map((s) => (
             <button
               key={s.key}
               type="button"
@@ -116,7 +124,7 @@ export default function PatissieresMobilePage({
         </div>
 
         <div className="mob-ios__chips mob-ios__scroll-x" aria-label="Spécialités">
-          {SPECIALTY_CHIPS.map((s) => (
+          {specialtyChips.map((s) => (
             <button
               key={s}
               type="button"
@@ -144,7 +152,7 @@ export default function PatissieresMobilePage({
 
       <div className="mob-ios__list">
         {filtered.length === 0 ? (
-          <p className="mob-ios__empty">Aucune pâtissière trouvée</p>
+          <p className="mob-ios__empty">{section.emptyMessage}</p>
         ) : (
           filtered.map((p, i) => (
             <PatissieresMobileCard

@@ -4,10 +4,10 @@ import { LayoutGrid, Menu, X } from 'lucide-react'
 import './Navbar.css'
 
 const NAV_LINKS = [
-  { label: 'Trouver une pâtissière', to: '/patissieres' },
+  { label: 'Trouver un prestataire', to: '/patissieres' },
   { label: 'Carte France', to: '/carte' },
   { label: 'Inspirations', to: '/inspirations' },
-  { label: 'Packs', to: '/packs' },
+  { label: 'Nos formations', to: '/packs' },
   { label: 'Rejoindre le réseau', to: '/rejoindre' },
 ]
 
@@ -45,9 +45,9 @@ export default function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar__inner">
-        <Link to="/" className="navbar__logo" aria-label="BEL’AGE Pâtisserie">
+        <Link to="/" className="navbar__logo" aria-label="BEL’AGE Entreprise">
           <span className="navbar__logo-name">BEL’AGE</span>
-          <span className="navbar__logo-sub">PATISSERIE</span>
+          <span className="navbar__logo-sub">ENTREPRISE</span>
         </Link>
 
         <nav className="navbar__links" aria-label="Navigation principale">

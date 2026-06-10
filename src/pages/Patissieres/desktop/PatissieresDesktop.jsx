@@ -1,26 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { MapPin, ArrowRight } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 import Navbar from '../../../components/Navbar/Navbar'
 import Footer from '../../../components/Footer/Footer'
-import patissieres from '../../../data/patissieres'
+import ProviderSectionPicker from '../../../components/ProviderSectionPicker/ProviderSectionPicker'
+import { FILTRE_INFLUENCE } from '../../../data/providerSections'
 import {
   formatPricePerSlice,
   getPricePerSlice,
 } from '../../../utils/patissiere'
+import { filterProvidersForDirectory } from '../../../utils/providerFilter'
 import './PatissieresDesktop.css'
-
-const FILTRES_SPECIALITES = [
-  'Tous',
-  'Wedding Cake',
-  'Number Cake',
-  'Baby Shower',
-  'Anniversaire',
-  'Sweet Table',
-  'Cake Design',
-]
-
-const FILTRE_INFLUENCE = 'Influence'
 
 function initiales(nom) {
   return nom
@@ -273,29 +263,26 @@ function Carte({ p, highlight, cardRef, index }) {
                 : 'Numéro non communiqué.'}
             </p>
           )}
-
-          <button
-            className={`pcard__devis ${p.badge ? 'pcard__devis--sel' : ''}`}
-            type="button"
-          >
-            Demander un devis <ArrowRight size={14} strokeWidth={2} />
-          </button>
         </div>
       </div>
     </article>
   )
 }
 
-export default function PatissieresDesktop() {
+export default function PatissieresDesktop({ section, sectionId, onSectionChange }) {
   const [filtre, setFiltre] = useState('Tous')
   const [searchParams] = useSearchParams()
   const idParam = Number(searchParams.get('id'))
   const highlightRef = useRef(null)
+  const providers = section.providers
 
-  const filtered = patissieres.filter((p) => {
-    if (filtre === FILTRE_INFLUENCE) return p.offersInfluence === true
-    if (filtre === 'Tous') return true
-    return p.specialites.includes(filtre)
+  useEffect(() => {
+    setFiltre('Tous')
+  }, [sectionId])
+
+  const filtered = filterProvidersForDirectory(providers, {
+    filtre,
+    showInfluenceFilter: section.showInfluenceFilter,
   })
 
   useEffect(() => {
@@ -313,14 +300,25 @@ export default function PatissieresDesktop() {
       <Navbar />
 
       <header className="ph-header">
+        <ProviderSectionPicker
+          activeId={sectionId}
+          onChange={onSectionChange}
+          className="ph-sections"
+        />
+
         <div className="ph-header__top">
-          <h1 className="ph-title">Nos Pâtissières</h1>
+          <h1 className="ph-title">{section.pageTitle}</h1>
           <p className="ph-filters-label">Filtres rapides</p>
         </div>
         <p className="ph-subtitle">
-          {patissieres.length} créatrice
-          {patissieres.length > 1 ? 's' : ''} sélectionnée
-          {patissieres.length > 1 ? 's' : ''} pour leur excellence
+          {providers.length} {section.creatorLabel}
+          {providers.length > 1 ? 's' : ''}
+          {section.id === 'patisserie' && (
+            <>
+              {' '}
+              sélectionnée{providers.length > 1 ? 's' : ''} pour leur excellence
+            </>
+          )}
           {filtre !== 'Tous' && (
             <span className="ph-subtitle__filtered">
               {' '}
@@ -329,14 +327,10 @@ export default function PatissieresDesktop() {
           )}
         </p>
         <div className="ph-line" />
-        <p className="ph-desc">
-          Première plateforme française d&apos;annuaire de pâtissier(e)s.
-          Filtrez par spécialité ou par service influence, puis contactez la
-          créatrice de votre choix.
-        </p>
+        <p className="ph-desc">{section.pageDesc}</p>
 
         <div className="ph-pills">
-          {FILTRES_SPECIALITES.map((f) => (
+          {section.quickFilters.map((f) => (
             <button
               key={f}
               type="button"
@@ -346,18 +340,23 @@ export default function PatissieresDesktop() {
               {f}
             </button>
           ))}
-          <button
-            type="button"
-            className={`pill pill--influence ${filtre === FILTRE_INFLUENCE ? 'is-active' : ''}`}
-            onClick={() => setFiltre(FILTRE_INFLUENCE)}
-          >
-            {FILTRE_INFLUENCE}
-          </button>
+          {section.showInfluenceFilter && (
+            <button
+              type="button"
+              className={`pill pill--influence ${filtre === FILTRE_INFLUENCE ? 'is-active' : ''}`}
+              onClick={() => setFiltre(FILTRE_INFLUENCE)}
+            >
+              {FILTRE_INFLUENCE}
+            </button>
+          )}
         </div>
       </header>
 
       <section className="ph-grid">
-        {filtered.map((p, i) => (
+        {filtered.length === 0 ? (
+          <p className="ph-empty">{section.emptyMessage}</p>
+        ) : (
+          filtered.map((p, i) => (
           <Carte
             key={`${filtre}-${p.id}`}
             p={p}
@@ -365,7 +364,8 @@ export default function PatissieresDesktop() {
             highlight={p.id === idParam}
             cardRef={p.id === idParam ? highlightRef : null}
           />
-        ))}
+          ))
+        )}
       </section>
 
       <Footer />

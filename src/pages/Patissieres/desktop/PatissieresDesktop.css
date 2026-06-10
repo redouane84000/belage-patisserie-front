@@ -11,6 +11,23 @@
   background-color: var(--color-cream);
 }
 
+.ph-sections {
+  margin-bottom: 24px;
+}
+
+.ph-empty {
+  grid-column: 1 / -1;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-gray-mid);
+  text-align: center;
+  padding: 48px 24px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px dashed rgba(0, 0, 0, 0.08);
+}
+
 .ph-header__top {
   display: flex;
   align-items: flex-end;

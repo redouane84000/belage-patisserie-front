@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { X, MapPin, ArrowRight } from 'lucide-react'
+import { X, MapPin } from 'lucide-react'
 import { formatPricePerSlice, getPricePerSlice } from '../../../utils/patissiere'
 import {
   IconInstagram,
@@ -205,10 +205,6 @@ export default function PatissieresMobileSheet({ profile: p, onClose }) {
                 {p.email}
               </a>
             )}
-
-            <button type="button" className="mob-sheet__devis">
-              Demander un devis <ArrowRight size={14} strokeWidth={2} />
-            </button>
           </div>
         </div>
       </div>

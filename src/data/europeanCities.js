@@ -29,6 +29,8 @@ export const europeanCities = [
   { name: 'Nîmes', aliases: ['Nimes'], country: 'France', lat: 43.8367, lng: 4.3601 },
   { name: 'Clermont-Ferrand', country: 'France', lat: 45.7772, lng: 3.087 },
   { name: 'Tours', country: 'France', lat: 47.3941, lng: 0.6848 },
+  { name: 'Saint-Quentin', aliases: ['Saint Quentin'], country: 'France', lat: 49.8471, lng: 3.2876 },
+  { name: 'Livry-Gargan', aliases: ['Livry Gargan'], country: 'France', lat: 48.9192, lng: 2.5412 },
   { name: 'Avignon', country: 'France', lat: 43.9493, lng: 4.8055 },
   { name: 'Cannes', country: 'France', lat: 43.5528, lng: 7.0174 },
   { name: 'Aix-en-Provence', country: 'France', lat: 43.5297, lng: 5.4474 },

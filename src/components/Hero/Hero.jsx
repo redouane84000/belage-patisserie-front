@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { MapPin, Clock, Cake, Heart, Hash, Baby, ArrowRight } from 'lucide-react'
 import { PARTNERS } from '../PartnerMarquee/PartnerMarquee'
-import patissieres from '../../data/patissieres'
+import { PROVIDER_SECTIONS } from '../../data/providerSections'
 import './Hero.css'
 
 // Photo du gâteau BEL ÂGE servie depuis /public.
@@ -16,6 +16,11 @@ const PACK_TYPES = [
 ]
 
 export default function Hero() {
+  const totalProviders = PROVIDER_SECTIONS.reduce(
+    (sum, section) => sum + section.providers.length,
+    0
+  )
+
   return (
     <section className="hero">
       <div className="hero__inner">
@@ -29,19 +34,19 @@ export default function Hero() {
             <img
               className="hero__wordmark-img"
               src="/police.png"
-              alt="BEL ÂGE Pâtisserie"
+              alt="BEL ÂGE Entreprise"
             />
           </h1>
 
           <h2 className="hero__subtitle anim" style={{ animationDelay: '0.2s' }}>
             <span className="hero__line">
-              <span className="hero__line-in">Trouvez la pâtissière</span>
+              <span className="hero__line-in">Trouvez le prestataire</span>
             </span>{' '}
             <span className="hero__line">
-              <span className="hero__line-in">idéale pour votre</span>
+              <span className="hero__line-in">idéal pour votre</span>
             </span>{' '}
             <span className="hero__line">
-              <span className="hero__line-in">gâteau sur-mesure.</span>
+              <span className="hero__line-in">projet sur-mesure.</span>
             </span>
           </h2>
 
@@ -54,7 +59,7 @@ export default function Hero() {
 
           <div className="hero__cta anim" style={{ animationDelay: '0.4s' }}>
             <Link to="/patissieres" className="btn btn--dark home-m-shine">
-              Trouver ma pâtissière <ArrowRight size={16} strokeWidth={2} />
+              Trouver mon prestataire <ArrowRight size={16} strokeWidth={2} />
             </Link>
             <Link to="/carte" className="btn btn--outline">
               Explorer la carte <ArrowRight size={16} strokeWidth={2} />
@@ -87,14 +92,22 @@ export default function Hero() {
               <small>Déposez cake.png dans /public</small>
             </div>
 
-            {/* CARD 1 — Région */}
+            {/* CARD 1 — Réseau par métier */}
             <div className="float-card float-card--region">
               <div className="float-card__row">
                 <MapPin size={16} className="float-card__pin" strokeWidth={2} />
                 <span className="float-card__title">Réseau France</span>
               </div>
-              <p className="float-card__muted">
-                {patissieres.length} pâtissière{patissieres.length > 1 ? 's' : ''}
+              <ul className="network-stats">
+                {PROVIDER_SECTIONS.map((section) => (
+                  <li key={section.id} className="network-stats__row">
+                    <span className="network-stats__label">{section.shortLabel}</span>
+                    <span className="network-stats__count">{section.providers.length}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="network-stats__total">
+                {totalProviders} prestataire{totalProviders > 1 ? 's' : ''} au total
               </p>
             </div>
 

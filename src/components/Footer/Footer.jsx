@@ -42,10 +42,10 @@ function IconWhatsApp() {
 }
 
 const NAV_LINKS = [
-  { label: 'Trouver une pâtissière', to: '/patissieres' },
+  { label: 'Trouver un prestataire', to: '/patissieres' },
   { label: 'Carte France', to: '/carte' },
   { label: 'Inspirations', to: '/inspirations' },
-  { label: 'Nos Packs & Formations', to: '/packs' },
+  { label: 'Nos formations', to: '/packs' },
   { label: 'Rejoindre le réseau', to: '/rejoindre' },
   { label: 'Demander un devis', to: '/contact' },
 ]

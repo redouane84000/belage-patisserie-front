@@ -42,7 +42,7 @@ export default function Packs() {
 
       <header className="pack-header">
         <p className="pack-header__eyebrow">BEL ÂGE PÂTISSERIE</p>
-        <h1 className="pack-header__title">PACKS BEL ÂGE</h1>
+        <h1 className="pack-header__title">NOS FORMATIONS</h1>
         <p className="pack-header__subtitle">
           Ressources et formations de la marque
         </p>

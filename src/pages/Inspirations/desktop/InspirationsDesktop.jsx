@@ -109,7 +109,7 @@ export default function InspirationsDesktop() {
           Une banque d&apos;images premium centrée sur les gâteaux de mariage et
           les Italian cakes : pièces à étages, finitions dorées, esthétique
           méditerranéenne et inspirations nuptiales. Filtrez par univers, puis
-          trouvez la pâtissière idéale.
+          trouvez le prestataire idéal.
         </p>
       </header>
 
@@ -165,7 +165,7 @@ export default function InspirationsDesktop() {
                   <ArrowRight size={14} strokeWidth={2} />
                 </a>
                 <Link to="/patissieres" className="insp-btn insp-btn--outline-light">
-                  Trouver une pâtissière
+                  Trouver un prestataire
                 </Link>
               </div>
             </div>

@@ -150,7 +150,7 @@ export default function InspirationsMobile() {
 
       <div className="insp-m-dock" role="navigation" aria-label="Actions rapides">
         <Link to="/patissieres" className="insp-m-dock__primary">
-          Trouver une pâtissière
+          Trouver un prestataire
           <ArrowRight size={16} strokeWidth={2} />
         </Link>
         <Link to="/carte" className="insp-m-dock__map" aria-label="Carte France">
