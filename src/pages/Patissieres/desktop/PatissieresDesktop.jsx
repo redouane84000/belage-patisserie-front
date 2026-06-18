@@ -6,8 +6,8 @@ import Footer from '../../../components/Footer/Footer'
 import ProviderSectionPicker from '../../../components/ProviderSectionPicker/ProviderSectionPicker'
 import { FILTRE_INFLUENCE } from '../../../data/providerSections'
 import {
-  formatPricePerSlice,
-  getPricePerSlice,
+  formatProviderPrice,
+  providerPriceCaption,
 } from '../../../utils/patissiere'
 import { filterProvidersForDirectory } from '../../../utils/providerFilter'
 import './PatissieresDesktop.css'
@@ -74,7 +74,7 @@ function formatTel(whatsapp) {
   return `+${cc} ${reste[0]} ${groupes.join(' ')}`
 }
 
-function Carte({ p, highlight, cardRef, index }) {
+function Carte({ p, highlight, cardRef, index, sectionId = 'patisserie' }) {
   const [photoOk, setPhotoOk] = useState(false)
   const [showPhone, setShowPhone] = useState(false)
   return (
@@ -158,8 +158,8 @@ function Carte({ p, highlight, cardRef, index }) {
           <div className="pcard__tarifs">
             <p className="pcard__tarifs-title">Tarif indicatif</p>
             <div className="pcard__tarif-line pcard__tarif-line--part">
-              <span>Prix à la part</span>
-              <strong>{formatPricePerSlice(getPricePerSlice(p))}</strong>
+              <span>{providerPriceCaption(sectionId)}</span>
+              <strong>{formatProviderPrice(p)}</strong>
             </div>
           </div>
 
@@ -361,6 +361,7 @@ export default function PatissieresDesktop({ section, sectionId, onSectionChange
             key={`${filtre}-${p.id}`}
             p={p}
             index={i}
+            sectionId={sectionId}
             highlight={p.id === idParam}
             cardRef={p.id === idParam ? highlightRef : null}
           />

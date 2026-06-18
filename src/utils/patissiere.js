@@ -13,3 +13,15 @@ export function formatPricePerSlice(price) {
     n % 1 === 0 ? String(n) : n.toFixed(2).replace('.', ',')
   return `À partir de ${value} €/part`
 }
+
+/** Tarif fiche annuaire — prix à la part ou libellé sur devis */
+export function formatProviderPrice(p) {
+  if (p.priceLabel) return p.priceLabel
+  const slice = getPricePerSlice(p)
+  if (slice == null) return 'Sur devis'
+  return formatPricePerSlice(slice)
+}
+
+export function providerPriceCaption(sectionId) {
+  return sectionId === 'patisserie' ? 'Prix à la part' : 'Tarif'
+}

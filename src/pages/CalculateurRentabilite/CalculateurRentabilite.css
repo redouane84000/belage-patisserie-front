@@ -1,0 +1,42 @@
+.calc-page {
+  min-height: 100vh;
+  background: #faf7f2;
+  display: flex;
+  flex-direction: column;
+}
+
+.calc-page .calc-m,
+.calc-page .calc-d {
+  flex: 1;
+}
+
+/* Mobile: edge-to-edge tool under site navbar */
+.calc-page .calc-m {
+  min-height: calc(100dvh - 72px);
+}
+
+/* Desktop: standalone full-viewport tool (no site chrome) */
+@media (min-width: 1024px) {
+  .calc-page {
+    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .calc-page > .navbar,
+  .calc-page > .site-footer {
+    display: none;
+  }
+
+  .calc-page .calc-d {
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .calc-page .calc-d .app {
+    min-height: 100%;
+    height: 100%;
+  }
+}

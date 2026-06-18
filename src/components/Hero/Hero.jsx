@@ -27,7 +27,7 @@ export default function Hero() {
         {/* Colonne texte */}
         <div className="hero__content">
           <p className="hero__eyebrow anim" style={{ animationDelay: '0s' }}>
-            Application pâtisserie sur-mesure
+            Réseau de prestataires événement
           </p>
 
           <h1 className="hero__wordmark anim" style={{ animationDelay: '0.1s' }}>
@@ -53,7 +53,7 @@ export default function Hero() {
           <div className="hero__divider anim" style={{ animationDelay: '0.25s' }} />
 
           <p className="hero__desc anim" style={{ animationDelay: '0.3s' }}>
-            Comparez les créatrices près de chez vous, explorez les inspirations
+            Comparez les prestataires près de chez vous, explorez les inspirations
             et demandez plusieurs devis en quelques clics.
           </p>
 

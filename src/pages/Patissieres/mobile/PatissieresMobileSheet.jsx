@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { X, MapPin } from 'lucide-react'
-import { formatPricePerSlice, getPricePerSlice } from '../../../utils/patissiere'
+import { formatProviderPrice } from '../../../utils/patissiere'
 import {
   IconInstagram,
   IconWhatsApp,
@@ -115,11 +115,11 @@ export default function PatissieresMobileSheet({ profile: p, onClose }) {
 
           <div className="mob-sheet__block">
             <p className="mob-sheet__label">Tarif indicatif</p>
-            <p className="mob-sheet__price">
-              {formatPricePerSlice(getPricePerSlice(p))}
-            </p>
+            <p className="mob-sheet__price">{formatProviderPrice(p)}</p>
             {p.livraison && (
-              <p className="mob-sheet__hint">Livraison disponible</p>
+              <p className="mob-sheet__hint">
+                {p.whatsapp ? 'Livraison disponible' : 'Déplacement sur événement'}
+              </p>
             )}
           </div>
 

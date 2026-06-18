@@ -7,6 +7,7 @@ import Patissieres from './pages/Patissieres/Patissieres'
 import Inspirations from './pages/Inspirations/Inspirations'
 import Packs from './pages/Packs/Packs'
 import Rejoindre from './pages/Rejoindre/Rejoindre'
+import CalculateurRentabilite from './pages/CalculateurRentabilite/CalculateurRentabilite'
 import Mentions from './pages/Mentions/Mentions'
 import Contact from './pages/Contact/Contact'
 
@@ -22,6 +23,7 @@ function App() {
       <Route path="/inspirations" element={<Inspirations />} />
       <Route path="/packs" element={<Packs />} />
       <Route path="/rejoindre" element={<Rejoindre />} />
+      <Route path="/calculateur-rentabilite" element={<CalculateurRentabilite />} />
       <Route path="/mentions-legales" element={<Mentions />} />
       <Route path="/contact" element={<Contact />} />
       </Routes>

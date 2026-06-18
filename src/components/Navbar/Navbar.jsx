@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { label: 'Carte France', to: '/carte' },
   { label: 'Inspirations', to: '/inspirations' },
   { label: 'Nos formations', to: '/packs' },
+  { label: 'Calculateur rentabilité', to: '/calculateur-rentabilite' },
   { label: 'Rejoindre le réseau', to: '/rejoindre' },
 ]
 

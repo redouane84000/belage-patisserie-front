@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   ArrowRight,
@@ -11,8 +10,6 @@ import {
   Heart,
   Wallet,
   Mail,
-  Copy,
-  Check,
   HelpCircle,
 } from 'lucide-react'
 import Navbar from '../../components/Navbar/Navbar'
@@ -22,10 +19,10 @@ import {
   BEL_AGE_WHATSAPP_URL,
   BEL_AGE_WHATSAPP_DISPLAY,
   BEL_AGE_SOCIAL,
-  INSCRIPTION_MESSAGE_TEMPLATE,
   INSCRIPTION_ACCEPTANCE_INTRO,
   INSCRIPTION_ACCEPTANCE_CRITERIA,
 } from '../../data/resources'
+import InscriptionStack from './InscriptionStack'
 import './Rejoindre.css'
 
 const WA_INSCRIPTION = BEL_AGE_WHATSAPP_URL
@@ -50,7 +47,7 @@ const FAQ = [
   },
   {
     q: 'Comment m’inscrire ?',
-    a: 'Copiez le message indiqué sur cette page, complétez-le, envoyez-le sur WhatsApp avec votre logo. Si vous voulez Instagram et/ou TikTok sur votre fiche, renvoyez exactement le même message sur nos comptes @belage_patisserie.',
+    a: 'Choisissez votre activité sur cette page (pâtissière, photographe, DJ…), copiez le message adapté, complétez-le, puis envoyez-le sur WhatsApp avec votre logo. Pour Instagram et/ou TikTok sur votre fiche, renvoyez le même message en privé à @belage_patisserie.',
   },
   {
     q: 'Dois-je envoyer le message sur Instagram et TikTok ?',
@@ -58,15 +55,15 @@ const FAQ = [
   },
   {
     q: 'Qui peut s’inscrire ?',
-    a: 'Pâtissières et cake designers en activité en France, à domicile ou en boutique, qui proposent des créations sur mesure pour particuliers.',
+    a: 'Pâtissières, photographes, vidéastes, traiteurs, DJ, décorateurs et agences de location auto — prestataires événementiel en activité en France, avec un profil professionnel clair.',
   },
   {
     q: 'Y a-t-il un minimum d’abonnés ?',
     a: 'Non. Nous vérifions surtout la qualité du profil : vraies photos et vidéos de créations, spécialités claires, compte réel. Bel Âge peut refuser une inscription si le profil ne correspond pas à ces critères.',
   },
   {
-    q: 'Quel prix indiquer à la part ?',
-    a: 'À partir de 3 €/part. Pas de plafond pour l’inscription : indiquez votre tarif réel. Si vous proposez le service influence, précisez vos tarifs pour chaque format (reel, vidéo courte, vidéo longue).',
+    q: 'Quel tarif indiquer ?',
+    a: 'Cela dépend de votre activité : prix à la part pour les pâtissières (à partir de 3 €/part), forfait ou fourchette pour photo, traiteur, DJ, etc. Chaque fiche d’inscription précise les champs adaptés à votre métier.',
   },
 ]
 
@@ -90,17 +87,6 @@ function IconTikTok() {
 
 export default function Rejoindre() {
   useScrollReveal('rej-reveal')
-  const [copied, setCopied] = useState(false)
-
-  async function copyTemplate() {
-    try {
-      await navigator.clipboard.writeText(INSCRIPTION_MESSAGE_TEMPLATE)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2500)
-    } catch {
-      /* sélection manuelle si clipboard indisponible */
-    }
-  }
 
   return (
     <div className="rejoindre-page">
@@ -199,17 +185,16 @@ export default function Rejoindre() {
         </h2>
         <div className="rej-header__line rej-reveal reveal" />
         <p className="rej-section__intro rej-reveal reveal">
-          Une seule démarche : copiez le message ci-dessous, complétez les
-          informations, puis envoyez-le. Commencez par WhatsApp avec votre logo.
-          Si vous souhaitez aussi Instagram et/ou TikTok sur votre fiche, collez
-          le <strong>même message</strong> sur nos comptes (uniquement les
-          réseaux que vous voulez afficher).
+          Choisissez votre activité ci-dessous : chaque fiche contient le message
+          adapté à votre métier. Copiez-le, complétez les [ ], puis envoyez-le.
+          Commencez par WhatsApp avec votre logo. Instagram et/ou TikTok : le{' '}
+          <strong>même message</strong> en privé (uniquement les réseaux à afficher).
         </p>
 
         <ol className="rej-simple-steps rej-reveal reveal">
           <li>
-            <strong>1.</strong> Copiez le modèle et remplacez les [ ] par vos
-            informations.
+            <strong>1.</strong> Ouvrez la fiche de votre activité et copiez le
+            modèle.
           </li>
           <li>
             <strong>2.</strong> Envoyez le message + votre logo sur WhatsApp Bel
@@ -222,33 +207,8 @@ export default function Rejoindre() {
           </li>
         </ol>
 
-        <div className="rej-template rej-reveal reveal">
-          <div className="rej-template__head">
-            <p className="rej-template__label">Message à envoyer</p>
-            <button
-              type="button"
-              className={`rej-template__copy ${copied ? 'is-copied' : ''}`}
-              onClick={copyTemplate}
-            >
-              {copied ? (
-                <>
-                  <Check size={14} strokeWidth={2} />
-                  Copié
-                </>
-              ) : (
-                <>
-                  <Copy size={14} strokeWidth={2} />
-                  Copier le message
-                </>
-              )}
-            </button>
-          </div>
-          <pre className="rej-template__body">{INSCRIPTION_MESSAGE_TEMPLATE}</pre>
-          <p className="rej-template__hint">
-            Prix affiché sur la fiche : <strong>à partir de 3 €/part</strong> (pas
-            de maximum pour l&apos;inscription). Service influence : indiquez vos
-            tarifs pour les 3 formats si vous proposez ce service.
-          </p>
+        <div className="rej-reveal reveal">
+          <InscriptionStack />
         </div>
 
         <div className="rej-criteria rej-reveal reveal">
@@ -340,9 +300,9 @@ export default function Rejoindre() {
           <div>
             <h3>Prête à rejoindre l&apos;annuaire ?</h3>
             <p>
-              Copiez le message, complétez-le, envoyez sur WhatsApp avec votre
-              logo. Puis sur Instagram et/ou TikTok si vous le souhaitez.
-              Réponse sous 48 à 72 h ouvrées.
+              Ouvrez la fiche de votre activité, copiez le message, complétez-le,
+              envoyez sur WhatsApp avec votre logo. Puis Instagram et/ou TikTok si
+              vous le souhaitez. Réponse sous 48 à 72 h ouvrées.
             </p>
           </div>
           <a

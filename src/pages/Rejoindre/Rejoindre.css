@@ -334,6 +334,215 @@
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* ─── Fiches inscription empilées (par section) ─── */
+.rej-stack {
+  max-width: 680px;
+  margin: 0 0 32px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 4px;
+}
+
+.rej-stack__card {
+  position: relative;
+  margin-top: -28px;
+  border-radius: 16px;
+  background: var(--color-white);
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.06),
+    0 1px 0 rgba(255, 255, 255, 0.8) inset;
+  overflow: hidden;
+  transition:
+    margin 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.35s ease,
+    transform 0.35s ease;
+}
+
+.rej-stack__card:first-child {
+  margin-top: 0;
+}
+
+.rej-stack__card.is-open {
+  margin-top: 12px;
+  margin-bottom: 4px;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.12);
+  transform: scale(1);
+}
+
+.rej-stack__card.is-open + .rej-stack__card {
+  margin-top: -20px;
+}
+
+.rej-stack__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 20px;
+  border: none;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--stack-accent) 12%, white),
+    var(--color-white)
+  );
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: background 0.25s ease;
+}
+
+.rej-stack__head:hover {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--stack-accent) 18%, white),
+    var(--color-white)
+  );
+}
+
+.rej-stack__card.is-open .rej-stack__head {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.rej-stack__badge {
+  flex-shrink: 0;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--stack-accent);
+  color: #fff;
+}
+
+.rej-stack__title {
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-black);
+  line-height: 1.25;
+}
+
+.rej-stack__chevron {
+  flex-shrink: 0;
+  color: var(--color-text-body);
+  opacity: 0.5;
+  transition: transform 0.35s ease, opacity 0.25s ease;
+}
+
+.rej-stack__card.is-open .rej-stack__chevron {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+.rej-stack__body {
+  background: linear-gradient(165deg, #2d2618 0%, #1a1a1a 100%);
+  animation: rejStackOpen 0.35s ease;
+}
+
+@keyframes rejStackOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rej-stack__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+}
+
+.rej-stack__label {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: #e8d49a;
+}
+
+.rej-stack__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rej-stack__copy,
+.rej-stack__wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background 180ms ease, border-color 180ms ease;
+}
+
+.rej-stack__copy {
+  border: 1px solid rgba(201, 168, 76, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.rej-stack__copy:hover {
+  background: rgba(201, 168, 76, 0.2);
+}
+
+.rej-stack__copy.is-copied {
+  border-color: #6fcf97;
+  color: #b8f0c8;
+}
+
+.rej-stack__wa {
+  border: 1px solid #25d366;
+  background: rgba(37, 211, 102, 0.15);
+  color: #b8f0c8;
+  text-decoration: none;
+}
+
+.rej-stack__wa:hover {
+  background: rgba(37, 211, 102, 0.28);
+}
+
+.rej-stack__template {
+  margin: 0;
+  padding: 16px 18px;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.92);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.rej-stack__hint {
+  margin: 0;
+  padding: 12px 16px 16px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.55);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 .rej-criteria {
   max-width: 640px;
   margin: 0 0 28px;
@@ -944,6 +1153,55 @@
     width: 100%;
     min-height: 48px;
     justify-content: center;
+  }
+
+  .rej-stack {
+    max-width: none;
+    margin-bottom: 22px;
+  }
+
+  .rej-stack__card {
+    margin-top: -22px;
+  }
+
+  .rej-stack__card.is-open {
+    margin-top: 10px;
+  }
+
+  .rej-stack__head {
+    padding: 14px 16px;
+    gap: 10px;
+  }
+
+  .rej-stack__badge {
+    font-size: 9px;
+    padding: 5px 8px;
+  }
+
+  .rej-stack__title {
+    font-size: 14px;
+  }
+
+  .rej-stack__toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .rej-stack__actions {
+    width: 100%;
+  }
+
+  .rej-stack__copy,
+  .rej-stack__wa {
+    flex: 1;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  .rej-stack__template {
+    font-size: 10.5px;
+    max-height: 280px;
+    padding: 14px;
   }
 
   .rej-faq {

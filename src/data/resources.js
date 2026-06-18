@@ -27,27 +27,8 @@ export const BEL_AGE_SOCIAL = {
   tiktokHandle: '@belage_patisserie',
 }
 
-/** Modèle d'inscription — même texte sur WhatsApp, Instagram et TikTok */
-export const INSCRIPTION_MESSAGE_TEMPLATE = `Bonjour, je souhaite m'inscrire sur Bel Âge Pâtisserie.
-
-Nom / marque : [ ]
-Ville : [ ]
-Région : [ ]
-Livraison : [ Oui / Non ]
-
-Spécialités : [ ex. Wedding cake, layer cake, number cake, cupcakes, pâtisserie fine… ]
-Prix à la part : [ à partir de 3 €/part — indiquez votre tarif ]
-
-WhatsApp : [ 33XXXXXXXXX ]
-Instagram : [ lien ou Non ] — Abonnés : [ ]
-TikTok : [ lien ou Non ] — Abonnés : [ ]
-E-mail : [ ou Non ]
-
-Service influence : [ Oui / Non ]
-Si Oui, vos tarifs :
-- Reel rapide : [ ] €
-- Vidéo courte (1 min max avec avis) : [ ] €
-- Vidéo long format (plus de 2 min) : [ ] €`
+/** Modèle pâtissière — voir inscriptionTemplates.js pour toutes les sections */
+export { INSCRIPTION_MESSAGE_TEMPLATE } from './inscriptionTemplates'
 
 /** Critères qualité — Bel Âge peut refuser une inscription */
 export const INSCRIPTION_ACCEPTANCE_INTRO =
