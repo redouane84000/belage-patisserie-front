@@ -19,11 +19,6 @@ export default function MobileHeroFx({ variant = 'inline', className = '' }) {
       <div className="belage-mfx__aurora belage-mfx__aurora--2" />
       <div className="belage-mfx__burst" />
       <div className="belage-mfx__shimmer" />
-      <div className="belage-mfx__orbs">
-        <span className="belage-mfx__orb belage-mfx__orb--1" />
-        <span className="belage-mfx__orb belage-mfx__orb--2" />
-        <span className="belage-mfx__orb belage-mfx__orb--3" />
-      </div>
       <div className="belage-mfx__sparkles">
         {HERO_FX_SPARKLES.map((s) => (
           <span
