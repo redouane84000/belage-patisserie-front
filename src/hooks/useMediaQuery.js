@@ -29,3 +29,8 @@ export function useCarteTouchLayout() {
 export function useMobileLayout() {
   return useMediaQuery('(max-width: 767px)')
 }
+
+/** FX Bel Âge + layouts mobile/tablette (<1024px) */
+export function useBelAgeMobileFx() {
+  return useMediaQuery('(max-width: 1023px)')
+}

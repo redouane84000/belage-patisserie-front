@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'
+import MobileBelAgeFxShell from './components/MobileBelAgeFx/MobileBelAgeFxShell'
 import Home from './pages/Home/Home'
 import Carte from './pages/Carte/Carte'
 import Patissieres from './pages/Patissieres/Patissieres'
@@ -15,6 +16,7 @@ function App() {
   return (
     <>
       <ScrollToTop />
+      <MobileBelAgeFxShell />
       <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/carte" element={<Carte />} />

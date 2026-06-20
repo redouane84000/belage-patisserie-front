@@ -3,9 +3,46 @@
  * Mis à jour : juin 2026
  */
 
+/** Assets visuels Bel Âge (public/) — ne pas remplacer par l’annuaire */
+export const BEL_AGE_BRAND = {
+  wordmark: '/police.png',
+  cakePhoto: '/miriam2.png.png',
+  logo: '/entreprise.belage.png',
+}
+
 /** Prise de rendez-vous (Calendly) */
 export const CALENDLY_NOUVELLE_REUNION =
   'https://calendly.com/redouanektm/nouvelle-reunion'
+
+/** Formation Premium 699 € — lien dédié */
+export const CALENDLY_FORMATION_PREMIUM =
+  'https://calendly.com/redouanektm/nouvelle-reunion-2'
+
+/** Masterclass Cake Design — 1 journée Zoom */
+export const FORMATION_MASTERCLASS = {
+  id: 'masterclass-zoom',
+  title: 'Formation Cake Design — Masterclass Zoom',
+  price: 149,
+  priceLabel: '149 €',
+  duration: '6 h de formation en direct',
+  format: 'Formation en ligne sur Zoom',
+  maxParticipants: 5,
+  calendly: CALENDLY_NOUVELLE_REUNION,
+}
+
+/** Formation Gâteau 3 étages & Flower Cupcakes — 2 jours visio */
+export const FORMATION_TIERED_CAKES = {
+  id: 'gateau-trois-etages',
+  title: 'Formation Cake Design — Gâteau 3 étages & Flower Cupcakes',
+  price: 699,
+  priceLabel: '699 €',
+  duration: '2 jours · en visio',
+  format: 'Formation en ligne en visio',
+  maxParticipants: 3,
+  sessionsPerMonth: 4,
+  followUpDays: 7,
+  calendly: CALENDLY_FORMATION_PREMIUM,
+}
 
 /** Ebook premium Bel Âge (PDF servi depuis /public) */
 export const EBOOK_PREMIUM = {
