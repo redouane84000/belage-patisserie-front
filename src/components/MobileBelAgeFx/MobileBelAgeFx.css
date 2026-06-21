@@ -54,32 +54,7 @@
     opacity: 0.85;
   }
 
-  .belage-mfx__aurora {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(42px);
-    opacity: 0.65;
-  }
-
-  .belage-mfx__aurora--1 {
-    width: 220px;
-    height: 140px;
-    top: -20px;
-    left: -40px;
-    background: radial-gradient(circle, rgba(201, 168, 76, 0.45), transparent 70%);
-    animation: belage-mfx-aurora-1 9s ease-in-out infinite alternate;
-  }
-
-  .belage-mfx__aurora--2 {
-    width: 180px;
-    height: 120px;
-    top: 10px;
-    right: -30px;
-    background: radial-gradient(circle, rgba(232, 212, 154, 0.35), transparent 68%);
-    animation: belage-mfx-aurora-2 7s ease-in-out infinite alternate;
-  }
-
-  .belage-mfx__burst {
+  .belage-mfx__shimmer {
     position: absolute;
     top: 28%;
     left: 50%;
@@ -111,25 +86,6 @@
       transparent 70%
     );
     animation: belage-mfx-shimmer-sweep 4.5s ease-in-out 0.6s infinite;
-  }
-
-  .belage-mfx__sparkles {
-    position: absolute;
-    inset: 0;
-  }
-
-  .belage-mfx__sparkle {
-    position: absolute;
-    left: var(--sx);
-    top: var(--sy);
-    width: var(--ss);
-    height: var(--ss);
-    border-radius: 50%;
-    background: var(--belage-mfx-gold-light);
-    box-shadow:
-      0 0 calc(var(--ss) * 2) rgba(201, 168, 76, 0.8),
-      0 0 calc(var(--ss) * 4) rgba(232, 212, 154, 0.4);
-    animation: belage-mfx-sparkle-float var(--st) ease-in-out var(--sd) infinite;
   }
 
   .belage-mfx__wave {
@@ -291,28 +247,6 @@
   }
 }
 
-@keyframes belage-mfx-aurora-1 {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.5;
-  }
-  100% {
-    transform: translate(30px, 18px) scale(1.12);
-    opacity: 0.75;
-  }
-}
-
-@keyframes belage-mfx-aurora-2 {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.45;
-  }
-  100% {
-    transform: translate(-24px, 22px) scale(1.08);
-    opacity: 0.7;
-  }
-}
-
 @keyframes belage-mfx-burst-once {
   0% {
     transform: translate(-50%, -50%) scale(0.2);
@@ -345,18 +279,6 @@
   100% {
     transform: translateX(280%);
     opacity: 0;
-  }
-}
-
-@keyframes belage-mfx-sparkle-float {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-    opacity: 0.25;
-  }
-  50% {
-    transform: translateY(calc(var(--drift, 1) * -14px)) scale(1.35);
-    opacity: 1;
   }
 }
 
@@ -460,10 +382,8 @@
 
 @media (max-width: 1023px) and (prefers-reduced-motion: reduce) {
   .belage-mfx__rays,
-  .belage-mfx__aurora,
   .belage-mfx__burst,
   .belage-mfx__shimmer,
-  .belage-mfx__sparkle,
   .belage-mfx__wave,
   .belage-mfx-tap-burst__core,
   .belage-mfx-tap-burst__ring,

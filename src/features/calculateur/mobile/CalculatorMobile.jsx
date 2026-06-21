@@ -562,7 +562,7 @@ export default function CalculatorMobile() {
     setSettings({ [key]: numeric ? (value === '' ? 0 : +String(value).replace(',', '.')) : value })
   }
 
-  const NavRow = () => {
+  function renderNavRow() {
     if (step === 0) {
       return (
         <div className="nav-actions">
@@ -601,44 +601,46 @@ export default function CalculatorMobile() {
     )
   }
 
-  const StepProduct = () => (
-    <>
-      <div className="card">
-        <div className="field">
-          <label className="lbl">Nom de la création</label>
-          <input
-            className="inp big"
-            placeholder="Layer cake vanille fraise"
-            value={draft.name}
-            onChange={(e) => patchDraft({ name: e.target.value })}
-          />
-        </div>
-        <div className="field">
-          <label className="lbl">Nombre de parts</label>
-          <div className="inp-icon">
+  function renderStepProduct() {
+    return (
+      <>
+        <div className="card">
+          <div className="field">
+            <label className="lbl">Nom de la création</label>
             <input
-              className="inp"
-              type="number"
-              inputMode="numeric"
-              placeholder="8"
-              value={draft.servings || ''}
-              onChange={(e) => patchDraft({ servings: +e.target.value || 1 })}
+              className="inp big"
+              placeholder="Layer cake vanille fraise"
+              value={draft.name}
+              onChange={(e) => patchDraft({ name: e.target.value })}
             />
-            <span className="unit">parts</span>
+          </div>
+          <div className="field">
+            <label className="lbl">Nombre de parts</label>
+            <div className="inp-icon">
+              <input
+                className="inp"
+                type="number"
+                inputMode="numeric"
+                placeholder="8"
+                value={draft.servings || ''}
+                onChange={(e) => patchDraft({ servings: +e.target.value || 1 })}
+              />
+              <span className="unit">parts</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="hint">
-        <IconSpark />
-        <span>
-          On va calculer le coût réel de cette création, puis le prix idéal pour bien gagner votre vie.
-        </span>
-      </div>
-      <NavRow />
-    </>
-  )
+        <div className="hint">
+          <IconSpark />
+          <span>
+            On va calculer le coût réel de cette création, puis le prix idéal pour bien gagner votre vie.
+          </span>
+        </div>
+        {renderNavRow()}
+      </>
+    )
+  }
 
-  const StepIngredients = () => {
+  function renderStepIngredients() {
     const total = (draft.ingredients || []).reduce(
       (s, x) => s + (ingCost(x.packQty, x.packUnit, x.packPrice, x.useQty, x.useUnit) || 0),
       0,
@@ -770,12 +772,12 @@ export default function CalculatorMobile() {
             </div>
           </>
         )}
-        <NavRow />
+        {renderNavRow()}
       </>
     )
   }
 
-  const StepPackaging = () => {
+  function renderStepPackaging() {
     const total = (draft.packaging || []).reduce((s, x) => s + (+x.unitPrice || 0) * (+x.qty || 0), 0)
     return (
       <>
@@ -863,12 +865,12 @@ export default function CalculatorMobile() {
             </span>
           </div>
         )}
-        <NavRow />
+        {renderNavRow()}
       </>
     )
   }
 
-  const StepEnergy = () => {
+  function renderStepEnergy() {
     const total = (draft.energy || []).reduce((s, x) => s + energyCost(x.power, x.minutes, settings.kwh), 0)
     return (
       <>
@@ -974,12 +976,12 @@ export default function CalculatorMobile() {
             </div>
           </>
         )}
-        <NavRow />
+        {renderNavRow()}
       </>
     )
   }
 
-  const StepPrice = () => {
+  function renderStepPrice() {
     const countHours = draft.countHours !== false
     return (
       <>
@@ -1083,12 +1085,12 @@ export default function CalculatorMobile() {
             On vous montrera le prix conseillé <b>avec</b> et <b>sans</b> compter vos heures — à vous de choisir.
           </span>
         </div>
-        <NavRow />
+        {renderNavRow()}
       </>
     )
   }
 
-  const StepResult = () => {
+  function renderStepResult() {
     const r = result
     const d = draft
     const M = STATUS[r.level] || STATUS.neutral
@@ -1198,15 +1200,13 @@ export default function CalculatorMobile() {
             <div className="rd">{rd}</div>
           </div>
         </div>
-        <NavRow />
+        {renderNavRow()}
       </>
     )
   }
 
   const renderCalc = () => {
     const st = STEPS[step]
-    const stepBodies = [StepProduct, StepIngredients, StepPackaging, StepEnergy, StepPrice, StepResult]
-    const Body = stepBodies[step]
     return (
       <>
         <h1 className="screen-title">{st.t}</h1>
@@ -1221,7 +1221,12 @@ export default function CalculatorMobile() {
           {st.n} <b>· sur 6</b>
         </div>
         <div className="screen-anim">
-          <Body />
+          {step === 0 && renderStepProduct()}
+          {step === 1 && renderStepIngredients()}
+          {step === 2 && renderStepPackaging()}
+          {step === 3 && renderStepEnergy()}
+          {step === 4 && renderStepPrice()}
+          {step === 5 && renderStepResult()}
         </div>
       </>
     )
