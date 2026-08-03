@@ -18,8 +18,8 @@ export const CALENDLY_NOUVELLE_REUNION =
 export const FORMATION_MASTERCLASS = {
   id: 'masterclass-zoom',
   title: 'Formation Cake Design — Masterclass Zoom',
-  price: 149,
-  priceLabel: '149 €',
+  price: 249,
+  priceLabel: '249 €',
   duration: '6 h de formation en direct',
   format: 'Formation en ligne sur Zoom',
   maxParticipants: 5,

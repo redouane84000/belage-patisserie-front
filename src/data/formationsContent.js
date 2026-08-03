@@ -34,7 +34,7 @@ export const FORMATIONS_HERO = {
   headlineAccent: 'qui se facture 500 €.',
   sub: 'Bel Âge Pâtisserie vous transmet en direct — visio live, corrections sur vos gestes, pas une formation enregistrée.',
   bullets: [
-    'Masterclass socle · crèmes, montage, lissage · 149 € · 1 journée',
+    'Masterclass socle · crèmes, montage, lissage · 249 € · 1 journée',
     '5 participantes maximum · WhatsApp 7 jours',
   ],
   urgency: 'Places limitées — réservez votre créneau avant la prochaine session.',
