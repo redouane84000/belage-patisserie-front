@@ -10,5 +10,16 @@
     ],
     "isActive": true,
     "createdAt": "2026-08-04T17:04:00.000Z"
+  },
+  {
+    "id": "client_77417d8efb12",
+    "firstName": "Miriam",
+    "username": "miriam",
+    "passwordHash": "$2b$12$BNkEmW7gCah2gblrR0yxo.sIy5BUeEvN/2Db/NcnTKkKB.9QK5oiW",
+    "purchasedCourses": [
+      "layer-cake"
+    ],
+    "isActive": true,
+    "createdAt": "2026-08-04T18:13:56.928Z"
   }
 ]
