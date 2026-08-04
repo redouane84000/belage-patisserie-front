@@ -3,7 +3,7 @@ import { useBelAgeMobileFx } from '../../hooks/useMediaQuery'
 import MobileHeroFx from './MobileHeroFx'
 
 /** Pages avec hero FX intégré — évite le doublon à l’entrée */
-const SKIP_ROUTE_PREFIXES = ['/packs']
+const SKIP_ROUTE_PREFIXES = ['/packs', '/plateforme']
 
 export default function MobileRouteEntryFx() {
   const isMobile = useBelAgeMobileFx()

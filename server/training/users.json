@@ -1,0 +1,14 @@
+[
+  {
+    "id": "client_redouane_01",
+    "firstName": "Redouane",
+    "username": "redouane",
+    "passwordHash": "$2b$12$nmAsy7ul7f173HBNCEV3ZulnUn.GxB4DFBwzl1qPBOmRHo/Fd8V9C",
+    "purchasedCourses": [
+      "layer-cake",
+      "flower-cupcake"
+    ],
+    "isActive": true,
+    "createdAt": "2026-08-04T17:04:00.000Z"
+  }
+]
