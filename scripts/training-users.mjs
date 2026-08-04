@@ -9,6 +9,11 @@ import { trainingUserRepository } from '../server/training/usersRepository.js'
 const action = process.argv[2]
 const rl = createInterface({ input, output })
 
+function option(name) {
+  const index = process.argv.indexOf(name)
+  return index >= 0 ? process.argv[index + 1] : undefined
+}
+
 function printCourses(courses) {
   return courses.length ? courses.join(', ') : 'Aucune'
 }
@@ -44,11 +49,12 @@ async function askUsername(users) {
 
 async function add() {
   const users = await trainingUserRepository.list()
-  const firstName = (await rl.question('Prénom : ')).trim()
-  const requestedUsername = await rl.question('Identifiant souhaité (Entrée = généré) : ')
-  const courses = parseCourses(await rl.question(`Formations (${COURSE_IDS.join(', ')}) : `))
-  const active = (await rl.question('Compte actif ? (o/n, défaut o) : ')).trim().toLowerCase() !== 'n'
-  const expiresAtRaw = (await rl.question('Expiration ISO optionnelle (YYYY-MM-DD, Entrée = aucune) : ')).trim()
+  const nonInteractive = Boolean(option('--first-name'))
+  const firstName = (option('--first-name') ?? await rl.question('Prénom : ')).trim()
+  const requestedUsername = option('--username') ?? (nonInteractive ? '' : await rl.question('Identifiant souhaité (Entrée = généré) : '))
+  const courses = parseCourses(option('--courses') ?? await rl.question(`Formations (${COURSE_IDS.join(', ')}) : `))
+  const active = (option('--active') ?? (nonInteractive ? 'o' : await rl.question('Compte actif ? (o/n, défaut o) : '))).trim().toLowerCase() !== 'n'
+  const expiresAtRaw = (option('--expires-at') ?? (nonInteractive ? '' : await rl.question('Expiration ISO optionnelle (YYYY-MM-DD, Entrée = aucune) : '))).trim()
   const expiresAt = expiresAtRaw ? new Date(expiresAtRaw).toISOString() : undefined
   if (!firstName) throw new Error('Le prénom est obligatoire.')
 
