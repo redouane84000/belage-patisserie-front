@@ -16,6 +16,9 @@ import TrainingLogin from './pages/Plateforme/TrainingLogin'
 import TrainingDashboard from './pages/Plateforme/TrainingDashboard'
 import TrainingCourse from './pages/Plateforme/TrainingCourse'
 
+// Mettre à false dès que la maintenance est terminée.
+const MAINTENANCE_MODE = true
+
 class AppErrorBoundary extends Component {
   state = { error: null }
 
@@ -43,6 +46,10 @@ class AppErrorBoundary extends Component {
 }
 
 function App() {
+  if (MAINTENANCE_MODE) {
+    return <div className="maintenance-screen" aria-hidden="true" />
+  }
+
   return (
     <AppErrorBoundary>
       <ScrollToTop />
