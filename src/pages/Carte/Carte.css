@@ -656,8 +656,12 @@
   transform: scale(0.94);
 }
 
-.city-panel--immersive {
+.map-wrap--immersive .city-panel--immersive {
   z-index: 1350;
+  top: auto;
+  left: calc(12px + env(safe-area-inset-left, 0px));
+  right: calc(12px + env(safe-area-inset-right, 0px));
+  width: auto;
   max-height: min(46dvh, 360px);
   bottom: calc(18px + env(safe-area-inset-bottom, 0px));
 }
@@ -1121,7 +1125,7 @@
   right: 16px;
   bottom: 16px;
   width: min(320px, calc(100% - 32px));
-  z-index: 600;
+  z-index: 1200;
   display: flex;
   flex-direction: column;
   background: var(--color-white);

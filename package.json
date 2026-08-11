@@ -5,12 +5,23 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:vite": "vite",
+    "dev:vercel": "npx vercel dev",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "shop:import": "node scripts/import-shop-catalog.mjs",
+    "training:user:list": "node scripts/training-users.mjs list",
+    "training:user:add": "node scripts/training-users.mjs add",
+    "training:user:disable": "node scripts/training-users.mjs disable",
+    "training:user:enable": "node scripts/training-users.mjs enable",
+    "training:user:update-courses": "node scripts/training-users.mjs update-courses",
+    "training:user:reset-password": "node scripts/training-users.mjs reset-password",
+    "training:user:delete": "node scripts/training-users.mjs delete"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
+    "bcryptjs": "^3.0.3",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",
     "leaflet": "^1.9.4",

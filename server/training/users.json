@@ -1,0 +1,38 @@
+[
+  {
+    "id": "client_redouane_01",
+    "firstName": "Redouane",
+    "username": "redouane",
+    "passwordHash": "$2b$12$nmAsy7ul7f173HBNCEV3ZulnUn.GxB4DFBwzl1qPBOmRHo/Fd8V9C",
+    "purchasedCourses": [
+      "layer-cake",
+      "flower-cupcake"
+    ],
+    "isActive": true,
+    "createdAt": "2026-08-04T17:04:00.000Z"
+  },
+  {
+    "id": "client_77417d8efb12",
+    "firstName": "Miriam",
+    "username": "miriam",
+    "passwordHash": "$2b$12$BNkEmW7gCah2gblrR0yxo.sIy5BUeEvN/2Db/NcnTKkKB.9QK5oiW",
+    "purchasedCourses": [
+      "layer-cake"
+    ],
+    "isActive": true,
+    "createdAt": "2026-08-04T18:13:56.928Z"
+  },
+  {
+    "id": "client_84fff954ab02",
+    "firstName": "Kader",
+    "username": "kader",
+    "passwordHash": "$2b$12$tOBUzLef3ERvTsbpkylH7er5UIlTKo4WgGSrGP/vDL1KnABs5Mk/e",
+    "purchasedCourses": [
+      "layer-cake",
+      "flower-cupcake",
+      "wedding-cake"
+    ],
+    "isActive": true,
+    "createdAt": "2026-08-04T18:18:23.746Z"
+  }
+]

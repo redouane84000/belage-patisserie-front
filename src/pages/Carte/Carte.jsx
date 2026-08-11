@@ -19,7 +19,6 @@ import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import {
   Search,
   MapPin,
-  Map as MapIcon,
   SlidersHorizontal,
   X,
   Check,
@@ -182,7 +181,7 @@ function MapInteractionMode({ touchLayout, immersive }) {
       map.dragging.disable()
       map.touchZoom.disable()
       map.doubleClickZoom.disable()
-      map.tap?.disable()
+      map.tap?.enable()
     }
 
     return undefined
@@ -376,6 +375,7 @@ function CityPatissieresPanel({
   onClose,
   touchLayout,
   pageLayout,
+  immersive,
   showClose = true,
   closeLabel = 'Fermer la liste',
   fromSearch,
@@ -387,7 +387,7 @@ function CityPatissieresPanel({
 
   return (
     <aside
-      className={`city-panel ${touchLayout && !pageLayout ? 'city-panel--mobile' : ''} ${pageLayout ? 'city-panel--page' : ''}`}
+      className={`city-panel ${touchLayout && !pageLayout ? 'city-panel--mobile' : ''} ${pageLayout ? 'city-panel--page' : ''} ${immersive ? 'city-panel--immersive' : ''}`}
       aria-label={`${providerPlural} à ${city.name}`}
     >
       <header className="city-panel__head">
@@ -641,10 +641,6 @@ export default function Carte() {
     }
   }, [touchLayout, mapImmersive])
 
-  function openMapImmersive() {
-    setMapImmersive(true)
-  }
-
   function closeMapImmersive() {
     setMapImmersive(false)
   }
@@ -665,13 +661,8 @@ export default function Carte() {
     setPanelFromSearch(fromSearch)
     setCityPanelOpen(true)
 
-    if (mobileLayout && mapImmersive) {
-      setMapImmersive(false)
-      window.requestAnimationFrame(() => {
-        document
-          .querySelector('.carte-mobile-results')
-          ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-      })
+    if (touchLayout && !mapImmersive) {
+      setMapImmersive(true)
     }
   }
 
@@ -915,22 +906,6 @@ export default function Carte() {
           <div
             className={`map-wrap ${mapImmersive ? 'map-wrap--immersive' : ''}`}
           >
-            {touchLayout && !mapImmersive && (
-              <div className="map-enter-gate" aria-hidden={false}>
-                <button
-                  type="button"
-                  className="map-enter-gate__btn"
-                  onClick={openMapImmersive}
-                >
-                  <MapIcon size={20} strokeWidth={2} />
-                  Ouvrir la carte
-                </button>
-                <p className="map-enter-gate__hint">
-                  Navigation volontaire · glissez et zoomez une fois ouverte
-                </p>
-              </div>
-            )}
-
             <MapContainer
               center={[46.603354, 1.888334]}
               zoom={6}
@@ -982,13 +957,25 @@ export default function Carte() {
               ))}
             </MapContainer>
 
-            {!mobileLayout && cityPanelOpen && panelCity && (
+            {!mobileLayout && cityPanelOpen && panelCity && !(touchLayout && mapImmersive) && (
               <CityPatissieresPanel
                 city={panelCity}
                 list={panelPatissieres}
                 filteredCount={panelFilteredCount}
                 onClose={() => setCityPanelOpen(false)}
                 touchLayout={touchLayout}
+                fromSearch={panelFromSearch}
+                {...cityPanelProps}
+              />
+            )}
+            {touchLayout && mapImmersive && cityPanelOpen && panelCity && (
+              <CityPatissieresPanel
+                city={panelCity}
+                list={panelPatissieres}
+                filteredCount={panelFilteredCount}
+                onClose={() => setCityPanelOpen(false)}
+                touchLayout={touchLayout}
+                immersive
                 fromSearch={panelFromSearch}
                 {...cityPanelProps}
               />
