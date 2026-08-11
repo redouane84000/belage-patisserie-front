@@ -10,6 +10,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "shop:import": "node scripts/import-shop-catalog.mjs",
     "training:user:list": "node scripts/training-users.mjs list",
     "training:user:add": "node scripts/training-users.mjs add",
     "training:user:disable": "node scripts/training-users.mjs disable",

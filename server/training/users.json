@@ -21,5 +21,18 @@
     ],
     "isActive": true,
     "createdAt": "2026-08-04T18:13:56.928Z"
+  },
+  {
+    "id": "client_84fff954ab02",
+    "firstName": "Kader",
+    "username": "kader",
+    "passwordHash": "$2b$12$tOBUzLef3ERvTsbpkylH7er5UIlTKo4WgGSrGP/vDL1KnABs5Mk/e",
+    "purchasedCourses": [
+      "layer-cake",
+      "flower-cupcake",
+      "wedding-cake"
+    ],
+    "isActive": true,
+    "createdAt": "2026-08-04T18:18:23.746Z"
   }
 ]
