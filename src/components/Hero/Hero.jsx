@@ -53,8 +53,8 @@ export default function Hero() {
           <div className="hero__divider anim" style={{ animationDelay: '0.25s' }} />
 
           <p className="hero__desc anim" style={{ animationDelay: '0.3s' }}>
-            Comparez les prestataires près de chez vous, explorez les inspirations
-            et demandez plusieurs devis en quelques clics.
+            Comparez les prestataires près de chez vous et demandez plusieurs devis
+            en quelques clics.
           </p>
 
           <div className="hero__cta anim" style={{ animationDelay: '0.4s' }}>

@@ -4,6 +4,7 @@ import {
   BEL_AGE_WHATSAPP_URL,
   BEL_AGE_WHATSAPP_DISPLAY,
 } from '../../data/resources'
+import { HIDDEN_ROUTES } from '../../config/hiddenRoutes'
 import './Footer.css'
 
 function IconInstagram() {
@@ -49,6 +50,8 @@ const NAV_LINKS = [
   { label: 'Rejoindre le réseau', to: '/rejoindre' },
   { label: 'Demander un devis', to: '/contact' },
 ]
+
+const VISIBLE_NAV_LINKS = NAV_LINKS.filter((link) => !HIDDEN_ROUTES.has(link.to))
 
 const LEGAL_LINKS = [
   { label: 'Mentions légales', to: '/mentions-legales' },
@@ -110,7 +113,7 @@ export default function Footer() {
         <div className="site-footer__col site-footer__col--nav">
           <p className="site-footer__heading">Navigation</p>
           <ul className="site-footer__links">
-            {NAV_LINKS.map((link) => (
+            {VISIBLE_NAV_LINKS.map((link) => (
               <li key={link.to}>
                 <Link to={link.to} className="site-footer__link">
                   {link.label}
@@ -215,7 +218,7 @@ export default function Footer() {
 
         <FooterAccordion title="Navigation">
           <ul className="site-footer__links site-footer__links--mob">
-            {NAV_LINKS.map((link) => (
+            {VISIBLE_NAV_LINKS.map((link) => (
               <li key={link.to}>
                 <Link to={link.to} className="site-footer__link">
                   {link.label}
