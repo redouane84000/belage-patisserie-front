@@ -1,6 +1,7 @@
 import { Component } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
+import { HIDDEN_ROUTES } from './config/hiddenRoutes'
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'
 import MobileBelAgeFxShell from './components/MobileBelAgeFx/MobileBelAgeFxShell'
 import Home from './pages/Home/Home'
@@ -52,10 +53,16 @@ function App() {
       <Route path="/carte" element={<Carte />} />
       <Route path="/carte-france" element={<Carte />} />
       <Route path="/patissieres" element={<Patissieres />} />
-      <Route path="/inspirations" element={<Inspirations />} />
+      <Route
+        path="/inspirations"
+        element={HIDDEN_ROUTES.has('/inspirations') ? <Navigate to="/" replace /> : <Inspirations />}
+      />
       <Route path="/packs" element={<Packs />} />
       <Route path="/rejoindre" element={<Rejoindre />} />
-      <Route path="/calculateur-rentabilite" element={<CalculateurRentabilite />} />
+      <Route
+        path="/calculateur-rentabilite"
+        element={HIDDEN_ROUTES.has('/calculateur-rentabilite') ? <Navigate to="/" replace /> : <CalculateurRentabilite />}
+      />
       <Route path="/mentions-legales" element={<Mentions />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/plateforme/connexion" element={<TrainingLogin />} />

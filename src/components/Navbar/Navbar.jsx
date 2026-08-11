@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { LayoutGrid, Menu, X } from 'lucide-react'
+import { HIDDEN_ROUTES } from '../../config/hiddenRoutes'
 import './Navbar.css'
 
 const NAV_LINKS = [
@@ -12,6 +13,8 @@ const NAV_LINKS = [
   { label: 'Calculateur rentabilité', to: '/calculateur-rentabilite' },
   { label: 'Rejoindre le réseau', to: '/rejoindre' },
 ]
+
+const VISIBLE_NAV_LINKS = NAV_LINKS.filter((link) => !HIDDEN_ROUTES.has(link.to))
 
 function NavItem({ to, label, className, onClick }) {
   if (to.startsWith('/')) {
@@ -53,7 +56,7 @@ export default function Navbar() {
         </Link>
 
         <nav className="navbar__links" aria-label="Navigation principale">
-          {NAV_LINKS.map((link) => (
+          {VISIBLE_NAV_LINKS.map((link) => (
             <NavItem
               key={link.label}
               to={link.to}
@@ -99,7 +102,7 @@ export default function Navbar() {
           </button>
         </div>
         <nav className="navbar__drawer-links" aria-label="Navigation mobile">
-          {NAV_LINKS.map((link) => (
+          {VISIBLE_NAV_LINKS.map((link) => (
             <NavItem
               key={link.label}
               to={link.to}
