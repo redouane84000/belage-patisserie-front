@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { X, MapPin } from 'lucide-react'
 import { formatProviderPrice } from '../../../utils/patissiere'
 import {
@@ -14,8 +14,11 @@ export default function PatissieresMobileSheet({ profile: p, onClose }) {
   const [visible, setVisible] = useState(false)
   const [photoOk, setPhotoOk] = useState(false)
   const [showPhone, setShowPhone] = useState(false)
+  const closingRef = useRef(false)
+  const closeTimerRef = useRef(null)
 
   useEffect(() => {
+    closingRef.current = false
     setShowPhone(false)
     setPhotoOk(false)
   }, [p?.id])
@@ -25,20 +28,22 @@ export default function PatissieresMobileSheet({ profile: p, onClose }) {
     const raf = requestAnimationFrame(() => setVisible(true))
     return () => {
       cancelAnimationFrame(raf)
+      window.clearTimeout(closeTimerRef.current)
       document.body.style.overflow = ''
     }
   }, [p?.id])
 
   function handleClose() {
+    if (closingRef.current) return
+    closingRef.current = true
     setVisible(false)
-    window.setTimeout(onClose, 280)
+    closeTimerRef.current = window.setTimeout(onClose, 280)
   }
 
   useEffect(() => {
     function onKey(e) {
       if (e.key === 'Escape') {
-        setVisible(false)
-        window.setTimeout(onClose, 280)
+        handleClose()
       }
     }
     window.addEventListener('keydown', onKey)

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { X, ArrowRight } from 'lucide-react'
 import InspirationImage from '../../../components/InspirationImage/InspirationImage'
@@ -6,19 +6,25 @@ import './InspirationsMobile.css'
 
 export default function InspirationsMobileSheet({ item, onClose }) {
   const [visible, setVisible] = useState(false)
+  const closingRef = useRef(false)
+  const closeTimerRef = useRef(null)
 
   useEffect(() => {
+    closingRef.current = false
     document.body.style.overflow = 'hidden'
     const raf = requestAnimationFrame(() => setVisible(true))
     return () => {
       cancelAnimationFrame(raf)
+      window.clearTimeout(closeTimerRef.current)
       document.body.style.overflow = ''
     }
   }, [item.id])
 
   function handleClose() {
+    if (closingRef.current) return
+    closingRef.current = true
     setVisible(false)
-    window.setTimeout(onClose, 280)
+    closeTimerRef.current = window.setTimeout(onClose, 280)
   }
 
   useEffect(() => {
