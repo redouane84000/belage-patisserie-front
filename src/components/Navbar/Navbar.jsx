@@ -39,7 +39,16 @@ export default function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = isDrawerOpen ? 'hidden' : ''
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setIsDrawerOpen(false)
+    }
+
+    if (isDrawerOpen) {
+      window.addEventListener('keydown', closeOnEscape)
+    }
+
     return () => {
+      window.removeEventListener('keydown', closeOnEscape)
       document.body.style.overflow = ''
     }
   }, [isDrawerOpen])
