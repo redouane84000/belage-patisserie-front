@@ -33,7 +33,6 @@ const PATISSERIE_SPECIALITES = [
  * @property {string[]} quickFilters
  * @property {boolean} showInfluenceFilter
  * @property {boolean} showInfluenceSegment
- * @property {{ specialties: string[], budget: object|null, toggles: { id: string, label: string }[] }} mapConfig
  * @property {string} emptyMessage
  */
 
@@ -52,14 +51,6 @@ export const PROVIDER_SECTIONS = [
     quickFilters: ['Tous', ...PATISSERIE_SPECIALITES],
     showInfluenceFilter: true,
     showInfluenceSegment: true,
-    mapConfig: {
-      specialties: PATISSERIE_SPECIALITES,
-      budget: { min: 3, max: 10, step: 0.5, suffix: '€/part' },
-      toggles: [
-        { id: 'influence', label: 'Influence' },
-        { id: 'livraison', label: 'Livraison disponible' },
-      ],
-    },
     emptyMessage: 'Aucune pâtissière trouvée',
   },
   {
@@ -84,19 +75,6 @@ export const PROVIDER_SECTIONS = [
     ],
     showInfluenceFilter: false,
     showInfluenceSegment: false,
-    mapConfig: {
-      specialties: [
-        'Mariage',
-        'Corporate',
-        'Baptême',
-        'Anniversaire',
-        'Portrait',
-        'Clip / Vidéo',
-        'Drone',
-      ],
-      budget: null,
-      toggles: [{ id: 'livraison', label: 'Déplacement inclus' }],
-    },
     emptyMessage: 'Aucun photographe ou vidéaste pour le moment',
   },
   {
@@ -120,18 +98,6 @@ export const PROVIDER_SECTIONS = [
     ],
     showInfluenceFilter: false,
     showInfluenceSegment: false,
-    mapConfig: {
-      specialties: [
-        'Mariage',
-        'Cocktail',
-        'Buffet',
-        'Brunch',
-        'Événement privé',
-        'Corporate',
-      ],
-      budget: null,
-      toggles: [{ id: 'livraison', label: 'Service sur place' }],
-    },
     emptyMessage: 'Aucun traiteur pour le moment',
   },
   {
@@ -154,17 +120,6 @@ export const PROVIDER_SECTIONS = [
     ],
     showInfluenceFilter: false,
     showInfluenceSegment: false,
-    mapConfig: {
-      specialties: [
-        'Mariage',
-        'Soirée privée',
-        'Corporate',
-        'Anniversaire',
-        'Animation micro',
-      ],
-      budget: null,
-      toggles: [],
-    },
     emptyMessage: 'Aucun DJ pour le moment',
   },
   {
@@ -188,18 +143,6 @@ export const PROVIDER_SECTIONS = [
     ],
     showInfluenceFilter: false,
     showInfluenceSegment: false,
-    mapConfig: {
-      specialties: [
-        'Mariage',
-        'Baptême',
-        'Anniversaire',
-        'Corporate',
-        'Décoration florale',
-        'Scénographie',
-      ],
-      budget: null,
-      toggles: [{ id: 'livraison', label: 'Installation sur site' }],
-    },
     emptyMessage: 'Aucun décorateur pour le moment',
   },
   {
@@ -222,17 +165,6 @@ export const PROVIDER_SECTIONS = [
     ],
     showInfluenceFilter: false,
     showInfluenceSegment: false,
-    mapConfig: {
-      specialties: [
-        'Mariage',
-        'Vintage',
-        'Limousine',
-        'Voiture de luxe',
-        'Avec chauffeur',
-      ],
-      budget: null,
-      toggles: [{ id: 'livraison', label: 'Avec chauffeur' }],
-    },
     emptyMessage: 'Aucune agence pour le moment',
   },
 ]

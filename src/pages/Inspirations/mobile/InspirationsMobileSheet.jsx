@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { X, ArrowRight, MapPin } from 'lucide-react'
+import { X, ArrowRight } from 'lucide-react'
 import InspirationImage from '../../../components/InspirationImage/InspirationImage'
 import './InspirationsMobile.css'
 
@@ -78,14 +78,6 @@ export default function InspirationsMobileSheet({ item, onClose }) {
             onClick={handleClose}
           >
             Je veux ce style <ArrowRight size={15} strokeWidth={2} />
-          </Link>
-          <Link
-            to="/carte"
-            className="insp-m-sheet__link"
-            onClick={handleClose}
-          >
-            <MapPin size={14} strokeWidth={2} />
-            Voir la carte France
           </Link>
         </div>
       </div>

@@ -20,11 +20,6 @@ export function useMediaQuery(query) {
   return matches
 }
 
-/** Carte : comportement tactile / scroll page (sidebar masquée) */
-export function useCarteTouchLayout() {
-  return useMediaQuery('(max-width: 1279px)')
-}
-
 /** Layout mobile app (fiches bulles, bottom sheets) */
 export function useMobileLayout() {
   return useMediaQuery('(max-width: 767px)')

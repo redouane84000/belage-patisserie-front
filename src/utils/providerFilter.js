@@ -1,5 +1,3 @@
-import { getPricePerSlice } from './patissiere'
-import { patissiereMatchesCity } from './europeanCitySearch'
 import { FILTRE_INFLUENCE } from '../data/providerSections'
 
 /**
@@ -45,51 +43,3 @@ export function filterProvidersForMobile(
   })
 }
 
-/**
- * Filtre carte interactive.
- */
-export function filterProvidersForMap(
-  providers,
-  {
-    search,
-    pinnedCity,
-    specs,
-    budget,
-    onlyInfluence,
-    livraison,
-    mapConfig,
-  }
-) {
-  return providers.filter((p) => {
-    let matchLocation = true
-    if (pinnedCity) {
-      matchLocation = patissiereMatchesCity(p, pinnedCity)
-    } else {
-      const q = search.trim().toLowerCase()
-      matchLocation =
-        !q ||
-        p.ville.toLowerCase().includes(q) ||
-        p.nom.toLowerCase().includes(q)
-    }
-
-    const matchSpec =
-      specs.length === 0 ||
-      specs.some((s) => (p.specialites || []).includes(s))
-
-    let matchBudget = true
-    if (mapConfig.budget) {
-      const slice = getPricePerSlice(p)
-      matchBudget = slice == null || slice <= budget
-    }
-
-    const hasInfluenceToggle = mapConfig.toggles.some((t) => t.id === 'influence')
-    const matchInfluence = !hasInfluenceToggle || !onlyInfluence || p.offersInfluence === true
-
-    const hasLivraisonToggle = mapConfig.toggles.some((t) => t.id === 'livraison')
-    const matchLivraison = !hasLivraisonToggle || !livraison || p.livraison
-
-    return (
-      matchLocation && matchSpec && matchBudget && matchInfluence && matchLivraison
-    )
-  })
-}

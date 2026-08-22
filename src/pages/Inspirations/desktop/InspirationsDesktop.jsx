@@ -255,9 +255,6 @@ export default function InspirationsDesktop() {
           <Link to="/patissieres" className="insp-btn insp-btn--dark">
             Créer ma demande <ArrowRight size={14} strokeWidth={2} />
           </Link>
-          <Link to="/carte" className="insp-btn insp-btn--outline">
-            Voir la carte France
-          </Link>
         </div>
       </section>
       <Footer />

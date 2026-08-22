@@ -10,7 +10,6 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "shop:import": "node scripts/import-shop-catalog.mjs",
     "training:user:list": "node scripts/training-users.mjs list",
     "training:user:add": "node scripts/training-users.mjs add",
     "training:user:disable": "node scripts/training-users.mjs disable",
@@ -24,12 +23,9 @@
     "bcryptjs": "^3.0.3",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",
-    "leaflet": "^1.9.4",
-    "leaflet-gesture-handling": "^1.2.2",
     "lucide-react": "^1.17.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.16.0"
   },
   "devDependencies": {

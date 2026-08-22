@@ -113,9 +113,6 @@ export default function Rejoindre() {
             Rejoindre gratuitement le réseau{' '}
             <ArrowRight size={14} strokeWidth={2} />
           </a>
-          <Link to="/carte" className="rej-btn rej-btn--outline">
-            Voir la carte France <ArrowRight size={14} strokeWidth={2} />
-          </Link>
         </div>
       </header>
 

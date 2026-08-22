@@ -6,8 +6,6 @@ import './Navbar.css'
 
 const NAV_LINKS = [
   { label: 'Trouver un prestataire', to: '/patissieres' },
-  { label: 'Carte France', to: '/carte' },
-  { label: 'Boutique en ligne', to: '/boutique' },
   { label: 'Inspirations', to: '/inspirations' },
   { label: 'Nos formations', to: '/packs' },
   { label: 'Plateforme de formation', to: '/plateforme' },

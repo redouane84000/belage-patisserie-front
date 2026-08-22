@@ -427,19 +427,6 @@
   letter-spacing: 1px;
 }
 
-.insp-m-dock__map {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--color-white);
-  color: var(--color-gold);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-}
-
 /* ====================== Bottom sheet détail ====================== */
 .insp-m-sheet {
   position: fixed;

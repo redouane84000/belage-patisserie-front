@@ -1,12 +1,12 @@
-import { MapPin, FileText, Gift, Lightbulb } from 'lucide-react'
+import { Users, FileText, Gift, Lightbulb } from 'lucide-react'
 import { HIDDEN_ROUTES } from '../../config/hiddenRoutes'
 import './FeaturesStrip.css'
 
 const FEATURES = [
   {
-    icon: MapPin,
-    title: 'Carte interactive',
-    desc: 'Trouvez les pâtissières près de chez vous',
+    icon: Users,
+    title: 'Annuaire de prestataires',
+    desc: 'Trouvez la pâtissière idéale pour votre projet',
   },
   {
     icon: FileText,

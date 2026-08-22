@@ -61,9 +61,6 @@ export default function Hero() {
             <Link to="/patissieres" className="btn btn--dark home-m-shine">
               Trouver mon prestataire <ArrowRight size={16} strokeWidth={2} />
             </Link>
-            <Link to="/carte" className="btn btn--outline">
-              Explorer la carte <ArrowRight size={16} strokeWidth={2} />
-            </Link>
           </div>
         </div>
 

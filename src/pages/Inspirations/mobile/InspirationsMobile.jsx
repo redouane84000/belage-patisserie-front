@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Sparkles, MapPin, ChevronDown } from 'lucide-react'
+import { ArrowRight, Sparkles, ChevronDown } from 'lucide-react'
 import Navbar from '../../../components/Navbar/Navbar'
 import Footer from '../../../components/Footer/Footer'
 import InspirationImage from '../../../components/InspirationImage/InspirationImage'
@@ -25,7 +25,7 @@ const TIPS = [
   },
   {
     title: 'Passez à l’action',
-    text: 'Trouvez une créatrice sur la carte ou créez votre demande.',
+    text: 'Trouvez une créatrice dans l’annuaire ou créez votre demande.',
   },
 ]
 
@@ -152,9 +152,6 @@ export default function InspirationsMobile() {
         <Link to="/patissieres" className="insp-m-dock__primary">
           Trouver un prestataire
           <ArrowRight size={16} strokeWidth={2} />
-        </Link>
-        <Link to="/carte" className="insp-m-dock__map" aria-label="Carte France">
-          <MapPin size={20} strokeWidth={2} />
         </Link>
       </div>
 
