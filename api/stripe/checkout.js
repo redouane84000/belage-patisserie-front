@@ -1,5 +1,6 @@
 import Stripe from 'stripe'
 import { checkoutItem } from '../../server/stripe/catalog.js'
+import { stripeSecretKey } from '../../server/stripe/config.js'
 
 function readBody(req) {
   if (typeof req.body === 'object' && req.body !== null) return req.body
@@ -8,7 +9,7 @@ function readBody(req) {
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Méthode non autorisée.' })
-  if (!process.env.STRIPE_SECRET_KEY) return res.status(503).json({ error: 'Le paiement est en cours de configuration.' })
+  if (!stripeSecretKey) return res.status(503).json({ error: 'Le paiement est en cours de configuration.' })
 
   const { courseIds, firstName, lastName, email, phone } = readBody(req)
   const item = Array.isArray(courseIds) ? checkoutItem(courseIds) : null
@@ -16,7 +17,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Vérifiez les formations et vos coordonnées.' })
   }
 
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+  const stripe = new Stripe(stripeSecretKey)
   const origin = req.headers.origin || 'https://www.belagepatisserie.com'
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',

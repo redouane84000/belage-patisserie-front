@@ -1,5 +1,6 @@
 import Stripe from 'stripe'
 import { checkoutItem } from '../../server/stripe/catalog.js'
+import { stripeSecretKey, stripeWebhookSecret } from '../../server/stripe/config.js'
 
 export const config = { api: { bodyParser: false } }
 
@@ -11,12 +12,12 @@ async function rawBody(req) {
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).send('Method not allowed')
-  if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) return res.status(503).send('Webhook unavailable')
+  if (!stripeSecretKey || !stripeWebhookSecret) return res.status(503).send('Webhook unavailable')
 
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+    const stripe = new Stripe(stripeSecretKey)
     const signature = req.headers['stripe-signature']
-    const event = stripe.webhooks.constructEvent(await rawBody(req), signature, process.env.STRIPE_WEBHOOK_SECRET)
+    const event = stripe.webhooks.constructEvent(await rawBody(req), signature, stripeWebhookSecret)
 
     if (event.type === 'checkout.session.completed' && event.data.object.payment_status === 'paid') {
       const session = event.data.object
