@@ -1,107 +1,41 @@
-import { ArrowRight, Calendar, Check, Clock, MessageCircle, Users, Video } from 'lucide-react'
-import { Link } from 'react-router-dom'
-import { EBOOK_PREMIUM, FORMATION_MASTERCLASS } from '../../data/resources'
-import {
-  MASTERCLASS_MODULES,
-  MASTERCLASS_OUTCOMES,
-  RESERVATION_CONDITIONS,
-  TRUST_STATS,
-} from '../../data/formationsContent'
-import './PacksSingle.css'
+import { Check, ChevronLeft, CreditCard, Lock, Minus, Plus, ShoppingBag, Sparkles, Trash2 } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { FORMATION_MASTERCLASS } from '../../data/resources'
+import './TrainingStore.css'
+
+const COURSES = [
+  { id: 'layer-cake', title: 'Layer Cake', price: 69.99, label: 'Les bases qui font la différence', text: 'Construisez, garnissez et lissez des layer cakes droits, stables et prêts à être vendus.', includes: ['Montage droit et régulier', 'Crèmes et garnitures stables', 'Lissage propre, finitions nettes'] },
+  { id: 'flower-cupcake', title: 'Flower Cupcake', price: 69.99, label: 'Le bouquet qui se vend', text: 'Apprenez le pochage floral pour créer des cupcakes élégants, gourmands et irrésistibles.', includes: ['Gestes et pression de poche', 'Fleurs, pétales et feuillages', 'Composition d’un bouquet gourmand'] },
+  { id: 'wedding-cake', title: 'Wedding Cake', price: 89.99, label: 'La pièce qui impressionne', text: 'Maîtrisez la structure et les finitions d’un wedding cake fiable, élégant et transportable.', includes: ['Supports et tiges de sécurité', 'Montage des étages', 'Transport et présentation événementielle'] },
+]
+const PACKS = [
+  { id: 'duo', ids: ['layer-cake', 'flower-cupcake'], title: 'Pack Douceurs Signature', saving: 19.99, note: 'Layer Cake + Flower Cupcake' },
+  { id: 'trio', ids: COURSES.map(({ id }) => id), title: 'Pack Cake Designer', saving: 49.96, note: 'Les 3 formations pour construire votre offre' },
+]
+const euro = (value) => value.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })
 
 export default function PacksSingle() {
-  const bookingUrl = FORMATION_MASTERCLASS.calendly
+  const [cart, setCart] = useState([])
+  const [step, setStep] = useState('catalog')
+  const [customer, setCustomer] = useState({ firstName: '', lastName: '', email: '', phone: '' })
+  const items = useMemo(() => COURSES.filter((course) => cart.includes(course.id)), [cart])
+  const total = items.reduce((sum, item) => sum + item.price, 0) - (cart.length === 2 && cart.includes('layer-cake') && cart.includes('flower-cupcake') ? 19.99 : 0) - (cart.length === 3 ? 49.96 : 0)
+  const add = (ids) => setCart((current) => [...new Set([...current, ...ids])])
 
-  return (
-    <main className="formation-page">
-      <section className="formation-hero">
-        <div className="formation-shell formation-hero__grid">
-          <div>
-            <span className="formation-kicker">Formation cake design · visio live</span>
-            <h1>Passez pro en cake design.<span> Facturez dès votre premier gâteau.</span></h1>
-            <p className="formation-hero__lead">
-              Une masterclass en direct pour maîtriser les crèmes, le montage, le lissage et
-              les finitions — avec les corrections de la coach à chaque étape.
-            </p>
-            <div className="formation-hero__facts">
-              <span><Clock size={15} /> {FORMATION_MASTERCLASS.duration}</span>
-              <span><Users size={15} /> {FORMATION_MASTERCLASS.maxParticipants} participantes max</span>
-              <span><Video size={15} /> Zoom en direct</span>
-            </div>
-            <a href={bookingUrl} target="_blank" rel="noopener noreferrer" className="formation-button">
-              Réserver ma place · {FORMATION_MASTERCLASS.priceLabel}<ArrowRight size={17} />
-            </a>
-          </div>
-
-          <aside className="formation-hero__offer">
-            <span>Masterclass Cake Design</span>
-            <strong>{FORMATION_MASTERCLASS.priceLabel}</strong>
-            <p>1 journée intensive · en visio live</p>
-            <ul>
-              <li><Check size={15} /> Corrections en direct</li>
-              <li><Check size={15} /> Replay disponible</li>
-              <li><Check size={15} /> WhatsApp privé pendant 7 jours</li>
-            </ul>
-          </aside>
-        </div>
-      </section>
-
-      <section className="formation-stats formation-shell" aria-label="Les atouts de la formation">
-        {TRUST_STATS.map((stat) => (
-          <div key={stat.label}>
-            <strong>{stat.value}</strong>
-            <span>{stat.label}</span>
-            <small>{stat.sub}</small>
-          </div>
-        ))}
-      </section>
-
-      <section className="formation-shell formation-program">
-        <header className="formation-heading">
-          <span className="formation-kicker">Le programme</span>
-          <h2>Les bases qui font la différence.</h2>
-          <p>Une méthode claire, concrète et applicable dès votre prochaine commande.</p>
-        </header>
-        <div className="formation-modules">
-          {MASTERCLASS_MODULES.map((module, index) => (
-            <article key={module.title}>
-              <span>0{index + 1}</span>
-              <h3>{module.title}</h3>
-              <p>{module.text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="formation-shell formation-details">
-        <div className="formation-details__copy">
-          <span className="formation-kicker">À la fin de la journée</span>
-          <h2>Vous repartez avec une vraie méthode.</h2>
-          <ul>
-            {MASTERCLASS_OUTCOMES.map((outcome) => (
-              <li key={outcome}><Check size={17} /> {outcome}</li>
-            ))}
-          </ul>
-        </div>
-        <aside className="formation-details__card">
-          <Calendar size={22} />
-          <h3>Réservez votre créneau</h3>
-          <p>Choisissez directement la session qui vous convient sur Calendly.</p>
-          <a href={bookingUrl} target="_blank" rel="noopener noreferrer" className="formation-button">
-            Voir les disponibilités <ArrowRight size={16} />
-          </a>
-          <p className="formation-legal"><MessageCircle size={14} /> {RESERVATION_CONDITIONS}</p>
-        </aside>
-      </section>
-
-      <section className="formation-shell formation-bottom">
-        <a href={EBOOK_PREMIUM.url} download className="formation-bottom__ebook">
-          Télécharger l’ebook gratuit <ArrowRight size={16} />
-        </a>
-        <Link to="/rejoindre" className="formation-bottom__network">
-          Déjà formée ? Rejoindre l’annuaire <ArrowRight size={16} />
-        </Link>
-      </section>
-    </main>
-  )
+  if (step === 'checkout') return <Checkout items={items} total={total} customer={customer} setCustomer={setCustomer} onBack={() => setStep('cart')} />
+  return <main className="training-store">
+    <header className="training-store__hero">
+      <div><p>Bel Âge Pâtisserie · formations en ligne</p><h1>Apprenez. Créez.<br /><em>Vendez avec fierté.</em></h1><span>Des techniques claires et concrètes pour faire grandir votre talent, une création à la fois.</span></div>
+      <button className="training-cart" onClick={() => setStep('cart')}><ShoppingBag size={18} /> Panier <b>{cart.length}</b></button>
+    </header>
+    {step === 'cart' ? <Cart items={items} total={total} remove={(id) => setCart((current) => current.filter((item) => item !== id))} onBack={() => setStep('catalog')} onCheckout={() => items.length && setStep('checkout')} /> : <>
+      <section className="training-store__intro"><p>Les formations essentielles</p><h2>Votre savoir-faire mérite de briller.</h2><span>Choisissez une formation ou combinez-les pour créer une offre complète.</span></section>
+      <section className="training-course-grid-sale">{COURSES.map((course, index) => <article key={course.id} className={`training-sale-card card-${index}`}><span className="training-sale-card__number">0{index + 1}</span><Sparkles size={22} /><p>{course.label}</p><h3>{course.title}</h3><div className="training-sale-card__price">{euro(course.price)}</div><span>{course.text}</span><ul>{course.includes.map((item) => <li key={item}><Check size={15} />{item}</li>)}</ul><button onClick={() => add([course.id])}>{cart.includes(course.id) ? 'Ajoutée au panier' : 'Ajouter au panier'} <Plus size={16} /></button></article>)}</section>
+      <section className="training-packs"><div><p>Plus de technique, plus d’élan</p><h2>Les packs Bel Âge</h2></div><div className="training-pack-grid">{PACKS.map((pack) => { const regular = COURSES.filter((course) => pack.ids.includes(course.id)).reduce((sum, item) => sum + item.price, 0); return <article key={pack.id}><span>Économisez {euro(pack.saving)}</span><h3>{pack.title}</h3><p>{pack.note}</p><strong>{euro(regular - pack.saving)}</strong><small>au lieu de {euro(regular)}</small><button onClick={() => add(pack.ids)}>Choisir ce pack <Plus size={16} /></button></article> })}</div></section>
+      <section className="training-masterclass"><div><p>En direct · optionnelle</p><h2>Masterclass Cake Design</h2><span>Une journée intensive en visio, avec corrections et accompagnement en direct.</span></div><div><strong>{FORMATION_MASTERCLASS.priceLabel}</strong><a href={FORMATION_MASTERCLASS.calendly} target="_blank" rel="noreferrer">Voir les créneaux</a></div></section>
+    </>}
+  </main>
 }
+
+function Cart({ items, total, remove, onBack, onCheckout }) { return <section className="training-checkout"><button className="training-back" onClick={onBack}><ChevronLeft size={17} /> Continuer mes achats</button><h1>Votre panier</h1>{items.length ? <><div className="training-order">{items.map((item) => <div key={item.id}><span>{item.title}</span><strong>{euro(item.price)}</strong><button aria-label={`Retirer ${item.title}`} onClick={() => remove(item.id)}><Trash2 size={17} /></button></div>)}</div><div className="training-total"><span>Total</span><strong>{euro(total)}</strong></div><button className="training-action" onClick={onCheckout}>Passer aux coordonnées <CreditCard size={17} /></button></> : <p>Votre panier est vide. Choisissez la formation qui vous ressemble.</p>}</section> }
+function Checkout({ items, total, customer, setCustomer, onBack }) { const [submitted, setSubmitted] = useState(false); const update = (event) => setCustomer({ ...customer, [event.target.name]: event.target.value }); return <section className="training-checkout"><button className="training-back" onClick={onBack}><ChevronLeft size={17} /> Retour au panier</button><p>Étape sécurisée</p><h1>Vos coordonnées</h1><form onSubmit={(event) => { event.preventDefault(); setSubmitted(true) }}><div className="training-fields">{[['firstName','Prénom'],['lastName','Nom'],['email','E-mail'],['phone','Téléphone']].map(([name,label]) => <label key={name}>{label}<input required name={name} type={name === 'email' ? 'email' : 'text'} value={customer[name]} onChange={update} /></label>)}</div><div className="training-total"><span>Total à régler</span><strong>{euro(total)}</strong></div><button className="training-action"><Lock size={17} /> Continuer vers le paiement sécurisé</button>{submitted && <p className="training-stripe-note">Le lien Stripe sera connecté ici avant la mise en vente. Aucun paiement n’est déclenché pendant cette phase de préparation.</p>}</form></section> }
