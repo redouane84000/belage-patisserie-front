@@ -8,6 +8,7 @@ import Home from './pages/Home/Home'
 import Patissieres from './pages/Patissieres/Patissieres'
 import Inspirations from './pages/Inspirations/Inspirations'
 import Packs from './pages/Packs/Packs'
+import PaymentResult from './pages/Packs/PaymentResult'
 import Rejoindre from './pages/Rejoindre/Rejoindre'
 import CalculateurRentabilite from './pages/CalculateurRentabilite/CalculateurRentabilite'
 import Mentions from './pages/Mentions/Mentions'
@@ -57,6 +58,8 @@ function App() {
         element={HIDDEN_ROUTES.has('/inspirations') ? <Navigate to="/" replace /> : <Inspirations />}
       />
       <Route path="/packs" element={<Packs />} />
+      <Route path="/formations/succes" element={<PaymentResult />} />
+      <Route path="/formations/annule" element={<PaymentResult cancelled />} />
       <Route path="/rejoindre" element={<Rejoindre />} />
       <Route
         path="/calculateur-rentabilite"

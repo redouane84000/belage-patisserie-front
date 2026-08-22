@@ -31,6 +31,17 @@ TRAINING_SESSION_SECRET=une-valeur-aleatoire-d-au-moins-32-caracteres
 
 Pour Vercel : ajoutez la même variable privée dans **Project Settings → Environment Variables**. Ne préfixez pas cette variable avec `VITE_`, elle ne doit jamais arriver dans le navigateur.
 
+### Paiement Stripe
+
+Ajoutez ces variables privées dans Vercel, sans préfixe `VITE_` :
+
+```txt
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+```
+
+Le webhook Stripe doit pointer vers `https://www.belagepatisserie.com/api/stripe/webhook` et écouter `checkout.session.completed`. Les premières ventes sont traitées manuellement : la commande Stripe indique l’e-mail et les formations achetées, puis l’administratrice crée le compte formation.
+
 ### Gestion des clientes
 
 Les comptes sont définis dans le fichier serveur privé. Vercel ne permet pas à une fonction serverless de modifier durablement ce fichier : après toute opération locale, faites un commit et déployez.
