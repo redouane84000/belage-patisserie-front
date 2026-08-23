@@ -36,7 +36,7 @@ export default function PacksSingle() {
   if (step === 'checkout') return <Checkout items={items} total={total} customer={customer} setCustomer={setCustomer} onBack={() => setStep('catalog')} />
   return <main className="training-store">
     <header className="training-store__hero">
-      <div><p>Bel Âge Pâtisserie · formations en ligne</p><h1>Apprenez. Créez.<br /><em>Vendez avec fierté.</em></h1><span>Des techniques claires et concrètes pour faire grandir votre talent, une création à la fois.</span></div>
+      <div className="training-store__hero-copy"><p>Bel Âge Pâtisserie <i /> Formations en ligne</p><h1><span>Apprenez.</span><span>Créez.</span><em>Vendez avec fierté.</em></h1><span className="training-store__hero-lead">Des techniques claires et concrètes pour faire grandir votre talent, une création à la fois.</span></div>
       <button className={`training-cart ${lastAdded ? 'is-updated' : ''}`} onClick={() => setDrawerOpen(true)}><ShoppingBag size={18} /> Panier <b>{cart.length}</b></button>
     </header>
     {step === 'cart' ? <Cart items={items} total={total} remove={(id) => setCart((current) => current.filter((item) => item !== id))} onBack={() => setStep('catalog')} onCheckout={() => items.length && setStep('checkout')} /> : <>
