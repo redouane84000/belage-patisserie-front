@@ -13,7 +13,7 @@ export async function supabaseTrainingUserById(id) {
   const { data: profile } = await supabaseAdmin.from('profiles').select('*').eq('auth_user_id', id).maybeSingle()
   if (!profile) return null
   const { data: access = [] } = await supabaseAdmin.from('course_access').select('course_id').eq('user_id', profile.id).eq('active', true)
-  return { id: profile.auth_user_id, firstName: profile.first_name, username: profile.username, purchasedCourses: access.map((item) => item.course_id), isActive: true, role: profile.role, email: profile.email }
+  return { id: profile.auth_user_id, firstName: profile.first_name, username: profile.username, purchasedCourses: access.map((item) => item.course_id), isActive: profile.is_active, role: profile.role, email: profile.email }
 }
 
 export async function authenticateSupabaseUser(username, password) {

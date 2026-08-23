@@ -10,9 +10,9 @@ export default async function handler(req, res) {
   }
 
   if (supabaseAdmin) {
-    const { data: profiles, error } = await supabaseAdmin.from('profiles').select('id, first_name, username, email, role, created_at, course_access(course_id, active)').neq('role', 'admin')
+    const { data: profiles, error } = await supabaseAdmin.from('profiles').select('id, first_name, username, email, role, created_at, is_active, course_access(course_id, active)').neq('role', 'admin')
     if (error) throw error
-    return res.status(200).json({ users: profiles.map((profile) => ({ id: profile.id, firstName: profile.first_name, username: profile.username, email: profile.email, purchasedCourses: profile.course_access.filter((access) => access.active).map((access) => access.course_id), isActive: true, createdAt: profile.created_at })) })
+    return res.status(200).json({ users: profiles.map((profile) => ({ id: profile.id, firstName: profile.first_name, username: profile.username, email: profile.email, purchasedCourses: profile.course_access.filter((access) => access.active).map((access) => access.course_id), isActive: profile.is_active, createdAt: profile.created_at })) })
   }
   const users = await trainingUserRepository.list()
   return res.status(200).json({

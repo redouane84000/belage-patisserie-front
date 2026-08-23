@@ -24,4 +24,5 @@ export const trainingApi = {
   courses: () => request('courses'),
   course: (courseId) => request(`course/${encodeURIComponent(courseId)}`),
   adminUsers: () => request('admin/users'),
+  adminAction: (action, payload) => request(`admin/${action}`, { method: 'POST', body: JSON.stringify(payload) }),
 }
