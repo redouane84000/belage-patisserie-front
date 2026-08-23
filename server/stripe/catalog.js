@@ -1,12 +1,12 @@
 export const TRAINING_PRODUCTS = {
-  'layer-cake': { title: 'Formation Layer Cake', unitAmount: 100 },
-  'flower-cupcake': { title: 'Formation Flower Cupcake', unitAmount: 100 },
-  'wedding-cake': { title: 'Formation Wedding Cake', unitAmount: 100 },
+  'layer-cake': { title: 'Formation Layer Cake', unitAmount: 6999 },
+  'flower-cupcake': { title: 'Formation Flower Cupcake', unitAmount: 6999 },
+  'wedding-cake': { title: 'Formation Wedding Cake', unitAmount: 8999 },
 }
 
 const PACKS = {
-  duo: { ids: ['layer-cake', 'flower-cupcake'], title: 'Pack Douceurs Signature', unitAmount: 100 },
-  trio: { ids: ['layer-cake', 'flower-cupcake', 'wedding-cake'], title: 'Pack Cake Designer', unitAmount: 100 },
+  duo: { ids: ['layer-cake', 'flower-cupcake'], title: 'Pack Douceurs Signature', unitAmount: 11999 },
+  trio: { ids: ['layer-cake', 'flower-cupcake', 'wedding-cake'], title: 'Pack Cake Designer', unitAmount: 17999 },
 }
 
 export function checkoutItem(courseIds) {
