@@ -44,6 +44,7 @@
 .training-fields label.is-valid input { border-color: var(--ts-success); }.training-fields label.is-invalid input { border-color: var(--ts-accent); }
 .training-cart.is-updated { animation: training-cart-pulse .3s var(--ts-ease); }
 .training-store button:focus-visible,.training-store input:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 3px; }
+.training-discover { display:inline-flex;align-items:center;justify-content:center;min-height:42px;margin:12px 0 0;border:1px solid var(--ts-line);border-radius:999px;color:var(--ts-accent-ink);font-size:12px;font-weight:800;text-decoration:none;transition:background .16s var(--ts-ease),transform .16s var(--ts-ease); }.training-discover:hover{background:var(--ts-accent-soft);transform:translateY(-1px)}
 @keyframes training-title-reveal { from { opacity: 0; transform: translateY(42%); } to { opacity: 1; transform: translateY(0); } }
 @keyframes training-card-enter { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes training-cart-pulse { 50% { transform: scale(1.07); } }
