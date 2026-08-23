@@ -1,4 +1,53 @@
 .training-store { min-height: 100vh; background: #fbf7f1; color: #2b1f18; padding-bottom: 100px; }
+.training-store {
+  --ts-bg: #FBF5F2; --ts-surface: #FFFFFF; --ts-ink: #3B2B25; --ts-soft: #6E5C53; --ts-muted: #9A8A81;
+  --ts-line: #EFE4DE; --ts-accent: #A33B54; --ts-accent-ink: #7E2A3F; --ts-accent-soft: #F6E6EA;
+  --ts-success: #7C9068; --ts-r-lg: 20px; --ts-r-md: 14px; --ts-r-sm: 10px;
+  --ts-ease: cubic-bezier(.4,0,.2,1); --ts-enter: cubic-bezier(.22,1,.36,1);
+  background: var(--ts-bg); color: var(--ts-ink); font-family: var(--font-body);
+}
+.training-store__hero { background: var(--ts-ink); padding-bottom: 92px; }
+.training-store__hero::after { display: none; }
+.training-store__hero h1 { overflow: hidden; letter-spacing: -.01em; font-family: var(--font-display); line-height: 1; animation: training-title-reveal .8s var(--ts-enter) both; }
+.training-store__hero h1 em { color: #fffaf6; font-style: normal; }
+.training-store__hero p { color: rgba(255,255,255,.62); }
+.training-cart { border-color: rgba(255,255,255,.24); background: rgba(255,255,255,.08); border-radius: 999px; transition: transform .16s var(--ts-ease), background .16s var(--ts-ease); }
+.training-cart:hover { background: rgba(255,255,255,.16); transform: translateY(-2px); }
+.training-cart b { background: var(--ts-surface); color: var(--ts-ink); font-variant-numeric: tabular-nums; }
+.training-store__intro { padding-top: 88px; }.training-store__intro>p,.training-packs>div>p,.training-masterclass p,.training-checkout>p { color: var(--ts-accent); }
+.training-store__intro h2,.training-packs h2,.training-masterclass h2,.training-checkout h1 { font-family: var(--font-display); color: var(--ts-ink); letter-spacing: -.01em; }
+.training-store__intro>span { color: var(--ts-soft); }
+.training-course-grid-sale { gap: 20px; }
+.training-sale-card { border-color: var(--ts-line); border-radius: var(--ts-r-lg); box-shadow: 0 2px 5px rgba(59,43,37,.04),0 18px 42px rgba(59,43,37,.06); transition: transform .22s var(--ts-ease), box-shadow .22s var(--ts-ease), border-color .22s var(--ts-ease); animation: training-card-enter .6s var(--ts-enter) both; }
+.training-sale-card:nth-child(2) { animation-delay: .07s; }.training-sale-card:nth-child(3) { animation-delay: .14s; }
+.training-sale-card:hover { transform: translateY(-5px); border-color: rgba(163,59,84,.22); box-shadow: 0 6px 18px rgba(59,43,37,.08),0 22px 48px rgba(59,43,37,.1); }
+.training-sale-card svg,.training-sale-card p,.training-sale-card__price { color: var(--ts-accent); }
+.training-sale-card__number { color: var(--ts-accent-soft); }
+.training-sale-card>span:not(.training-sale-card__number),.training-sale-card li { color: var(--ts-soft); }
+.training-sale-card button,.training-pack-grid button,.training-action { background: var(--ts-ink); border-radius: 999px; transition: transform .16s var(--ts-ease), background .16s var(--ts-ease); }
+.training-sale-card button:hover,.training-pack-grid button:hover,.training-action:hover { background: var(--ts-accent-ink); transform: translateY(-1px); }
+.training-sale-card button.is-added { background: var(--ts-success); }
+.training-packs { background: var(--ts-accent-soft); border-radius: var(--ts-r-lg); }
+.training-pack-grid article { border: 1px solid rgba(163,59,84,.1); border-radius: var(--ts-r-md); box-shadow: 0 2px 8px rgba(59,43,37,.04); }
+.training-pack-grid article>span,.training-pack-grid strong { color: var(--ts-accent); }
+.training-pack-grid p,.training-masterclass>div>span { color: var(--ts-soft); }
+.training-masterclass { border-color: var(--ts-line); }
+.training-masterclass a { color: var(--ts-accent-ink); }
+.training-mini-cart { border-color: var(--ts-line); border-radius: var(--ts-r-lg); box-shadow: 0 10px 28px rgba(59,43,37,.1),0 28px 70px rgba(59,43,37,.14); }
+.training-mini-cart p { color: var(--ts-success); }.training-mini-cart span { color: var(--ts-accent); }
+.training-mini-cart>div button { border-color: var(--ts-ink); }.training-mini-cart>div button:last-child { background: var(--ts-ink); }
+.training-drawer section { background: var(--ts-bg); }.training-drawer article { border-color: var(--ts-line); }
+.training-drawer__total strong,.training-checkout-summary>p { color: var(--ts-accent); }
+.training-checkout-layout form,.training-checkout-summary { border-color: var(--ts-line); border-radius: var(--ts-r-lg); box-shadow: 0 8px 28px rgba(59,43,37,.05); }
+.training-checkout-summary { background: var(--ts-surface); }.training-steps .is-done,.training-steps .is-current { border-color: var(--ts-accent); color: var(--ts-accent-ink); }
+.training-fields input:focus { border-color: var(--ts-accent); box-shadow: 0 0 0 4px rgba(163,59,84,.12); }
+.training-fields label.is-valid input { border-color: var(--ts-success); }.training-fields label.is-invalid input { border-color: var(--ts-accent); }
+.training-cart.is-updated { animation: training-cart-pulse .3s var(--ts-ease); }
+.training-store button:focus-visible,.training-store input:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 3px; }
+@keyframes training-title-reveal { from { opacity: 0; transform: translateY(42%); } to { opacity: 1; transform: translateY(0); } }
+@keyframes training-card-enter { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes training-cart-pulse { 50% { transform: scale(1.07); } }
+@media (prefers-reduced-motion: reduce) { .training-store *, .training-store *::before, .training-store *::after { animation: none !important; transition-duration: .01ms !important; } }
 .training-store__hero { position: relative; display: flex; justify-content: space-between; gap: 32px; padding: 92px max(5vw, 28px) 110px; overflow: hidden; background: radial-gradient(circle at 83% 10%, #e5ba7f, transparent 25%), linear-gradient(135deg,#281b15,#634126); color: #fffaf3; }
 .training-store__hero::after { content: ''; position: absolute; right: 10%; bottom: -90px; width: 330px; height: 330px; border: 1px solid rgba(255,255,255,.17); border-radius: 50%; }
 .training-store__hero p,.training-store__intro>p,.training-packs>div>p,.training-masterclass p,.training-checkout>p { color: #d8ad70; font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
