@@ -22,7 +22,7 @@ export const TRAINING_COURSES = [
     title: 'Flower Cupcake',
     eyebrow: 'Le bouquet qui se vend',
     description: 'Pochage floral, harmonie des couleurs et composition d’un bouquet gourmand.',
-    videoOrientation: 'portrait',
+    videoOrientation: 'landscape',
     modules: [{ id: 'flower-cupcake-program', title: 'Bouquet floral', lessons: FLOWER_CUPCAKE_CHAPTERS.map((chapter) => ({ id: `module-${chapter.id}`, title: chapter.title, duration: `${chapter.startTime} → ${chapter.endTime}`, description: chapter.objective, materials: [], ingredients: [], tips: [], commonMistakes: [] })) }],
   },
   {

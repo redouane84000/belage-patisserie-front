@@ -14,6 +14,7 @@ import './TrainingPlatform.css'
 import './LayerCakeCourse.css'
 
 const WEDDING_CAKE_PLAYER_URL = 'https://player.mediadelivery.net/embed/734928/33250c70-8db3-4c1e-88cf-2d9a00198f17?autoplay=false&loop=false&muted=false&preload=true&responsive=true'
+const FLOWER_CUPCAKE_PLAYER_URL = 'https://player.mediadelivery.net/embed/734928/b2449a11-4838-4292-8964-5cef6eca3e2d?autoplay=false&loop=false&muted=false&preload=true&responsive=true'
 
 function VideoPlayer({ orientation, embedUrl }) {
   return (
@@ -146,7 +147,7 @@ function Course({ user, course }) {
             <p className="training-eyebrow">{lesson.moduleTitle} · {lesson.duration}</p>
             <h2>{lesson.title}</h2>
             <p>{lesson.description}</p>
-            <VideoPlayer orientation={course.videoOrientation} embedUrl={course.id === 'wedding-cake' ? WEDDING_CAKE_PLAYER_URL : null} />
+            <VideoPlayer orientation={course.videoOrientation} embedUrl={course.id === 'wedding-cake' ? WEDDING_CAKE_PLAYER_URL : course.id === 'flower-cupcake' ? FLOWER_CUPCAKE_PLAYER_URL : null} />
             <div className="training-lesson__notes">
               <article><h3><FileText size={17} /> Matériel</h3><ul>{lesson.materials?.map((item) => <li key={item}>{item}</li>)}</ul></article>
               <article><h3>Ingrédients</h3><ul>{lesson.ingredients?.map((item) => <li key={item}>{item}</li>)}</ul></article>
