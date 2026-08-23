@@ -42,6 +42,10 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 
 Le webhook Stripe doit pointer vers `https://www.belagepatisserie.com/api/stripe/webhook` et écouter `checkout.session.completed`. Les premières ventes sont traitées manuellement : la commande Stripe indique l’e-mail et les formations achetées, puis l’administratrice crée le compte formation.
 
+### Supabase et e-mails automatiques
+
+Exécutez manuellement `supabase/migrations/20260823150000_training_accounts.sql` dans l’éditeur SQL du projet Supabase avant d’activer les ventes automatiques. Ajoutez ensuite dans Vercel `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY` et `RESEND_API_KEY`. Seules les clés commençant par `VITE_` sont exposées au navigateur ; la clé Supabase serveur et la clé Resend restent exclusivement dans les fonctions API.
+
 ### Gestion des clientes
 
 Les comptes sont définis dans le fichier serveur privé. Vercel ne permet pas à une fonction serverless de modifier durablement ce fichier : après toute opération locale, faites un commit et déployez.

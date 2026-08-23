@@ -1,6 +1,9 @@
 import Stripe from 'stripe'
+import crypto from 'node:crypto'
 import { checkoutItem } from '../../server/stripe/catalog.js'
 import { stripeSecretKey, stripeWebhookSecret } from '../../server/stripe/config.js'
+import { supabaseAdmin } from '../../server/supabase/admin.js'
+import { sendTrainingPurchaseEmail } from '../../server/email/training.js'
 
 export const config = { api: { bodyParser: false } }
 
@@ -20,12 +23,41 @@ export default async function handler(req, res) {
     const event = stripe.webhooks.constructEvent(await rawBody(req), signature, stripeWebhookSecret)
 
     if (event.type === 'checkout.session.completed' && event.data.object.payment_status === 'paid') {
+      if (!supabaseAdmin) return res.status(503).send('Supabase unavailable')
       const session = event.data.object
       const courseIds = session.metadata?.courseIds?.split(',') || []
       const item = checkoutItem(courseIds)
       if (!item) return res.status(400).send('Invalid course selection')
-      // Accès volontairement géré manuellement pendant le lancement : retrouvez cette commande dans Stripe.
-      console.info('Formation payment confirmed', { sessionId: session.id, email: session.customer_details?.email, courseIds: item.courseIds })
+      const { data: existingPurchase } = await supabaseAdmin.from('purchases').select('id').eq('stripe_checkout_session_id', session.id).maybeSingle()
+      if (existingPurchase) return res.status(200).json({ received: true, duplicate: true })
+
+      const email = session.customer_details?.email || session.customer_email
+      if (!email) return res.status(400).send('Customer email missing')
+      const firstName = session.metadata?.firstName || 'Cliente'
+      const lastName = session.metadata?.lastName || null
+      let { data: profile } = await supabaseAdmin.from('profiles').select('*').eq('email', email.toLowerCase()).maybeSingle()
+      let password
+      let isNew = false
+      if (!profile) {
+        isNew = true
+        const username = `belage-${crypto.randomInt(10000, 100000)}`
+        password = crypto.randomBytes(18).toString('base64url')
+        const { data: auth, error: authError } = await supabaseAdmin.auth.admin.createUser({ email, password, email_confirm: true })
+        if (authError) throw authError
+        const { data, error } = await supabaseAdmin.from('profiles').insert({ auth_user_id: auth.user.id, email: email.toLowerCase(), username, first_name: firstName, last_name: lastName }).select('*').single()
+        if (error) throw error
+        profile = data
+      }
+      const { error: purchaseError } = await supabaseAdmin.from('purchases').insert({
+        user_id: profile.id, stripe_checkout_session_id: session.id, stripe_payment_intent_id: session.payment_intent || null,
+        course_id: item.courseIds.join(','), course_name: item.title, amount: item.unitAmount, currency: 'eur', status: 'paid',
+      })
+      if (purchaseError?.code === '23505') return res.status(200).json({ received: true, duplicate: true })
+      if (purchaseError) throw purchaseError
+      const { error: accessError } = await supabaseAdmin.from('course_access').upsert(item.courseIds.map((course_id) => ({ user_id: profile.id, course_id, active: true })), { onConflict: 'user_id,course_id' })
+      if (accessError) throw accessError
+      await sendTrainingPurchaseEmail({ email, firstName, courseName: item.title, amount: item.unitAmount, username: profile.username, password, isNew })
+      await supabaseAdmin.from('purchases').update({ email_sent_at: new Date().toISOString() }).eq('stripe_checkout_session_id', session.id)
     }
 
     return res.status(200).json({ received: true })

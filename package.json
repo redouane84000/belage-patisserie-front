@@ -19,6 +19,7 @@
     "training:user:delete": "node scripts/training-users.mjs delete"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.112.3",
     "@vercel/analytics": "^2.0.1",
     "bcryptjs": "^3.0.3",
     "html2canvas": "^1.4.1",
@@ -28,6 +29,7 @@
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.16.0",
+    "resend": "^6.22.0",
     "stripe": "^22.5.0"
   },
   "devDependencies": {
