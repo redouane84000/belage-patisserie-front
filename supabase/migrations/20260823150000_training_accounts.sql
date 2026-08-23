@@ -32,6 +32,12 @@ create table public.course_access (
   unique (user_id, course_id)
 );
 
+create table public.stripe_events (
+  id text primary key,
+  event_type text not null,
+  created_at timestamptz not null default now()
+);
+
 create index course_access_user_id_idx on public.course_access(user_id);
 create index purchases_user_id_idx on public.purchases(user_id);
 
@@ -42,3 +48,20 @@ alter table public.course_access enable row level security;
 create policy "profiles read own profile" on public.profiles for select to authenticated using (auth.uid() = auth_user_id);
 create policy "purchases read own purchases" on public.purchases for select to authenticated using (user_id in (select id from public.profiles where auth_user_id = auth.uid()));
 create policy "access read own access" on public.course_access for select to authenticated using (user_id in (select id from public.profiles where auth_user_id = auth.uid()));
+
+create or replace function public.claim_stripe_event(p_event_id text, p_event_type text)
+returns boolean
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  insert into public.stripe_events (id, event_type) values (p_event_id, p_event_type);
+  return true;
+exception when unique_violation then
+  return false;
+end;
+$$;
+
+revoke all on function public.claim_stripe_event(text, text) from public;
+grant execute on function public.claim_stripe_event(text, text) to service_role;
