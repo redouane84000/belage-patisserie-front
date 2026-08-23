@@ -12,15 +12,28 @@ import Playerjs from 'player.js'
 import './TrainingPlatform.css'
 import './LayerCakeCourse.css'
 
-function VideoPlayer({ orientation }) {
+const WEDDING_CAKE_PLAYER_URL = 'https://player.mediadelivery.net/embed/734928/33250c70-8db3-4c1e-88cf-2d9a00198f17?autoplay=false&loop=false&muted=false&preload=true&responsive=true'
+
+function VideoPlayer({ orientation, embedUrl }) {
   return (
     <div className={`training-video training-video--${orientation}`}>
-      <div className="training-video__placeholder">
-        <PlayCircle size={42} />
-        <strong>Vidéo de démonstration</strong>
-        <span>La vidéo protégée sera diffusée via l’API après ajout d’un stockage privé.</span>
-      </div>
-      <small>Ratio prévu : {orientation === 'portrait' ? '9:16 vertical' : '16:9 horizontal'}</small>
+      {embedUrl ? (
+        <iframe
+          src={embedUrl}
+          title="Formation Wedding Cake"
+          allow="accelerometer; gyroscope; encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+        />
+      ) : (
+        <>
+          <div className="training-video__placeholder">
+            <PlayCircle size={42} />
+            <strong>Vidéo de démonstration</strong>
+            <span>La vidéo protégée sera diffusée via l’API après ajout d’un stockage privé.</span>
+          </div>
+          <small>Ratio prévu : {orientation === 'portrait' ? '9:16 vertical' : '16:9 horizontal'}</small>
+        </>
+      )}
     </div>
   )
 }
@@ -105,7 +118,7 @@ function Course({ user, course }) {
             <p className="training-eyebrow">{lesson.moduleTitle} · {lesson.duration}</p>
             <h2>{lesson.title}</h2>
             <p>{lesson.description}</p>
-            <VideoPlayer orientation={course.videoOrientation} />
+            <VideoPlayer orientation={course.videoOrientation} embedUrl={course.id === 'wedding-cake' ? WEDDING_CAKE_PLAYER_URL : null} />
             <div className="training-lesson__notes">
               <article><h3><FileText size={17} /> Matériel</h3><ul>{lesson.materials?.map((item) => <li key={item}>{item}</li>)}</ul></article>
               <article><h3>Ingrédients</h3><ul>{lesson.ingredients?.map((item) => <li key={item}>{item}</li>)}</ul></article>
