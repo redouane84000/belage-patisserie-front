@@ -26,3 +26,6 @@ dist-ssr
 .vercel
 .env*
 !.env.example
+
+# Paid course media remains in private video hosting, never in Git.
+server/training/media/
