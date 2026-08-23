@@ -21,7 +21,7 @@ export default function PacksSingle() {
   const [step, setStep] = useState('catalog')
   const [customer, setCustomer] = useState({ firstName: '', lastName: '', email: '', phone: '' })
   const items = useMemo(() => COURSES.filter((course) => cart.includes(course.id)), [cart])
-  const selectedPack = PACKS.find((pack) => pack.ids.length === cart.length && pack.ids.every((id) => cart.includes(id))
+  const selectedPack = PACKS.find((pack) => pack.ids.length === cart.length && pack.ids.every((id) => cart.includes(id)))
   const total = selectedPack ? selectedPack.price : items.reduce((sum, item) => sum + item.price, 0)
   const add = (ids) => setCart((current) => [...new Set([...current, ...ids])])
   useEffect(() => { localStorage.setItem('belage-training-cart', JSON.stringify(cart)) }, [cart])
