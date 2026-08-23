@@ -1,10 +1,20 @@
-.training-chapter-layout { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: 32px; }
-.training-chapter-layout .training-video { position: relative; min-height: 480px; }
+.training-chapter-layout { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 26px; margin-top: 30px; align-items: start; }
+.training-chapter-layout .training-video { position: relative; min-height: 480px; width: 100%; border: 1px solid #eadbca; border-radius: 20px; box-shadow: 0 18px 42px rgba(80,48,20,.12); }
 .training-chapter-layout video { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; background: #2c211a; }
 .training-chapter-layout video:not([src]) { display: none; }
-.training-chapter-content { margin-top: 34px; }
+.training-chapter-content { margin-top: 22px; padding: clamp(24px,3vw,42px); border: 1px solid #eadbca; border-radius: 20px; background: #fff; box-shadow: 0 4px 14px rgba(80,48,20,.06); }
 .training-chapter-content h2 { margin: 0; font-family: Georgia, serif; font-size: clamp(30px,4vw,46px); font-weight: 500; }
 .training-chapter-content > p { color: #75655a; }
-.training-chapter-layout .training-course__sidebar button { display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 7px; }
+.training-chapter-layout .training-course__sidebar { top: 20px; padding: 20px 14px; border-radius: 20px; box-shadow: 0 4px 14px rgba(80,48,20,.06); }
+.training-chapter-layout .training-course__sidebar button { display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 7px; padding: 14px 10px; border-radius: 12px; transition: transform .2s ease, background .2s ease; }
+.training-chapter-layout .training-course__sidebar button:hover { transform: translateX(3px); background: #fbf4eb; }
 .training-chapter-layout .training-course__sidebar button small { color: inherit; font-size: 10px; }
+.training-course-progress { max-width: 420px; margin-top: 22px; }.training-course-progress i { display: block; height: 7px; border-radius: 999px; background: #a96d34; transition: width .35s ease; }.training-course-progress::before { content: ''; display: block; height: 7px; margin-bottom: -7px; border-radius: 999px; background: #eee3d8; }.training-course-progress span { display: block; margin-top: 8px; color: #806040; font-size: 12px; font-weight: 700; }
+.training-chapter-timeline { display: flex; gap: 4px; margin-top: 14px; padding: 12px; border: 1px solid #eadbca; border-radius: 14px; background: #fff; }.training-chapter-timeline button { flex: 1; min-height: 12px; border: 0; border-radius: 99px; background: #eadbca; color: transparent; cursor: pointer; transition: background .2s ease, transform .2s ease; }.training-chapter-timeline button:hover { transform: scaleY(1.35); }.training-chapter-timeline button.is-current { background: #a96d34; }
+ .training-chapter-content .training-lesson__notes { grid-template-columns: 1fr 1fr; gap: 16px; }
+.training-chapter-content .training-lesson__notes article { padding: 20px; border-radius: 14px; background: #fcf8f4; }
+.training-chapter-content .training-lesson__notes article:nth-child(3) { grid-column: 1 / -1; }
+.training-chapter-content .training-lesson__notes ol { display: grid; gap: 12px; margin: 0; padding-left: 22px; color: #6e5e52; line-height: 1.55; }
+.training-chapter-content .training-lesson__actions { margin-top: 28px; }
 @media (max-width:800px) { .training-chapter-layout { grid-template-columns: 1fr; }.training-chapter-layout .training-video { min-height: 420px; }.training-chapter-layout .training-course__sidebar { position: static; } }
+@media (max-width:600px) { .training-chapter-content { padding: 24px 18px; }.training-chapter-content .training-lesson__notes { grid-template-columns: 1fr; }.training-chapter-content .training-lesson__notes article:nth-child(3) { grid-column: auto; }.training-chapter-layout .training-course__sidebar { overflow: hidden; }.training-chapter-layout .training-course__sidebar button { font-size: 13px; }.training-course-progress { max-width: none; } }
