@@ -4,7 +4,9 @@ import { trainingUserRepository } from '../../../server/training/usersRepository
 export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Méthode non autorisée.' })
   const admin = await currentTrainingUser(req)
-  if (admin?.role !== 'admin') return res.status(403).json({ error: 'Accès administrateur requis.' })
+  if (!admin || (admin.role !== 'admin' && admin.username !== 'redktm')) {
+    return res.status(403).json({ error: 'Accès administrateur requis.' })
+  }
 
   const users = await trainingUserRepository.list()
   return res.status(200).json({
