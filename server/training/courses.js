@@ -1,3 +1,5 @@
+import { FLOWER_CUPCAKE_CHAPTERS } from '../../src/data/flowerCupcakeChapters.js'
+
 export const TRAINING_COURSES = [
   {
     id: 'layer-cake',
@@ -21,9 +23,7 @@ export const TRAINING_COURSES = [
     eyebrow: 'Le bouquet qui se vend',
     description: 'Pochage floral, harmonie des couleurs et composition d’un bouquet gourmand.',
     videoOrientation: 'portrait',
-    modules: [{ id: 'flowers', title: 'Pochage floral', lessons: [
-      { id: 'petals', title: 'Réaliser des pétales réguliers', duration: '12 min', description: 'Maîtrisez la pression et l’angle de poche pour des fleurs délicates.', materials: ['Poches', 'Douilles pétales', 'Clou à fleur'], ingredients: ['Crème au beurre ferme', 'Colorants gel'], tips: ['Testez votre pression sur une assiette avant chaque fleur.'], commonMistakes: ['Utiliser une crème trop tiède.'] },
-    ] }],
+    modules: [{ id: 'flower-cupcake-program', title: 'Bouquet floral', lessons: FLOWER_CUPCAKE_CHAPTERS.map((chapter) => ({ id: `module-${chapter.id}`, title: chapter.title, duration: `${chapter.startTime} → ${chapter.endTime}`, description: chapter.objective, materials: [], ingredients: [], tips: [], commonMistakes: [] })) }],
   },
   {
     id: 'wedding-cake',
