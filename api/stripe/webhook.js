@@ -28,6 +28,10 @@ export default async function handler(req, res) {
       const courseIds = session.metadata?.courseIds?.split(',') || []
       const item = checkoutItem(courseIds)
       if (!item) return res.status(400).send('Invalid course selection')
+      if (session.amount_total !== item.unitAmount || session.currency !== 'eur') {
+        console.error('Stripe amount mismatch', { sessionId: session.id })
+        return res.status(400).send('Amount validation failed')
+      }
       const { data: existingPurchase } = await supabaseAdmin.from('purchases').select('id').eq('stripe_checkout_session_id', session.id).maybeSingle()
       if (existingPurchase) return res.status(200).json({ received: true, duplicate: true })
 
@@ -40,7 +44,12 @@ export default async function handler(req, res) {
       let isNew = false
       if (!profile) {
         isNew = true
-        const username = `belage-${crypto.randomInt(10000, 100000)}`
+        let username
+        do {
+          username = `belage-${crypto.randomInt(10000, 100000)}`
+          const { data } = await supabaseAdmin.from('profiles').select('id').eq('username', username).maybeSingle()
+          if (!data) break
+        } while (true)
         password = crypto.randomBytes(18).toString('base64url')
         const { data: auth, error: authError } = await supabaseAdmin.auth.admin.createUser({ email, password, email_confirm: true })
         if (authError) throw authError
@@ -56,7 +65,7 @@ export default async function handler(req, res) {
       if (purchaseError) throw purchaseError
       const { error: accessError } = await supabaseAdmin.from('course_access').upsert(item.courseIds.map((course_id) => ({ user_id: profile.id, course_id, active: true })), { onConflict: 'user_id,course_id' })
       if (accessError) throw accessError
-      await sendTrainingPurchaseEmail({ email, firstName, courseName: item.title, amount: item.unitAmount, username: profile.username, password, isNew })
+      await sendTrainingPurchaseEmail({ email, firstName, lastName, courseName: item.title, amount: item.unitAmount, username: profile.username, password, isNew, orderReference: session.id })
       await supabaseAdmin.from('purchases').update({ email_sent_at: new Date().toISOString() }).eq('stripe_checkout_session_id', session.id)
     }
 
