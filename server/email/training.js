@@ -17,13 +17,21 @@ export async function sendTrainingPurchaseEmail({ email, firstName, lastName, co
     html: `<h1>Félicitations 🎉</h1><p>Votre paiement a été confirmé avec succès.</p>${summary}${credentials}<p><a href="${loginUrl}">Accéder à ma formation</a></p>`,
   }
   const adminCredentials = isNew ? credentials : '<p>Cliente existante : aucun mot de passe n’a été modifié.</p>'
-  await Promise.all([
-    resend.emails.send(clientEmail),
-    resend.emails.send({
-      from: 'Belage Formation <formation@belagepatisserie.com>',
-      to: adminEmail,
-      subject: `Nouvelle commande Belage · ${courseName}`,
-      html: `<h1>Nouvelle commande validée 🎉</h1><p><strong>Cliente :</strong> ${firstName} ${lastName || ''}<br/><strong>E-mail :</strong> ${email}</p>${summary}${adminCredentials}<p><a href="${loginUrl}">Ouvrir la plateforme</a></p>`,
-    }),
-  ])
+  const send = async (label, message) => {
+    console.info(`[Resend] preparing ${label} email`)
+    console.info('[Resend] API call started')
+    const { data, error } = await resend.emails.send(message)
+    if (error) {
+      console.error('[Resend] send failed:', error.message)
+      throw new Error(`Resend ${label} email failed: ${error.message}`)
+    }
+    console.info('[Resend] API call success', { id: data?.id })
+  }
+  await send('client', clientEmail)
+  await send('admin', {
+    from: 'Belage Formation <formation@belagepatisserie.com>',
+    to: adminEmail,
+    subject: `Nouvelle commande Belage · ${courseName}`,
+    html: `<h1>Nouvelle commande validée 🎉</h1><p><strong>Cliente :</strong> ${firstName} ${lastName || ''}<br/><strong>E-mail :</strong> ${email}</p>${summary}${adminCredentials}<p><a href="${loginUrl}">Ouvrir la plateforme</a></p>`,
+  })
 }

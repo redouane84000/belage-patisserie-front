@@ -21,9 +21,14 @@ export default async function handler(req, res) {
     const stripe = new Stripe(stripeSecretKey)
     const signature = req.headers['stripe-signature']
     const event = stripe.webhooks.constructEvent(await rawBody(req), signature, stripeWebhookSecret)
+    console.info('[Stripe Webhook] event received', { type: event.type })
 
     if (event.type === 'checkout.session.completed' && event.data.object.payment_status === 'paid') {
-      if (!supabaseAdmin) return res.status(503).send('Supabase unavailable')
+      console.info('[Stripe Webhook] payment confirmed')
+      if (!supabaseAdmin) {
+        console.error('[Stripe Webhook] Supabase unavailable')
+        return res.status(503).send('Supabase unavailable')
+      }
       const session = event.data.object
       const courseIds = session.metadata?.courseIds?.split(',') || []
       const item = checkoutItem(courseIds)
@@ -37,6 +42,7 @@ export default async function handler(req, res) {
 
       const email = session.customer_details?.email || session.customer_email
       if (!email) return res.status(400).send('Customer email missing')
+      console.info('[Stripe Webhook] customer email found')
       const firstName = session.metadata?.firstName || 'Cliente'
       const lastName = session.metadata?.lastName || null
       let { data: profile } = await supabaseAdmin.from('profiles').select('*').eq('email', email.toLowerCase()).maybeSingle()
@@ -65,6 +71,7 @@ export default async function handler(req, res) {
       if (purchaseError) throw purchaseError
       const { error: accessError } = await supabaseAdmin.from('course_access').upsert(item.courseIds.map((course_id) => ({ user_id: profile.id, course_id, active: true })), { onConflict: 'user_id,course_id' })
       if (accessError) throw accessError
+      console.info('[Stripe Webhook] Supabase account processed')
       await sendTrainingPurchaseEmail({ email, firstName, lastName, courseName: item.title, amount: item.unitAmount, username: profile.username, password, isNew, orderReference: session.id })
       await supabaseAdmin.from('purchases').update({ email_sent_at: new Date().toISOString() }).eq('stripe_checkout_session_id', session.id)
     }
