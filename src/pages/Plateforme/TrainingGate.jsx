@@ -17,7 +17,7 @@ export default function TrainingGate({ children, requiredCourse }) {
     return <main className="training-loading" aria-live="polite"><span /> Chargement sécurisé de votre espace…</main>
   }
   if (!state.user) return <Navigate to="/plateforme/connexion" replace />
-  if (requiredCourse && !state.user.purchasedCourses.includes(requiredCourse)) {
+  if (requiredCourse && !state.user.isAdmin && !state.user.purchasedCourses.includes(requiredCourse)) {
     return <Navigate to="/plateforme" replace state={{ denied: true }} />
   }
   return children(state.user)

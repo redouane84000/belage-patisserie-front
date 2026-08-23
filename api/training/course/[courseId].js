@@ -11,7 +11,9 @@ export default async function handler(req, res) {
     const courseId = Array.isArray(req.query.courseId) ? req.query.courseId[0] : req.query.courseId
     const course = courseById(courseId)
     if (!course) return res.status(404).json({ error: 'Formation introuvable.' })
-    if (!user.purchasedCourses.includes(courseId)) return res.status(403).json({ error: 'Accès non autorisé.' })
+    if (user.role !== 'admin' && !user.purchasedCourses.includes(courseId)) {
+      return res.status(403).json({ error: 'Accès non autorisé.' })
+    }
 
     return res.status(200).json({ course })
   } catch {

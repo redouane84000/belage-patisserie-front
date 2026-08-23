@@ -68,7 +68,7 @@ function Dashboard({ user }) {
           </div>
           <div className="training-course-grid">
             {TRAINING_COURSES.map((course) => {
-              const allowed = user.purchasedCourses.includes(course.id)
+              const allowed = user.isAdmin || user.purchasedCourses.includes(course.id)
               const lessonCount = course.lessonCount
               const completed = progress.completed
                 .filter((lessonId) => lessonId.startsWith(`${course.id}:`)).length
