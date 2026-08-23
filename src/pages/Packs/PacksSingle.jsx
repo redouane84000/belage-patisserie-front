@@ -5,7 +5,7 @@ import { FORMATION_MASTERCLASS } from '../../data/resources'
 import './TrainingStore.css'
 
 const COURSES = [
-  { id: 'layer-cake', title: 'Layer Cake', price: 69.99, label: 'Les bases qui font la différence', text: 'Construisez, garnissez et lissez des layer cakes droits, stables et prêts à être vendus.', includes: ['Montage droit et régulier', 'Crèmes et garnitures stables', 'Lissage propre, finitions nettes'] },
+  { id: 'layer-cake', title: 'Layer Cake', price: 1, label: 'Les bases qui font la différence', text: 'Construisez, garnissez et lissez des layer cakes droits, stables et prêts à être vendus.', includes: ['Montage droit et régulier', 'Crèmes et garnitures stables', 'Lissage propre, finitions nettes'] },
   { id: 'flower-cupcake', title: 'Flower Cupcake', price: 69.99, label: 'Le bouquet qui se vend', text: 'Apprenez le pochage floral pour créer des cupcakes élégants, gourmands et irrésistibles.', includes: ['Gestes et pression de poche', 'Fleurs, pétales et feuillages', 'Composition d’un bouquet gourmand'] },
   { id: 'wedding-cake', title: 'Wedding Cake', price: 89.99, label: 'La pièce qui impressionne', text: 'Maîtrisez la structure et les finitions d’un wedding cake fiable, élégant et transportable.', includes: ['Supports et tiges de sécurité', 'Montage des étages', 'Transport et présentation événementielle'] },
 ]

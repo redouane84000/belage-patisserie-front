@@ -1,5 +1,5 @@
 export const TRAINING_PRODUCTS = {
-  'layer-cake': { title: 'Formation Layer Cake', unitAmount: 6999 },
+  'layer-cake': { title: 'Formation Layer Cake', unitAmount: 100 },
   'flower-cupcake': { title: 'Formation Flower Cupcake', unitAmount: 6999 },
   'wedding-cake': { title: 'Formation Wedding Cake', unitAmount: 8999 },
 }
