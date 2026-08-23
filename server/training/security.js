@@ -93,5 +93,6 @@ export function publicUser(user) {
     firstName: user.firstName,
     username: user.username,
     purchasedCourses: user.purchasedCourses,
+    isAdmin: user.role === 'admin',
   }
 }

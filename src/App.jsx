@@ -16,6 +16,7 @@ import Contact from './pages/Contact/Contact'
 import TrainingLogin from './pages/Plateforme/TrainingLogin'
 import TrainingDashboard from './pages/Plateforme/TrainingDashboard'
 import TrainingCourse from './pages/Plateforme/TrainingCourse'
+import TrainingAdmin from './pages/Plateforme/TrainingAdmin'
 
 class AppErrorBoundary extends Component {
   state = { error: null }
@@ -70,6 +71,7 @@ function App() {
       <Route path="/boutique" element={<Navigate to="/" replace />} />
       <Route path="/plateforme/connexion" element={<TrainingLogin />} />
       <Route path="/plateforme" element={<TrainingDashboard />} />
+      <Route path="/plateforme/admin" element={<TrainingAdmin />} />
       <Route path="/plateforme/:courseId" element={<TrainingCourse />} />
       </Routes>
       <Analytics />

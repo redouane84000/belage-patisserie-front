@@ -1,5 +1,15 @@
 [
   {
+    "id": "admin_redktm_01",
+    "firstName": "Redouane",
+    "username": "redktm",
+    "passwordHash": "$2b$12$ds5XNR8LIp963su/eZGSGuFk7IXF6sD9eD4i0Ljv5fJCh/LFpfFjK",
+    "purchasedCourses": [],
+    "isActive": true,
+    "role": "admin",
+    "createdAt": "2026-08-23T13:48:00.000Z"
+  },
+  {
     "id": "client_redouane_01",
     "firstName": "Redouane",
     "username": "redouane",

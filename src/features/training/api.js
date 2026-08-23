@@ -23,4 +23,5 @@ export const trainingApi = {
   session: () => request('session'),
   courses: () => request('courses'),
   course: (courseId) => request(`course/${encodeURIComponent(courseId)}`),
+  adminUsers: () => request('admin/users'),
 }

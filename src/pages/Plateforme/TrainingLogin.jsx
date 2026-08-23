@@ -19,8 +19,8 @@ export default function TrainingLogin() {
     setLoading(true)
     setError('')
     try {
-      await trainingApi.login(username, password)
-      setAuthenticated(true)
+      const { user } = await trainingApi.login(username, password)
+      setAuthenticated(user.isAdmin ? 'admin' : 'client')
     } catch (err) {
       setError(err.message || 'Identifiant ou mot de passe incorrect.')
     } finally {
@@ -28,7 +28,7 @@ export default function TrainingLogin() {
     }
   }
 
-  if (authenticated) return <Navigate to="/plateforme" replace />
+  if (authenticated) return <Navigate to={authenticated === 'admin' ? '/plateforme/admin' : '/plateforme'} replace />
 
   return (
     <div className="training-app">
