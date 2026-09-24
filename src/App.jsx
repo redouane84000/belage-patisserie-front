@@ -14,6 +14,7 @@ import Rejoindre from './pages/Rejoindre/Rejoindre'
 import CalculateurRentabilite from './pages/CalculateurRentabilite/CalculateurRentabilite'
 import Mentions from './pages/Mentions/Mentions'
 import Contact from './pages/Contact/Contact'
+import PrestationsMariage from './pages/Mariage/PrestationsMariage'
 import TrainingLogin from './pages/Plateforme/TrainingLogin'
 import TrainingDashboard from './pages/Plateforme/TrainingDashboard'
 import TrainingCourse from './pages/Plateforme/TrainingCourse'
@@ -71,6 +72,7 @@ function App() {
       <Route path="/mentions-legales" element={<Mentions />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/boutique" element={<Navigate to="/" replace />} />
+      <Route path="/prestations-mariage" element={<PrestationsMariage />} />
       <Route path="/plateforme/connexion" element={<TrainingLogin />} />
       <Route path="/plateforme" element={<TrainingDashboard />} />
       <Route path="/plateforme/admin" element={<TrainingAdmin />} />
