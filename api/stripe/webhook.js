@@ -1,9 +1,9 @@
 import Stripe from 'stripe'
-import crypto from 'node:crypto'
 import { checkoutItem } from '../../server/stripe/catalog.js'
 import { stripeSecretKey, stripeWebhookSecret } from '../../server/stripe/config.js'
 import { supabaseAdmin } from '../../server/supabase/admin.js'
 import { sendTrainingPurchaseEmail } from '../../server/email/training.js'
+import { allocateUsername, generateReadablePassword } from '../../server/training/credentials.js'
 
 export const config = { api: { bodyParser: false } }
 
@@ -50,13 +50,8 @@ export default async function handler(req, res) {
       let isNew = false
       if (!profile) {
         isNew = true
-        let username
-        do {
-          username = `belage-${crypto.randomInt(10000, 100000)}`
-          const { data } = await supabaseAdmin.from('profiles').select('id').eq('username', username).maybeSingle()
-          if (!data) break
-        } while (true)
-        password = crypto.randomBytes(18).toString('base64url')
+        const username = await allocateUsername(supabaseAdmin, { firstName, lastName })
+        password = generateReadablePassword()
         const { data: auth, error: authError } = await supabaseAdmin.auth.admin.createUser({ email, password, email_confirm: true })
         if (authError) throw authError
         const { data, error } = await supabaseAdmin.from('profiles').insert({ auth_user_id: auth.user.id, email: email.toLowerCase(), username, first_name: firstName, last_name: lastName }).select('*').single()

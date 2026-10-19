@@ -7,7 +7,8 @@
 .training-login__card { width: min(100%, 460px); padding: 42px; border: 1px solid #eadbca; border-radius: 26px; background: rgba(255,255,255,.9); box-shadow: 0 24px 60px rgba(80,48,20,.1); }
 .training-login__icon { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #f1dfcb; color: #9a6230; }
 .training-login h1, .training-dashboard h1, .training-course h1, .training-lesson h2 { margin: 0; font-family: Georgia, serif; font-weight: 500; letter-spacing: -.035em; }
-.training-login h1 { font-size: 38px; }.training-login > p { color: #76665a; line-height: 1.6; }
+.training-login h1 { font-size: 38px; }.training-login p { color: #76665a; line-height: 1.6; }
+.training-login__hint { margin: 12px 0 0; font-size: 0.92rem; }
 .training-login form { display: grid; gap: 8px; margin-top: 28px; }.training-login label { margin-top: 9px; font-size: 13px; font-weight: 800; }
 .training-login input { width: 100%; min-height: 48px; border: 1px solid #deceb9; border-radius: 12px; padding: 0 13px; background: #fffdf9; font: inherit; }
 .training-password { position: relative; }.training-password input { padding-right: 46px; }.training-password button { position: absolute; right: 8px; top: 8px; display: grid; place-items: center; width: 32px; height: 32px; color: #806040; }

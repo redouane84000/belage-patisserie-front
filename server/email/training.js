@@ -6,8 +6,11 @@ const adminEmail = 'redouanektm@hotmail.fr'
 export async function sendTrainingPurchaseEmail({ email, firstName, lastName, courseName, amount, username, password, isNew, orderReference }) {
   if (!process.env.RESEND_API_KEY) throw new Error('RESEND_API_KEY is not configured')
   const credentials = isNew
-    ? `<p><strong>Utilisateur :</strong> ${username}<br/><strong>Mot de passe :</strong> ${password}</p>`
-    : '<p>Votre nouveau module a été ajouté à votre compte existant. Vos identifiants ne changent pas.</p>'
+    ? `<p>Connectez-vous ici : <a href="${loginUrl}">${loginUrl}</a></p>
+       <p>Le plus simple : utilisez <strong>l’e-mail de votre commande</strong> et le mot de passe ci-dessous.</p>
+       <p><strong>E-mail :</strong> ${email}<br/><strong>Identifiant :</strong> ${username}<br/><strong>Mot de passe :</strong> ${password}</p>
+       <p>Astuce : copiez-collez le mot de passe pour éviter une faute de frappe.</p>`
+    : '<p>Votre nouveau module a été ajouté à votre compte existant. Connectez-vous avec le même e-mail et le même mot de passe.</p>'
   const resend = new Resend(process.env.RESEND_API_KEY)
   const summary = `<h2>Récapitulatif de votre commande</h2><p><strong>Formation :</strong> ${courseName}<br/><strong>Montant :</strong> ${(amount / 100).toFixed(2).replace('.', ',')} €<br/><strong>Référence Stripe :</strong> ${orderReference}</p>`
   const clientEmail = {

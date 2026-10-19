@@ -39,6 +39,7 @@ export default function TrainingLogin() {
           <p className="training-eyebrow">Bel Âge Pâtisserie</p>
           <h1>Plateforme de formation</h1>
           <p>Votre espace est réservé aux clientes ayant acheté une formation Bel Âge.</p>
+          <p className="training-login__hint">Utilisez l’e-mail de votre commande, ou votre identifiant. Pas besoin du code belage-xxxxx si vous avez votre e-mail.</p>
           <form onSubmit={submit}>
             <label htmlFor="training-username">Identifiant ou e-mail</label>
             <input id="training-username" value={username} onChange={(event) => setUsername(event.target.value)} autoComplete="username" required />

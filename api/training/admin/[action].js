@@ -1,10 +1,8 @@
-import crypto from 'node:crypto'
 import { currentTrainingUser } from '../../../server/training/authorization.js'
 import { supabaseAdmin } from '../../../server/supabase/admin.js'
 import { COURSE_IDS } from '../../../server/training/constants.js'
+import { allocateUsername, generateReadablePassword } from '../../../server/training/credentials.js'
 
-const password = () => crypto.randomBytes(18).toString('base64url')
-const username = () => `belage-${crypto.randomInt(10000, 100000)}`
 const body = (req) => typeof req.body === 'object' && req.body ? req.body : JSON.parse(req.body || '{}')
 async function admin(req) {
   const user = await currentTrainingUser(req)
@@ -25,8 +23,8 @@ export default async function handler(req, res) {
     if (action === 'add' && req.method === 'POST') {
       const firstName = String(data.firstName || '').trim(); const email = String(data.email || '').trim().toLowerCase(); const selectedCourses = courses(data.courseIds)
       if (!firstName || !email) return res.status(400).json({ error: 'Prénom et e-mail obligatoires.' })
-      let generatedUsername; do { generatedUsername = username(); const { data: found } = await supabaseAdmin.from('profiles').select('id').eq('username', generatedUsername).maybeSingle(); if (!found) break } while (true)
-      const generatedPassword = password()
+      const generatedUsername = await allocateUsername(supabaseAdmin, { firstName, lastName: data.lastName })
+      const generatedPassword = generateReadablePassword()
       const { data: auth, error: authError } = await supabaseAdmin.auth.admin.createUser({ email, password: generatedPassword, email_confirm: true })
       if (authError) throw authError
       const { data: profile, error } = await supabaseAdmin.from('profiles').insert({ auth_user_id: auth.user.id, email, username: generatedUsername, first_name: firstName, last_name: data.lastName || null }).select('*').single()
@@ -38,7 +36,7 @@ export default async function handler(req, res) {
     const { data: profile } = await supabaseAdmin.from('profiles').select('*').eq('id', id).maybeSingle()
     if (!profile) return res.status(404).json({ error: 'Cliente introuvable.' })
     if (action === 'reset-password' && req.method === 'POST') {
-      const generatedPassword = password(); const { error } = await supabaseAdmin.auth.admin.updateUserById(profile.auth_user_id, { password: generatedPassword }); if (error) throw error
+      const generatedPassword = generateReadablePassword(); const { error } = await supabaseAdmin.auth.admin.updateUserById(profile.auth_user_id, { password: generatedPassword }); if (error) throw error
       return res.status(200).json({ password: generatedPassword })
     }
     if (action === 'toggle' && req.method === 'POST') {
