@@ -40,7 +40,7 @@ export default function TrainingLogin() {
           <h1>Plateforme de formation</h1>
           <p>Votre espace est réservé aux clientes ayant acheté une formation Bel Âge.</p>
           <form onSubmit={submit}>
-            <label htmlFor="training-username">Identifiant</label>
+            <label htmlFor="training-username">Identifiant ou e-mail</label>
             <input id="training-username" value={username} onChange={(event) => setUsername(event.target.value)} autoComplete="username" required />
             <label htmlFor="training-password">Mot de passe</label>
             <div className="training-password">

@@ -29,8 +29,9 @@ export default async function handler(req, res) {
     if (action === 'login') {
       if (req.method !== 'POST') return res.status(405).json({ error: 'Méthode non autorisée.' })
       const { username, password } = await readBody(req)
-      const normalized = normalizeUsername(username)
-      const supabaseUser = normalized && typeof password === 'string' ? await authenticateSupabaseUser(normalized, password) : null
+      const identifier = String(username || '').trim()
+      const normalized = normalizeUsername(identifier)
+      const supabaseUser = identifier && typeof password === 'string' ? await authenticateSupabaseUser(identifier, password) : null
       const legacyUser = supabaseUser ? null : (normalized ? await trainingUserRepository.findByUsername(normalized) : null)
       const validLegacy = Boolean(legacyUser && legacyUser.isActive && (!legacyUser.expiresAt || new Date(legacyUser.expiresAt).getTime() >= Date.now()) && typeof password === 'string' && await bcrypt.compare(password, legacyUser.passwordHash))
       const user = supabaseUser ?? legacyUser
