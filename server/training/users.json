@@ -44,5 +44,19 @@
     ],
     "isActive": true,
     "createdAt": "2026-08-04T18:18:23.746Z"
+  },
+  {
+    "id": "client_9b1cebb5826b",
+    "firstName": "Redouane",
+    "username": "belage-admin",
+    "passwordHash": "$2b$12$xoxjjPF2z8XmAk8W.6PKQuCrxMp71MMc0GA/iJrh2txMJ3TBX9bxy",
+    "purchasedCourses": [
+      "layer-cake",
+      "flower-cupcake",
+      "wedding-cake"
+    ],
+    "isActive": true,
+    "role": "admin",
+    "createdAt": "2026-10-28T20:53:14.775Z"
   }
 ]
