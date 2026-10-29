@@ -1,4 +1,14 @@
 {
+  "headers": [
+    {
+      "source": "/api/training/:path*",
+      "headers": [
+        { "key": "Cache-Control", "value": "private, no-store, no-cache, must-revalidate" },
+        { "key": "Pragma", "value": "no-cache" },
+        { "key": "Vary", "value": "Cookie" }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/((?!api/|src/|@vite/|@react-refresh|node_modules/|.*\\..*).*)",

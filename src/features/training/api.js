@@ -1,8 +1,13 @@
 async function request(path, options = {}) {
+  const { headers: optionHeaders, ...rest } = options
+  const headers = { ...(optionHeaders || {}) }
+  if (rest.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json'
+
   const response = await fetch(`/api/training/${path}`, {
-    credentials: 'same-origin',
-    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
-    ...options,
+    ...rest,
+    credentials: 'include',
+    cache: 'no-store',
+    headers,
   })
 
   const body = response.status === 204 ? null : await response.json().catch(() => null)

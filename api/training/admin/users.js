@@ -1,8 +1,10 @@
 import { currentTrainingUser } from '../../../server/training/authorization.js'
+import { disableAuthCache } from '../../../server/training/security.js'
 import { trainingUserRepository } from '../../../server/training/usersRepository.js'
 import { supabaseAdmin } from '../../../server/supabase/admin.js'
 
 export default async function handler(req, res) {
+  disableAuthCache(res)
   if (req.method !== 'GET') return res.status(405).json({ error: 'Méthode non autorisée.' })
   const admin = await currentTrainingUser(req)
   if (!admin || (admin.role !== 'admin' && admin.username !== 'redktm')) {

@@ -1,4 +1,5 @@
 import { currentTrainingUser } from '../../../server/training/authorization.js'
+import { disableAuthCache } from '../../../server/training/security.js'
 import { supabaseAdmin } from '../../../server/supabase/admin.js'
 import { COURSE_IDS } from '../../../server/training/constants.js'
 import { allocateUsername, generateReadablePassword } from '../../../server/training/credentials.js'
@@ -15,6 +16,7 @@ function courses(value) {
 }
 
 export default async function handler(req, res) {
+  disableAuthCache(res)
   const action = Array.isArray(req.query.action) ? req.query.action[0] : req.query.action
   if (!supabaseAdmin) return res.status(503).json({ error: 'Supabase indisponible.' })
   if (!await admin(req)) return res.status(403).json({ error: 'Accès administrateur requis.' })

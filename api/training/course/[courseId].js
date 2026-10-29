@@ -1,7 +1,9 @@
 import { currentTrainingUser } from '../../../server/training/authorization.js'
+import { disableAuthCache } from '../../../server/training/security.js'
 import { courseById } from '../../../server/training/courses.js'
 
 export default async function handler(req, res) {
+  disableAuthCache(res)
   if (req.method !== 'GET') return res.status(405).json({ error: 'Méthode non autorisée.' })
 
   try {

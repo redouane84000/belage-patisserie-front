@@ -72,19 +72,29 @@ export function readCookie(req, name = SESSION_COOKIE) {
   return match ? decodeURIComponent(match.slice(name.length + 1)) : null
 }
 
-export function setSessionCookie(res, token) {
+function cookieFlags() {
   const secure = process.env.VERCEL || process.env.NODE_ENV === 'production' ? '; Secure' : ''
+  return `Path=/; HttpOnly; SameSite=Lax${secure}`
+}
+
+export function disableAuthCache(res) {
+  res.setHeader('Cache-Control', 'private, no-store, no-cache, must-revalidate')
+  res.setHeader('Pragma', 'no-cache')
+  res.setHeader('Vary', 'Cookie')
+}
+
+export function setSessionCookie(res, token) {
+  const expires = new Date(Date.now() + SESSION_MAX_AGE_SECONDS * 1000).toUTCString()
   res.setHeader(
     'Set-Cookie',
-    `${SESSION_COOKIE}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${SESSION_MAX_AGE_SECONDS}${secure}`,
+    `${SESSION_COOKIE}=${encodeURIComponent(token)}; ${cookieFlags()}; Max-Age=${SESSION_MAX_AGE_SECONDS}; Expires=${expires}`,
   )
 }
 
 export function clearSessionCookie(res) {
-  const secure = process.env.VERCEL || process.env.NODE_ENV === 'production' ? '; Secure' : ''
   res.setHeader(
     'Set-Cookie',
-    `${SESSION_COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0${secure}`,
+    `${SESSION_COOKIE}=; ${cookieFlags()}; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT`,
   )
 }
 
