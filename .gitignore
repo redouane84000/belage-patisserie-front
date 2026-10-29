@@ -29,3 +29,4 @@ dist-ssr
 
 # Paid course media remains in private video hosting, never in Git.
 server/training/media/
+tmp-qa/

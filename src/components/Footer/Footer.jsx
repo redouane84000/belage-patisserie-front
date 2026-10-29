@@ -43,11 +43,8 @@ function IconWhatsApp() {
 }
 
 const NAV_LINKS = [
-  { label: 'Trouver un prestataire', to: '/patissieres' },
-  { label: 'Inspirations', to: '/inspirations' },
   { label: 'Nos formations', to: '/packs' },
-  { label: 'Rejoindre le réseau', to: '/rejoindre' },
-  { label: 'Demander un devis', to: '/contact' },
+  { label: 'Plateforme de formation', to: '/plateforme' },
 ]
 
 const VISIBLE_NAV_LINKS = NAV_LINKS.filter((link) => !HIDDEN_ROUTES.has(link.to))
@@ -87,7 +84,7 @@ export default function Footer() {
         <div className="site-footer__col site-footer__col--brand">
           <Link to="/" className="site-footer__logo">
             <span className="site-footer__logo-name">BEL ÂGE</span>
-            <span className="site-footer__logo-sub">PATISSERIE</span>
+            <span className="site-footer__logo-sub">FORMATION</span>
           </Link>
           <p className="site-footer__tagline">
             La première marketplace française dédiée aux pâtissières et cake designers
@@ -191,7 +188,7 @@ export default function Footer() {
       <div className="site-footer__mobile">
         <Link to="/" className="site-footer__logo site-footer__logo--mob">
           <span className="site-footer__logo-name">BEL ÂGE</span>
-          <span className="site-footer__logo-sub">PATISSERIE</span>
+          <span className="site-footer__logo-sub">FORMATION</span>
         </Link>
 
         <FooterAccordion title="Informations">

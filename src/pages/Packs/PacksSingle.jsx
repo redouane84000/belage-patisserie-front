@@ -49,7 +49,7 @@ export default function PacksSingle() {
 }
 
 function Cart({ items, total, remove, onBack, onCheckout }) { return <section className="training-checkout"><button className="training-back" onClick={onBack}><ChevronLeft size={17} /> Continuer mes achats</button><h1>Votre panier</h1>{items.length ? <><div className="training-order">{items.map((item) => <div key={item.id}><span>{item.title}</span><strong>{euro(item.price)}</strong><button aria-label={`Retirer ${item.title}`} onClick={() => remove(item.id)}><Trash2 size={17} /></button></div>)}</div><div className="training-total"><span>Total</span><strong>{euro(total)}</strong></div><button className="training-action" onClick={onCheckout}>Passer aux coordonnées <CreditCard size={17} /></button></> : <p>Votre panier est vide. Choisissez la formation qui vous ressemble.</p>}</section> }
-function Checkout({ items, total, customer, setCustomer, onBack }) {
+export function Checkout({ items, total, customer, setCustomer, onBack }) {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [touched, setTouched] = useState({})

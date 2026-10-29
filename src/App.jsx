@@ -61,9 +61,9 @@ function App() {
         element={HIDDEN_ROUTES.has('/inspirations') ? <Navigate to="/" replace /> : <Inspirations />}
       />
       <Route path="/packs" element={<Packs />} />
-      <Route path="/formations/:slug" element={<TrainingProduct />} />
       <Route path="/formations/succes" element={<PaymentResult />} />
       <Route path="/formations/annule" element={<PaymentResult cancelled />} />
+      <Route path="/formations/:slug" element={<TrainingProduct />} />
       <Route path="/rejoindre" element={<Rejoindre />} />
       <Route
         path="/calculateur-rentabilite"

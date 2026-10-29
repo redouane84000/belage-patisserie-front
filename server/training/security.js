@@ -89,7 +89,7 @@ export function clearSessionCookie(res) {
 }
 
 export function publicUser(user) {
-  const isAdmin = user.role === 'admin' || user.username === 'redktm'
+  const isAdmin = user.role === 'admin' || user.username === 'redktm' || user.username === 'miriam' || user.username === 'belage-57056'
   return {
     firstName: user.firstName,
     username: user.username,

@@ -5,24 +5,23 @@ import './FeaturesStrip.css'
 const FEATURES = [
   {
     icon: Users,
-    title: 'Annuaire de prestataires',
-    desc: 'Trouvez la pâtissière idéale pour votre projet',
+    title: 'Nos formations',
+    desc: 'Layer Cake, Flower Cupcake et Wedding Cake',
   },
   {
     icon: FileText,
-    title: 'Demandes de devis',
-    desc: 'Comparez plusieurs devis et choisissez la meilleure offre',
+    title: 'Paiement sécurisé',
+    desc: 'Achetez une formation et recevez vos accès',
   },
   {
     icon: Gift,
-    title: 'Packs prédéfinis',
-    desc: 'Des formules pensées pour tous vos événements',
+    title: 'Votre espace',
+    desc: 'Retrouvez les formations déjà achetées',
   },
   {
     icon: Lightbulb,
-    title: 'Inspirations',
-    desc: "Explorez des créations uniques et trouvez l'inspiration",
-    to: '/inspirations',
+    title: 'Plateforme',
+    desc: 'Suivez les vidéos depuis votre compte',
   },
 ]
 

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { MapPin, Clock, Cake, Heart, Hash, Baby, ArrowRight } from 'lucide-react'
 import { PARTNERS } from '../PartnerMarquee/PartnerMarquee'
-import { PROVIDER_SECTIONS } from '../../data/providerSections'
+import { TRAINING_PRODUCTS } from '../../data/trainingProducts'
 import './Hero.css'
 
 // Photo du gâteau BEL ÂGE servie depuis /public.
@@ -16,10 +16,6 @@ const PACK_TYPES = [
 ]
 
 export default function Hero() {
-  const totalProviders = PROVIDER_SECTIONS.reduce(
-    (sum, section) => sum + section.providers.length,
-    0
-  )
 
   return (
     <section className="hero">
@@ -27,39 +23,38 @@ export default function Hero() {
         {/* Colonne texte */}
         <div className="hero__content">
           <p className="hero__eyebrow anim" style={{ animationDelay: '0s' }}>
-            Réseau de prestataires événement
+            Formations de pâtisserie
           </p>
 
           <h1 className="hero__wordmark anim" style={{ animationDelay: '0.1s' }}>
             <img
               className="hero__wordmark-img"
               src="/police.png"
-              alt="BEL ÂGE Entreprise"
+              alt="BEL’ÂGE Formation"
             />
           </h1>
 
           <h2 className="hero__subtitle anim" style={{ animationDelay: '0.2s' }}>
             <span className="hero__line">
-              <span className="hero__line-in">Trouvez le prestataire</span>
+              <span className="hero__line-in">Apprenez les gestes</span>
             </span>{' '}
             <span className="hero__line">
-              <span className="hero__line-in">idéal pour votre</span>
+              <span className="hero__line-in">des formations</span>
             </span>{' '}
             <span className="hero__line">
-              <span className="hero__line-in">projet sur-mesure.</span>
+              <span className="hero__line-in">BEL’ÂGE.</span>
             </span>
           </h2>
 
           <div className="hero__divider anim" style={{ animationDelay: '0.25s' }} />
 
           <p className="hero__desc anim" style={{ animationDelay: '0.3s' }}>
-            Comparez les prestataires près de chez vous et demandez plusieurs devis
-            en quelques clics.
+            Trois formations en ligne, un paiement sécurisé, puis l’accès dans votre espace.
           </p>
 
           <div className="hero__cta anim" style={{ animationDelay: '0.4s' }}>
-            <Link to="/patissieres" className="btn btn--dark home-m-shine">
-              Trouver mon prestataire <ArrowRight size={16} strokeWidth={2} />
+            <Link to="/packs" className="btn btn--dark home-m-shine">
+              Voir nos formations <ArrowRight size={16} strokeWidth={2} />
             </Link>
           </div>
         </div>
@@ -93,18 +88,18 @@ export default function Hero() {
             <div className="float-card float-card--region">
               <div className="float-card__row">
                 <MapPin size={16} className="float-card__pin" strokeWidth={2} />
-                <span className="float-card__title">Réseau France</span>
+                <span className="float-card__title">Formations</span>
               </div>
               <ul className="network-stats">
-                {PROVIDER_SECTIONS.map((section) => (
-                  <li key={section.id} className="network-stats__row">
-                    <span className="network-stats__label">{section.shortLabel}</span>
-                    <span className="network-stats__count">{section.providers.length}</span>
+                {TRAINING_PRODUCTS.map((product) => (
+                  <li key={product.id} className="network-stats__row">
+                    <span className="network-stats__label">{product.title}</span>
+                    <span className="network-stats__count">{product.price.toLocaleString('fr-FR')} €</span>
                   </li>
                 ))}
               </ul>
               <p className="network-stats__total">
-                {totalProviders} prestataire{totalProviders > 1 ? 's' : ''} au total
+                {TRAINING_PRODUCTS.length} formation{TRAINING_PRODUCTS.length > 1 ? 's' : ''}
               </p>
             </div>
 

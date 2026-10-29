@@ -10,6 +10,7 @@ export default function MobileRouteEntryFx() {
   const { pathname } = useLocation()
 
   if (!isMobile) return null
+  if (pathname === '/') return null
   if (SKIP_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return null
 
   return <MobileHeroFx key={pathname} variant="route" />

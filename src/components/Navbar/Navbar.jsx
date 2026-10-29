@@ -5,13 +5,8 @@ import { HIDDEN_ROUTES } from '../../config/hiddenRoutes'
 import './Navbar.css'
 
 const NAV_LINKS = [
-  { label: 'Trouver un prestataire', to: '/patissieres' },
-  { label: 'Nos prestations de mariage', to: '/prestations-mariage' },
-  { label: 'Inspirations', to: '/inspirations' },
   { label: 'Nos formations', to: '/packs' },
   { label: 'Plateforme de formation', to: '/plateforme' },
-  { label: 'Calculateur rentabilité', to: '/calculateur-rentabilite' },
-  { label: 'Rejoindre le réseau', to: '/rejoindre' },
 ]
 
 const VISIBLE_NAV_LINKS = NAV_LINKS.filter((link) => !HIDDEN_ROUTES.has(link.to))
@@ -59,9 +54,9 @@ export default function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar__inner">
-        <Link to="/" className="navbar__logo" aria-label="BEL’AGE Entreprise">
+        <Link to="/" className="navbar__logo" aria-label="BEL’ÂGE Formation">
           <span className="navbar__logo-name">BEL’AGE</span>
-          <span className="navbar__logo-sub">ENTREPRISE</span>
+          <span className="navbar__logo-sub">FORMATION</span>
         </Link>
 
         <nav className="navbar__links" aria-label="Navigation principale">

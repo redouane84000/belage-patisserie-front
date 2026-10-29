@@ -1,52 +1,38 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ChevronLeft, ChevronRight, CheckCircle2, FileText, Lightbulb, PlayCircle } from 'lucide-react'
-import { Link, Navigate, useParams } from 'react-router-dom'
-import Navbar from '../../components/Navbar/Navbar'
-import Footer from '../../components/Footer/Footer'
+import { Navigate, useParams } from 'react-router-dom'
 import TrainingGate from './TrainingGate'
+import LessonShell from './LessonShell'
+import BunnyLessonPlayer from './BunnyLessonPlayer'
 import { TRAINING_COURSES } from '../../data/trainingCourses'
 import { completeLesson, getTrainingProgress, setLastLesson } from '../../features/training/progress'
 import { trainingApi } from '../../features/training/api'
 import { formatChapterTime, LAYER_CAKE_CHAPTERS } from '../../data/layerCakeChapters'
+import { FLOWER_CUPCAKE_CHAPTERS } from '../../data/flowerCupcakeChapters'
 import { WEDDING_CAKE_CHAPTERS } from '../../data/weddingCakeChapters'
-import Playerjs from 'player.js'
-import './TrainingPlatform.css'
-import './LayerCakeCourse.css'
 
-const WEDDING_CAKE_PLAYER_URL = 'https://player.mediadelivery.net/embed/734928/33250c70-8db3-4c1e-88cf-2d9a00198f17?autoplay=false&loop=false&muted=false&preload=true&responsive=true'
-const FLOWER_CUPCAKE_PLAYER_URL = 'https://player.mediadelivery.net/embed/734928/b2449a11-4838-4292-8964-5cef6eca3e2d?autoplay=false&loop=false&muted=false&preload=true&responsive=true'
+function parseClock(value) {
+  const match = String(value ?? '').match(/(\d{1,2}):(\d{2})/)
+  return match ? Number(match[1]) * 60 + Number(match[2]) : 0
+}
+const LAYER_CAKE_PLAYER_URL = 'https://player.mediadelivery.net/embed/734928/8b34682b-1e84-420e-a99a-b1b49f5ae2da?autoplay=false&loop=false&muted=false&preload=true&responsive=true&playerjs=true'
+const WEDDING_CAKE_PLAYER_URL = 'https://player.mediadelivery.net/embed/734928/33250c70-8db3-4c1e-88cf-2d9a00198f17?autoplay=false&loop=false&muted=false&preload=true&responsive=true&playerjs=true'
+const FLOWER_CUPCAKE_PLAYER_URL = 'https://player.mediadelivery.net/embed/734928/b2449a11-4838-4292-8964-5cef6eca3e2d?autoplay=false&loop=false&muted=false&preload=true&responsive=true&playerjs=true'
 
-function VideoPlayer({ orientation, embedUrl }) {
+function paneTitle(title, children) {
   return (
-    <div className={`training-video training-video--${orientation}`}>
-      {embedUrl ? (
-        <iframe
-          src={embedUrl}
-          title="Formation Wedding Cake"
-          allow="accelerometer; gyroscope; encrypted-media; picture-in-picture; fullscreen"
-          allowFullScreen
-        />
-      ) : (
-        <>
-          <div className="training-video__placeholder">
-            <PlayCircle size={42} />
-            <strong>Vidéo de démonstration</strong>
-            <span>La vidéo protégée sera diffusée via l’API après ajout d’un stockage privé.</span>
-          </div>
-          <small>Ratio prévu : {orientation === 'portrait' ? '9:16 vertical' : '16:9 horizontal'}</small>
-        </>
-      )}
-    </div>
+    <>
+      <h3>{title}</h3>
+      {children}
+    </>
   )
 }
 
-function LayerCakeCourse({ user, course }) {
-  const videoRef = useRef(null)
+function LayerCakeCourse({ course }) {
+  const courseTitle = course.title
   const playerRef = useRef(null)
   const [activeChapter, setActiveChapter] = useState(0)
   const [completedChapters, setCompletedChapters] = useState([])
   const chapter = LAYER_CAKE_CHAPTERS[activeChapter]
-  const progressPercent = Math.round((completedChapters.length / LAYER_CAKE_CHAPTERS.length) * 100)
   const selectChapter = (index) => {
     const next = LAYER_CAKE_CHAPTERS[index]
     setActiveChapter(index)
@@ -58,21 +44,48 @@ function LayerCakeCourse({ user, course }) {
     const index = LAYER_CAKE_CHAPTERS.findIndex(({ startTime, endTime }) => currentTime >= startTime && currentTime < endTime)
     if (index >= 0) setActiveChapter(index)
   }
-  useEffect(() => {
-    if (!videoRef.current) return undefined
-    const player = new Playerjs.Player(videoRef.current)
-    playerRef.current = player
-    player.on('timeupdate', (payload) => {
-      const data = typeof payload === 'string' ? JSON.parse(payload) : payload
-      if (typeof data?.seconds === 'number') syncChapter(data.seconds)
-    })
-    return () => { playerRef.current = null }
-  }, [])
-  return <div className="training-app"><Navbar /><main className="training-course"><header className="training-course__head"><Link to="/plateforme">← Tableau de bord</Link><p className="training-eyebrow">Formation vidéo · 43 min 58 s</p><h1>Création d’un Layer Cake</h1><p>{course.description}</p><div className="training-course-progress"><i style={{ width: `${progressPercent}%` }} /><span>{completedChapters.length} chapitre{completedChapters.length > 1 ? 's' : ''} sur {LAYER_CAKE_CHAPTERS.length} · {progressPercent} % terminé</span></div></header><section className="training-chapter-layout"><div><div className="training-video training-video--portrait"><iframe ref={videoRef} title="Formation Layer Cake" src="https://player.mediadelivery.net/embed/734928/8b34682b-1e84-420e-a99a-b1b49f5ae2da?autoplay=false&loop=false&muted=false&preload=true&responsive=true&playerjs=true" allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowFullScreen /></div><div className="training-chapter-timeline">{LAYER_CAKE_CHAPTERS.map((item, index) => <button key={item.id} className={index === activeChapter ? 'is-current' : ''} onClick={() => selectChapter(index)}><span>{item.number}</span></button>)}</div><div className="training-chapter-content"><p className="training-eyebrow">Chapitre {activeChapter + 1} sur {LAYER_CAKE_CHAPTERS.length}</p><h2>{chapter.number} — {chapter.title}</h2><p><strong>Vidéo :</strong> {formatChapterTime(chapter.startTime)} → {formatChapterTime(chapter.endTime)}</p><div className="training-lesson__notes"><article><h3>Objectif</h3><p>{chapter.objective}</p></article><article><h3>Ingrédients / matériel</h3><ul>{chapter.ingredients.map((item) => <li key={item}>{item}</li>)}</ul></article><article><h3>Étapes</h3><ol>{chapter.steps.map((item) => <li key={item}>{item}</li>)}</ol></article><article><h3>Point important</h3><p>{chapter.warning}</p></article><article><h3>À retenir</h3><p>{chapter.takeaway}</p></article>{chapter.conclusion && <article><h3>Conclusion</h3><p>{chapter.conclusion}</p></article>}</div><div className="training-lesson__actions"><button disabled={!activeChapter} onClick={() => selectChapter(activeChapter - 1)}><ChevronLeft size={17} /> Chapitre précédent</button><button className="is-primary" onClick={() => setCompletedChapters((current) => [...new Set([...current, chapter.id])])}>{completedChapters.includes(chapter.id) ? 'Chapitre terminé' : 'Marquer comme terminé'}</button><button disabled={activeChapter === LAYER_CAKE_CHAPTERS.length - 1} onClick={() => selectChapter(activeChapter + 1)}>Chapitre suivant <ChevronRight size={17} /></button></div></div></div><aside className="training-course__sidebar"><p>Parcours du cours</p>{LAYER_CAKE_CHAPTERS.map((item, index) => <button key={item.id} className={index === activeChapter ? 'is-current' : ''} onClick={() => selectChapter(index)}><span>{item.number}</span>{item.title}<small>{formatChapterTime(item.startTime)} → {formatChapterTime(item.endTime)}</small></button>)}</aside></section></main><Footer /></div>
+
+  const tabs = [
+    { id: 'obj', label: 'Objectif', content: paneTitle('Objectif', <p>{chapter.objective}</p>) },
+    chapter.ingredients?.length ? { id: 'ing', label: 'Ingrédients', content: paneTitle('Ingrédients / matériel', <ul>{chapter.ingredients.map((item) => <li key={item}>{item}</li>)}</ul>) } : null,
+    chapter.steps?.length ? { id: 'steps', label: 'Étapes', content: paneTitle('Étapes', <ol>{chapter.steps.map((item) => <li key={item}>{item}</li>)}</ol>) } : null,
+    chapter.takeaway ? { id: 'take', label: 'Conseils', content: paneTitle('À retenir', <p>{chapter.takeaway}</p>) } : null,
+    chapter.warning ? { id: 'warn', label: 'À éviter', content: paneTitle('Point important', <p>{chapter.warning}</p>) } : null,
+    chapter.conclusion ? { id: 'end', label: 'Conclusion', content: paneTitle('Conclusion', <p>{chapter.conclusion}</p>) } : null,
+  ].filter(Boolean)
+
+  return (
+    <LessonShell
+      courseTitle={courseTitle}
+      unitLabel="chapitre"
+      chapters={LAYER_CAKE_CHAPTERS.map((item) => ({
+        id: item.id,
+        number: item.number,
+        title: item.title,
+        timeLabel: `${formatChapterTime(item.endTime - item.startTime)}`,
+      }))}
+      activeIndex={activeChapter}
+      completedIds={completedChapters}
+      onSelect={selectChapter}
+      onPrev={() => selectChapter(activeChapter - 1)}
+      onNext={() => selectChapter(activeChapter + 1)}
+      onDone={() => setCompletedChapters((current) => [...new Set([...current, chapter.id])])}
+      isDone={completedChapters.includes(chapter.id)}
+      rangeLabel={`Vidéo : ${formatChapterTime(chapter.startTime)} → ${formatChapterTime(chapter.endTime)}`}
+      video={(
+        <BunnyLessonPlayer
+          title="Formation Layer Cake"
+          src={LAYER_CAKE_PLAYER_URL}
+          playerRef={playerRef}
+          onTimeUpdate={syncChapter}
+        />
+      )}
+      tabs={tabs}
+    />
+  )
 }
 
 function WeddingCakeCourse({ course }) {
-  const frameRef = useRef(null)
   const playerRef = useRef(null)
   const [active, setActive] = useState(0)
   const [completed, setCompleted] = useState([])
@@ -84,23 +97,55 @@ function WeddingCakeCourse({ course }) {
     playerRef.current?.setCurrentTime(next.startTime)
     playerRef.current?.play()
   }
-  useEffect(() => {
-    const player = new Playerjs.Player(frameRef.current)
-    playerRef.current = player
-    player.on('timeupdate', (payload) => {
-      const data = typeof payload === 'string' ? JSON.parse(payload) : payload
-      const index = WEDDING_CAKE_CHAPTERS.findIndex((item) => data?.seconds >= item.startTime && data.seconds < item.endTime)
-      if (index >= 0) setActive(index)
-    })
-    return () => { playerRef.current = null }
-  }, [])
-  return <div className="training-app"><Navbar /><main className="training-course"><header className="training-course__head"><Link to="/plateforme">← Tableau de bord</Link><p className="training-eyebrow">Formation vidéo · 55 min 54 s</p><h1>{course.title}</h1><p>{course.description}</p><div className="training-course-progress"><i style={{ width: `${Math.round(completed.length / WEDDING_CAKE_CHAPTERS.length * 100)}%` }} /><span>{completed.length} module{completed.length > 1 ? 's' : ''} sur {WEDDING_CAKE_CHAPTERS.length}</span></div></header><section className="training-chapter-layout"><div><div className="training-video training-video--landscape"><iframe ref={frameRef} title="Formation Wedding Cake" src={`${WEDDING_CAKE_PLAYER_URL}&playerjs=true`} allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen /></div><div className="training-chapter-timeline">{WEDDING_CAKE_CHAPTERS.map((item, index) => <button key={item.id} className={index === active ? 'is-current' : ''} onClick={() => select(index)}><span>{item.number}</span></button>)}</div><div className="training-chapter-content"><p className="training-eyebrow">Module {active + 1} sur {WEDDING_CAKE_CHAPTERS.length}</p><h2>{chapter.number} — {chapter.title}</h2><p><strong>Vidéo :</strong> {formatChapterTime(chapter.startTime)} → {formatChapterTime(chapter.endTime)}</p><div className="training-lesson__notes"><article><h3>Dans ce module</h3><p>{chapter.objective}</p></article><article><h3>À retenir</h3><p>Reprenez ce passage autant de fois que nécessaire avant de poursuivre la pièce montée.</p></article></div><div className="training-lesson__actions"><button disabled={!active} onClick={() => select(active - 1)}><ChevronLeft size={17} /> Module précédent</button><button className="is-primary" onClick={() => setCompleted((current) => [...new Set([...current, chapter.id])])}>{completed.includes(chapter.id) ? 'Module terminé' : 'Marquer comme terminé'}</button><button disabled={active === WEDDING_CAKE_CHAPTERS.length - 1} onClick={() => select(active + 1)}>Module suivant <ChevronRight size={17} /></button></div></div></div><aside className="training-course__sidebar"><p>Parcours du cours</p>{WEDDING_CAKE_CHAPTERS.map((item, index) => <button key={item.id} className={index === active ? 'is-current' : ''} onClick={() => select(index)}><span>{item.number}</span>{item.title}<small>{formatChapterTime(item.startTime)} → {formatChapterTime(item.endTime)}</small></button>)}</aside></section></main><Footer /></div>
+  const syncChapter = (seconds) => {
+    const index = WEDDING_CAKE_CHAPTERS.findIndex((item) => seconds >= item.startTime && seconds < item.endTime)
+    if (index >= 0) setActive(index)
+  }
+
+  const uniqueSteps = chapter.steps?.filter((item) => item && item !== chapter.objective) || []
+  const tabs = [
+    chapter.objective ? { id: 'obj', label: 'Objectif', content: paneTitle('Dans ce module', <p>{chapter.objective}</p>) } : null,
+    uniqueSteps.length ? { id: 'steps', label: 'Étapes', content: paneTitle('Étapes', <ol>{uniqueSteps.map((item) => <li key={item}>{item}</li>)}</ol>) } : null,
+    chapter.takeaway ? { id: 'take', label: 'Conseils', content: paneTitle('À retenir', <p>{chapter.takeaway}</p>) } : null,
+  ].filter(Boolean)
+
+  return (
+    <LessonShell
+      courseTitle={course.title}
+      unitLabel="module"
+      chapters={WEDDING_CAKE_CHAPTERS.map((item) => ({
+        id: item.id,
+        number: item.number,
+        title: item.title,
+        timeLabel: formatChapterTime(item.endTime - item.startTime),
+      }))}
+      activeIndex={active}
+      completedIds={completed}
+      onSelect={select}
+      onPrev={() => select(active - 1)}
+      onNext={() => select(active + 1)}
+      onDone={() => setCompleted((current) => [...new Set([...current, chapter.id])])}
+      isDone={completed.includes(chapter.id)}
+      rangeLabel={`Vidéo : ${formatChapterTime(chapter.startTime)} → ${formatChapterTime(chapter.endTime)}`}
+      video={(
+        <BunnyLessonPlayer
+          title="Formation Wedding Cake"
+          src={WEDDING_CAKE_PLAYER_URL}
+          playerRef={playerRef}
+          onTimeUpdate={syncChapter}
+        />
+      )}
+      tabs={tabs}
+    />
+  )
 }
 
-function Course({ user, course }) {
-  if (course.id === 'layer-cake') return <LayerCakeCourse user={user} course={course} />
-  if (course.id === 'wedding-cake') return <WeddingCakeCourse course={course} />
-  const lessons = useMemo(() => course.modules.flatMap((module) => module.lessons.map((lesson) => ({ ...lesson, moduleTitle: module.title }))), [course])
+function FlowerCupcakeCourse({ user, course }) {
+  const playerRef = useRef(null)
+  const lessons = useMemo(
+    () => course.modules.flatMap((module) => module.lessons.map((lesson) => ({ ...lesson, moduleTitle: module.title }))),
+    [course],
+  )
   const initialProgress = getTrainingProgress(user.username)
   const initialIndex = Math.max(0, lessons.findIndex((lesson) => `${course.id}:${lesson.id}` === initialProgress.lastLesson))
   const [index, setIndex] = useState(initialIndex)
@@ -113,58 +158,70 @@ function Course({ user, course }) {
     const clamped = Math.max(0, Math.min(nextIndex, lessons.length - 1))
     setIndex(clamped)
     setProgress(setLastLesson(user.username, `${course.id}:${lessons[clamped].id}`))
+    const start = parseClock(FLOWER_CUPCAKE_CHAPTERS[clamped]?.startTime)
+    playerRef.current?.setCurrentTime(start)
+    playerRef.current?.play()
+  }
+
+  const syncChapter = (seconds) => {
+    const next = FLOWER_CUPCAKE_CHAPTERS.findIndex((item, itemIndex) => {
+      const start = parseClock(item.startTime)
+      const end = parseClock(item.endTime) || parseClock(FLOWER_CUPCAKE_CHAPTERS[itemIndex + 1]?.startTime) || Number.POSITIVE_INFINITY
+      return seconds >= start && seconds < end
+    })
+    if (next >= 0) setIndex((current) => (current === next ? current : next))
   }
 
   function markDone() {
     setProgress(completeLesson(user.username, lessonKey))
   }
 
+  const tabs = [
+    lesson.objective || lesson.description ? { id: 'obj', label: 'Objectif', content: paneTitle('Objectif', <p>{lesson.objective || lesson.description}</p>) } : null,
+    Array.isArray(lesson.ingredients) && lesson.ingredients.length ? { id: 'ing', label: 'Ingrédients', content: paneTitle('Ingrédients', <ul>{lesson.ingredients.map((item) => <li key={item}>{item}</li>)}</ul>) } : null,
+    Array.isArray(lesson.materials) && lesson.materials.length ? { id: 'steps', label: 'Matériel', content: paneTitle('Matériel', <ul>{lesson.materials.map((item) => <li key={item}>{item}</li>)}</ul>) } : null,
+    Array.isArray(lesson.tips) && lesson.tips.length ? { id: 'take', label: 'Conseils', content: paneTitle('Conseils', <ul>{lesson.tips.map((item) => <li key={item}>{item}</li>)}</ul>) } : null,
+    Array.isArray(lesson.commonMistakes) && lesson.commonMistakes.length ? { id: 'warn', label: 'À éviter', content: paneTitle('À éviter', <ul>{lesson.commonMistakes.map((item) => <li key={item}>{item}</li>)}</ul>) } : null,
+  ].filter(Boolean)
+
+  const completedIds = lessons.filter((item) => progress.completed.includes(`${course.id}:${item.id}`)).map((item) => item.id)
+
   return (
-    <div className="training-app">
-      <Navbar />
-      <main className="training-course">
-        <header className="training-course__head">
-          <Link to="/plateforme">← Tableau de bord</Link>
-          <p className="training-eyebrow">{course.eyebrow}</p>
-          <h1>{course.title}</h1>
-          <p>{course.description}</p>
-        </header>
-        <div className="training-course__layout">
-          <aside className="training-course__sidebar">
-            <p>Sommaire</p>
-            {course.modules.map((module) => (
-              <div key={module.id}>
-                <strong>{module.title}</strong>
-                {module.lessons.map((item) => {
-                  const itemIndex = lessons.findIndex((candidate) => candidate.id === item.id)
-                  const done = progress.completed.includes(`${course.id}:${item.id}`)
-                  return <button key={item.id} className={itemIndex === index ? 'is-current' : ''} onClick={() => goTo(itemIndex)}>{done && <CheckCircle2 size={14} />}{item.title}</button>
-                })}
-              </div>
-            ))}
-          </aside>
-          <section className="training-lesson">
-            <p className="training-eyebrow">{lesson.moduleTitle} · {lesson.duration}</p>
-            <h2>{lesson.title}</h2>
-            <p>{lesson.description}</p>
-            <VideoPlayer orientation={course.videoOrientation} embedUrl={course.id === 'wedding-cake' ? WEDDING_CAKE_PLAYER_URL : course.id === 'flower-cupcake' ? FLOWER_CUPCAKE_PLAYER_URL : null} />
-            <div className="training-lesson__notes">
-              <article><h3><FileText size={17} /> Matériel</h3><ul>{lesson.materials?.map((item) => <li key={item}>{item}</li>)}</ul></article>
-              <article><h3>Ingrédients</h3><ul>{lesson.ingredients?.map((item) => <li key={item}>{item}</li>)}</ul></article>
-              <article><h3><Lightbulb size={17} /> Conseil</h3><ul>{lesson.tips?.map((item) => <li key={item}>{item}</li>)}</ul></article>
-              <article><h3>À éviter</h3><ul>{lesson.commonMistakes?.map((item) => <li key={item}>{item}</li>)}</ul></article>
-            </div>
-            <div className="training-lesson__actions">
-              <button disabled={index === 0} onClick={() => goTo(index - 1)}><ChevronLeft size={17} /> Leçon précédente</button>
-              <button className={isDone ? 'is-complete' : 'is-primary'} onClick={markDone}>{isDone ? <><CheckCircle2 size={17} /> Leçon terminée</> : 'Marquer comme terminée'}</button>
-              <button disabled={index === lessons.length - 1} onClick={() => goTo(index + 1)}>Leçon suivante <ChevronRight size={17} /></button>
-            </div>
-          </section>
-        </div>
-      </main>
-      <Footer />
-    </div>
+    <LessonShell
+      courseTitle={course.title}
+      unitLabel="leçon"
+      chapters={lessons.map((item, lessonIndex) => ({
+        id: item.id,
+        number: FLOWER_CUPCAKE_CHAPTERS[lessonIndex]?.number,
+        title: item.title,
+        timeLabel: item.duration,
+      }))}
+      activeIndex={index}
+      completedIds={completedIds}
+      onSelect={goTo}
+      onPrev={() => goTo(index - 1)}
+      onNext={() => goTo(index + 1)}
+      onDone={markDone}
+      isDone={isDone}
+      rangeLabel={lesson.duration ? `Vidéo : ${lesson.duration}` : lesson.moduleTitle}
+      video={(
+        <BunnyLessonPlayer
+          title="Formation Flower Cupcake"
+          src={FLOWER_CUPCAKE_PLAYER_URL}
+          playerRef={playerRef}
+          onTimeUpdate={syncChapter}
+        />
+      )}
+      tabs={tabs}
+    />
   )
+}
+
+function Course({ user, course }) {
+  if (course.id === 'layer-cake') return <LayerCakeCourse course={course} />
+  if (course.id === 'wedding-cake') return <WeddingCakeCourse course={course} />
+  if (course.id === 'flower-cupcake') return <FlowerCupcakeCourse user={user} course={course} />
+  return <main className="training-loading">Formation indisponible.</main>
 }
 
 function CourseLoader({ user, courseId }) {
