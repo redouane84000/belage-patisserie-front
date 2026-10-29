@@ -15,6 +15,10 @@ export default function TrainingProduct() {
 
   if (!page) return <Navigate to="/packs" replace />
 
+  const taughtShots = page.kind === 'course' && page.gallery?.length
+    ? page.gallery.slice(0, 1)
+    : page.gallery
+
   function addToCart() {
     if (page.kind !== 'course') return
     const current = JSON.parse(localStorage.getItem('belage-training-cart') || '[]')
@@ -129,13 +133,13 @@ export default function TrainingProduct() {
           </section>
         )}
 
-        {page.gallery?.length > 0 && (
+        {taughtShots?.length > 0 && (
           <section className="lp-sec" aria-labelledby="lp-gallery">
             <div className="lp-wrap">
               <p className="kicker">Réalisations</p>
               <h2 className="h2" id="lp-gallery">Le rendu enseigné</h2>
-              <div className={`lp-gallery lp-gallery--${page.gallery.length}`}>
-                {page.gallery.map((item) => (
+              <div className={`lp-gallery lp-gallery--${taughtShots.length}`}>
+                {taughtShots.map((item) => (
                   <figure className="ph" key={item.src}>
                     <img src={item.src} alt={item.alt} loading="lazy" />
                   </figure>

@@ -58,6 +58,7 @@ export const COURSE_ASSETS = {
   home: {
     hero: '/assets/formations/mk-hero-desktop.jpg',
     heroMobile: '/assets/formations/mk-hero-mobile.jpg',
+    heroMobileWebp: '/assets/formations/mk-hero-mobile.webp',
     hdNeeded: false,
   },
   pack: {

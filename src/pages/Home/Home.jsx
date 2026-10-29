@@ -22,6 +22,11 @@ export default function Home() {
         <section className="hero" aria-labelledby="hero-title">
           <figure className="hero-photo">
             <picture>
+              <source
+                media="(max-width:767px)"
+                type="image/webp"
+                srcSet={COURSE_ASSETS.home.heroMobileWebp}
+              />
               <source media="(max-width:767px)" srcSet={COURSE_ASSETS.home.heroMobile} />
               <img
                 src={COURSE_ASSETS.home.hero}

@@ -76,6 +76,13 @@
 
 .lp-gallery{display:grid;gap:12px;margin-top:22px}
 .lp-gallery .ph{height:210px;border-radius:16px}
+.lp-gallery--1{max-width:none}
+.lp-gallery--1 .ph{
+  height:auto;
+  aspect-ratio:4/5;
+  max-height:440px;
+  border-radius:18px;
+}
 .lp-offer{
   display:grid;gap:22px;margin:0 16px 10px;padding:22px;
   border-radius:20px;color:#FFF6EF;
@@ -121,10 +128,12 @@
   .lp-wrap{padding:0 var(--gutter)}
   .lp-outcomes{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
   .lp-why,.lp-pack-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+  .lp-gallery--1{max-width:480px}
   .lp-gallery--2{grid-template-columns:1.15fr .85fr}
   .lp-gallery--3{grid-template-columns:1.2fr .8fr .8fr}
   .lp-gallery .ph{height:280px}
   .lp-gallery .ph:first-child{height:280px}
+  .lp-gallery--1 .ph{height:auto;aspect-ratio:3/4;max-height:560px}
   .lp-offer{
     grid-template-columns:280px minmax(0,1fr);
     align-items:center;
