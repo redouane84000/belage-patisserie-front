@@ -68,11 +68,16 @@ export async function supabaseTrainingUserById(id) {
 }
 
 export async function authenticateSupabaseUser(identifier, password) {
-  const authClient = supabaseAuth || supabaseAdmin
-  if (!supabaseAdmin || !authClient) return null
-  const profile = await findProfileByLogin(identifier)
-  if (!profile?.is_active || !profile.email) return null
-  const { data, error } = await authClient.auth.signInWithPassword({ email: profile.email, password })
-  if (error || !data.user || data.user.id !== profile.auth_user_id) return null
-  return supabaseTrainingUserById(data.user.id)
+  try {
+    const authClient = supabaseAuth || supabaseAdmin
+    if (!supabaseAdmin || !authClient) return null
+    const profile = await findProfileByLogin(identifier)
+    if (!profile || profile.is_active === false || !profile.email) return null
+    const { data, error } = await authClient.auth.signInWithPassword({ email: profile.email, password })
+    if (error || !data.user || data.user.id !== profile.auth_user_id) return null
+    return supabaseTrainingUserById(data.user.id)
+  } catch (error) {
+    console.error('authenticateSupabaseUser failed:', error.message)
+    return null
+  }
 }

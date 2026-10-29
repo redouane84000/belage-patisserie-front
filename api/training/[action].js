@@ -13,13 +13,28 @@ import { authenticateSupabaseUser } from '../../server/supabase/admin.js'
 const GENERIC_LOGIN_ERROR = 'Identifiant ou mot de passe incorrect.'
 
 async function readBody(req) {
-  if (typeof req.body === 'object' && req.body !== null) return req.body
-  if (typeof req.body !== 'string') return {}
+  let body
   try {
-    return JSON.parse(req.body)
-  } catch {
+    body = req.body
+  } catch (error) {
+    console.error('Training login body getter failed:', error.message)
     return {}
   }
+
+  if (Buffer.isBuffer(body)) {
+    const raw = body.toString('utf8').trim()
+    if (!raw) return {}
+    try { return JSON.parse(raw) } catch { return {} }
+  }
+
+  if (typeof body === 'string') {
+    const raw = body.trim()
+    if (!raw) return {}
+    try { return JSON.parse(raw) } catch { return {} }
+  }
+
+  if (body && typeof body === 'object' && !Array.isArray(body)) return body
+  return {}
 }
 
 export default async function handler(req, res) {
@@ -30,13 +45,20 @@ export default async function handler(req, res) {
       if (req.method !== 'POST') return res.status(405).json({ error: 'Méthode non autorisée.' })
       const { username, password } = await readBody(req)
       const identifier = String(username || '').trim()
+      const secret = typeof password === 'string' ? password : ''
       const normalized = normalizeUsername(identifier)
-      const supabaseUser = identifier && typeof password === 'string' ? await authenticateSupabaseUser(identifier, password) : null
+      let supabaseUser = null
+      try {
+        supabaseUser = identifier && secret ? await authenticateSupabaseUser(identifier, secret) : null
+      } catch (error) {
+        console.error('Supabase login path failed, falling back to legacy:', error.message)
+      }
       const legacyUser = supabaseUser ? null : (normalized ? await trainingUserRepository.findByUsername(normalized) : null)
-      const validLegacy = Boolean(legacyUser && legacyUser.isActive && (!legacyUser.expiresAt || new Date(legacyUser.expiresAt).getTime() >= Date.now()) && typeof password === 'string' && await bcrypt.compare(password, legacyUser.passwordHash))
+      const validLegacy = Boolean(legacyUser && legacyUser.isActive && (!legacyUser.expiresAt || new Date(legacyUser.expiresAt).getTime() >= Date.now()) && secret && await bcrypt.compare(secret, legacyUser.passwordHash))
       const user = supabaseUser ?? legacyUser
       const valid = Boolean(supabaseUser || validLegacy)
 
+      console.info('training login', { hasIdentifier: Boolean(identifier), hasPassword: Boolean(secret), supabase: Boolean(supabaseUser), legacy: Boolean(validLegacy) })
       if (!valid) return res.status(401).json({ error: GENERIC_LOGIN_ERROR })
       setSessionCookie(res, createSessionToken(user))
       return res.status(200).json({ authenticated: true, user: publicUser(user) })

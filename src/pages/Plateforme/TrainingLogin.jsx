@@ -15,10 +15,15 @@ export default function TrainingLogin() {
 
   async function submit(event) {
     event.preventDefault()
+    const form = new FormData(event.currentTarget)
+    const identifier = String(form.get('username') || username || '').trim()
+    const secret = String(form.get('password') || password || '')
+    setUsername(identifier)
+    setPassword(secret)
     setLoading(true)
     setError('')
     try {
-      const { user } = await trainingApi.login(username, password)
+      const { user } = await trainingApi.login(identifier, secret)
       setAuthenticated(user.isAdmin ? 'admin' : 'client')
     } catch (err) {
       setError(err.message || 'Identifiant ou mot de passe incorrect.')
