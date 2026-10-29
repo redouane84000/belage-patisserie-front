@@ -254,6 +254,8 @@
   .hero-photo{position:relative;top:52px;right:auto;width:100%;max-width:none;height:373px;margin-top:0;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 10%,#000 80%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 10%,#000 80%,transparent 100%);-webkit-mask-composite:source-over;mask-composite:add}
   .hero-photo picture{display:block;width:100%;height:100%}
   .hero-photo img{object-position:50% 40%}
+  .page-home .hero-photo{height:468px}
+  .page-home .hero-photo img{object-fit:cover;object-position:52% 28%}
   .hero-in{padding:3px 22px 0 28px;margin-top:52px}
   .eyebrow{font-size:25px}
   .h1{font-size:39px;line-height:1.16;letter-spacing:-.012em;margin-top:12px}

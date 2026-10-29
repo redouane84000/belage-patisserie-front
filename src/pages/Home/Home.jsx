@@ -25,12 +25,17 @@ export default function Home() {
               <source
                 media="(max-width:767px)"
                 type="image/webp"
-                srcSet={COURSE_ASSETS.home.heroMobileWebp}
+                srcSet={`${COURSE_ASSETS.home.heroMobileWebp} 576w`}
+                sizes="100vw"
               />
-              <source media="(max-width:767px)" srcSet={COURSE_ASSETS.home.heroMobile} />
+              <source
+                media="(max-width:767px)"
+                srcSet={`${COURSE_ASSETS.home.heroMobile} 576w`}
+                sizes="100vw"
+              />
               <img
                 src={COURSE_ASSETS.home.hero}
-                alt="Pièce montée florale aux roses et fruits rouges"
+                alt="Gâteau floral crème, roses et détails dorés"
                 width="1408"
                 height="1392"
                 fetchPriority="high"
